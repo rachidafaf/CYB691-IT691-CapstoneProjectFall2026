@@ -20,8 +20,14 @@ The environment is logically segregated to mirror Purdue Model Levels 1–3:
 ## 3. Industrial Control System (ICS) Protocol Emulation
 Containerized instances were deployed via Docker to emulate field devices and control logic:
 * **Conpot Modbus TCP Emulator:** Stood up to simulate legacy ICS behavior and respond to polling.
-* **OpenPLC v3:** Deployed to mimic programmable logic controller execution and register states.
-* **Port Binding:** Actively listening on standard industrial **Modbus TCP Port 502** (mapped internally/externally as required).
+* **OpenPLC Runtime (`openplc_runtime`):** Deployed to mimic programmable logic controller execution and register states.
+* **Port Binding & Verification:** Actively listening on standard industrial **Modbus TCP Port 502**, confirming that proxy bindings are ready to handle incoming HMI polling requests and control commands.
+
+![Docker Container Status](Docker_Emulators_Status.png)
+*(Figure 3: Active Docker container status showing deployed OpenPLC runtime and Conpot emulators)*
+
+![Port Binding Verification](Port_Binding_Verification.png)
+*(Figure 4: Netstat output confirming active listening service on Modbus TCP Port 502 via docker-proxy)*
 
 ## 4. Automated Data Generation & Attack Simulation
 Python automation scripts leveraging `pymodbus` were executed to simulate:
