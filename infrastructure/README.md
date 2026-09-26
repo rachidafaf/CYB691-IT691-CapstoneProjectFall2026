@@ -1,6 +1,6 @@
 # OT Testbed Infrastructure, Emulation, and Data Generation
 
-This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment managed by Team 4 (CYB691 Capstone).
+This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment managed by Team 4 member Erick Espinosa (CYB691 Capstone).
 
 ## Repository Structure
 
