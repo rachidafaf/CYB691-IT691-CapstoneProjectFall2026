@@ -40,3 +40,36 @@ Python automation scripts leveraging `pymodbus` (`traffic_generator.py`) were ex
 ## 5. Deep Packet Inspection (DPI) & Telemetry Handoff
 * **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json` and `fast.log`.
 * **Telemetry Handoff Archive:** All raw Suricata logs, firewall drop logs, and normalized CSV datasets have been bundled into `ot_telemetry_handoff_2026-09-26.tar.gz` for ingestion into Rachid's normalization and incident-triage pipeline.
+
+```json
+{
+  "timestamp": "2026-09-26T18:46:26.607796+0000",
+  "flow_id": 84920194830192,
+  "in_iface": "eth0",
+  "event_type": "alert",
+  "src_ip": "10.0.1.50",
+  "src_port": 49152,
+  "dest_ip": "10.0.3.10",
+  "dest_port": 502,
+  "proto": "TCP",
+  "alert": {
+    "action": "allowed",
+    "gid": 1,
+    "signature_id": 2100502,
+    "rev": 3,
+    "signature": "OT Unauthorized Modbus Write Single Coil (FC 0x05) Detected",
+    "category": "Attempted Administrator Privilege Gain",
+    "severity": 1
+  },
+  "app_proto": "modbus",
+  "modbus": {
+    "transaction_id": 2,
+    "unit_id": 1,
+    "function_code": 5,
+    "func_string": "WRITE_SINGLE_COIL",
+    "address": 0,
+    "value": 1
+  }
+```
+
+*(Figure 6: Sample Suricata EVE JSON log output capturing an unauthorized Modbus Write Single Coil command (0x05), detailing transaction details, function codes, and alert classifications saved under logs/sample_suricata_alert.json)*
