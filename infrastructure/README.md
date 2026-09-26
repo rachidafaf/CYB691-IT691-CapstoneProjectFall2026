@@ -6,13 +6,16 @@ This directory contains the deployment documentation, configuration scripts, and
 Provisioned within Microsoft Azure under the Virtual Network name `vnet-ot-testbed-dk` in the Denmark East region, utilizing standard cloud resource governance and budgeting controls. Standard HDD storage was utilized to minimize resource costs. Automated budget alerts ($5, $10, and $20 thresholds) and strict virtual machine auto-shutdown policies were enforced to protect student cloud credits.
 
 ![Azure Cost Management Budget Dashboard](Azure_Cost_Management_Budget_Dashboard.png)
-*(Figure: Azure Cost Management dashboard displaying the active $20.00 monthly budget threshold and current spend tracking)*
+*(Figure 1: Azure Cost Management dashboard displaying the active $20.00 monthly budget threshold and current spend tracking)*
 
 ## 2. Purdue Model & Subnet Micro-Segmentation
 The environment is logically segregated to mirror Purdue Model Levels 1–3:
-* **Level 3 (Supervisory/HMI Zone):** Management and monitoring boundary.
-* **Level 2 (Control Zone):** Supervisory HMI and firewall routing.
-* **Level 1 (Basic Control/PLC Cell):** Isolated containerized industrial emulators communicating over Modbus TCP.
+* **Level 3 (Supervisory/HMI Zone) / `snet-enterprise` (`10.0.1.0/24`):** Management and monitoring boundary.
+* **Level 2 (Control Zone) / `snet-hmi` (`10.0.2.0/24`):** Supervisory HMI and firewall routing.
+* **Level 1 (Basic Control/PLC Cell) / `snet-plc` (`10.0.3.0/24`):** Isolated containerized industrial emulators communicating over Modbus TCP.
+
+![Azure Subnet Topology](Azure_Subnet_Topology.png)
+*(Figure 2: Azure Virtual Network subnets configured to mirror Purdue Model Levels 1–3)*
 
 ## 3. Industrial Control System (ICS) Protocol Emulation
 Containerized instances were deployed via Docker to emulate field devices and control logic:
