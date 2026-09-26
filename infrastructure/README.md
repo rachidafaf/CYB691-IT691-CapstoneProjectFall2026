@@ -2,6 +2,26 @@
 
 This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment managed by Team 4 (CYB691 Capstone).
 
+## Repository Structure
+
+```text
+CYB691-IT691-CapstoneProjectFall2026/
+├── README.md                      # Project overview & execution instructions
+├── infrastructure/                # OT Testbed & Cloud Infrastructure (Erick Espinosa)
+│   ├── README.md                  # Infrastructure documentation & topology
+│   ├── traffic_generator.py       # Python pymodbus baseline & attack script
+│   ├── docker-compose.yml         # Container definitions for Conpot & OpenPLC
+│   ├── pfSense_rules.xml          # Purdue Model Layer 3/4 firewall ACL rules
+│   └── img/                       # Architecture diagrams & execution screenshots
+│       ├── Azure_Cost_Management_Budget_Dashboard.png
+│       ├── Azure_Subnet_Topology.png
+│       ├── Docker_Emulators_Status.png
+│       ├── Port_Binding_Verification.png
+│       └── pymodbus_execution_screenshot.png
+└── logs/                          # Raw Sensor & Security Telemetry
+    └── sample_suricata_alert.json # Sample Suricata EVE JSON modbus alert output
+```
+
 ## 1. Cloud Architecture & Cost Governance
 Provisioned within Microsoft Azure under the Virtual Network name `vnet-ot-testbed-dk` in the Denmark East region, utilizing standard cloud resource governance and budgeting controls. Standard HDD storage was utilized to minimize resource costs. Automated budget alerts ($5, $10, and $20 thresholds) and strict virtual machine auto-shutdown policies were enforced to protect student cloud credits.
 
