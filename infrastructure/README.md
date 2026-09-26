@@ -17,6 +17,42 @@ The environment is logically segregated to mirror Purdue Model Levels 1–3:
 ![Azure Subnet Topology](img/Azure_Subnet_Topology.png)
 *(Figure 2: Azure Virtual Network subnets configured to mirror Purdue Model Levels 1–3)*
 
+### Network Topology Diagram
+```text
++-----------------------------------------------------------------------+
+|                         Microsoft Azure VNet                          |
+|                         (vnet-ot-testbed-dk)                          |
++-----------------------------------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------+
+|                       pfSense Virtual Firewall                        |
+|                (Layer 3/4 ACLs & Purdue Model Routing)                |
++-----------------------------------------------------------------------+
+                                    |
+            +-----------------------+-----------------------+
+            |                       |                       |
+            v                       v                       v
+     +---------------+       +---------------+       +---------------+
+     |   Level 3:    |       |   Level 2:    |       |   Level 1:    |
+     |  Enterprise   |       | HMI / Control |       |  PLC / Cell   |
+     |   snet-ent    |       |   snet-hmi    |       |   snet-plc    |
+     | (10.0.1.0/24) |       | (10.0.2.0/24) |       | (10.0.3.0/24) |
+     +---------------+       +---------------+       +---------------+
+            |                       |                       |
+            |                   +-------+                   |
+            |                   |Suricata|                  |
+            |                   |  DPI  |                   |
+            |                   +-------+                   |
+            |                       | (eve.json)            |
+            v                       v                       v
+     +---------------+       +---------------+       +---------------+
+     |  Traffic Gen  |       | Operator Work |       |Docker Runtimes|
+     |  (pymodbus)   |------>| station / HMI |------>|Conpot/OpenPLC |
+     | FC: 0x03,0x05 |       |               |       | (Port 502/TCP)|
+     +---------------+       +---------------+       +---------------+
+```
+
 ## 3. Industrial Control System (ICS) Protocol Emulation
 Containerized instances were deployed via Docker to emulate field devices and control logic:
 * **Conpot Modbus TCP Emulator:** Stood up to simulate legacy ICS behavior and respond to polling.
