@@ -1,0 +1,602 @@
+[
+  {
+    "event_id": "MODBUS-EVT-0001",
+    "timestamp_iso": "2026-09-23T02:51:42.772834+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 1,
+      "function_name": "Read Coils",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:8",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "8"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0002",
+    "timestamp_iso": "2026-09-23T02:51:42.772834+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 1,
+      "function_name": "Read Coils",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:8",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "8"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0003",
+    "timestamp_iso": "2026-09-23T02:51:42.974256+00:00",
+    "inter_arrival_ms": 201.42,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:2",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "2"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0004",
+    "timestamp_iso": "2026-09-23T02:51:42.974256+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:2",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "2"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0005",
+    "timestamp_iso": "2026-09-23T02:51:43.175714+00:00",
+    "inter_arrival_ms": 201.46,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:1234",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "1234"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0006",
+    "timestamp_iso": "2026-09-23T02:51:43.175714+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:1234",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "1234"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0007",
+    "timestamp_iso": "2026-09-23T02:51:43.377147+00:00",
+    "inter_arrival_ms": 201.43,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 16,
+      "function_name": "Write Multiple Registers",
+      "category": "WRITE",
+      "risk_level": "CRITICAL",
+      "payload_raw": "addr:0 val:",
+      "payload_parsed": {
+        "addr": "0",
+        "val": ""
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 100
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0008",
+    "timestamp_iso": "2026-09-23T02:51:43.377147+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 16,
+      "function_name": "Write Multiple Registers",
+      "category": "WRITE",
+      "risk_level": "CRITICAL",
+      "payload_raw": "addr:0 val:",
+      "payload_parsed": {
+        "addr": "0",
+        "val": ""
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 100
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0009",
+    "timestamp_iso": "2026-09-23T02:52:55.414908+00:00",
+    "inter_arrival_ms": 72037.76,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 1,
+      "function_name": "Read Coils",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:8",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "8"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0010",
+    "timestamp_iso": "2026-09-23T02:52:55.414908+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 1,
+      "function_name": "Read Coils",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:8",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "8"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0011",
+    "timestamp_iso": "2026-09-23T02:52:55.616642+00:00",
+    "inter_arrival_ms": 201.73,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:2",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "2"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0012",
+    "timestamp_iso": "2026-09-23T02:52:55.616642+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "addr:0 qty:2",
+      "payload_parsed": {
+        "addr": "0",
+        "qty": "2"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 25
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0013",
+    "timestamp_iso": "2026-09-23T02:52:55.818597+00:00",
+    "inter_arrival_ms": 201.95,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:1234",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "1234"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0014",
+    "timestamp_iso": "2026-09-23T02:52:55.818597+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:1234",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "1234"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0015",
+    "timestamp_iso": "2026-09-23T02:52:56.019737+00:00",
+    "inter_arrival_ms": 201.14,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 16,
+      "function_name": "Write Multiple Registers",
+      "category": "WRITE",
+      "risk_level": "CRITICAL",
+      "payload_raw": "addr:0 val:",
+      "payload_parsed": {
+        "addr": "0",
+        "val": ""
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 100
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0016",
+    "timestamp_iso": "2026-09-23T02:52:56.019737+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 16,
+      "function_name": "Write Multiple Registers",
+      "category": "WRITE",
+      "risk_level": "CRITICAL",
+      "payload_raw": "addr:0 val:",
+      "payload_parsed": {
+        "addr": "0",
+        "val": ""
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 100
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0017",
+    "timestamp_iso": "2026-09-23T03:18:40.337284+00:00",
+    "inter_arrival_ms": 1544317.55,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 5,
+      "function_name": "Write Single Coil",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:65280",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "65280"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0018",
+    "timestamp_iso": "2026-09-23T03:18:40.337284+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 5,
+      "function_name": "Write Single Coil",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:65280",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "65280"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0019",
+    "timestamp_iso": "2026-09-23T03:18:40.538822+00:00",
+    "inter_arrival_ms": 201.54,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:57005",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "57005"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0020",
+    "timestamp_iso": "2026-09-23T03:18:40.538822+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.4",
+      "dest_ip": "172.17.0.2",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "addr:0 val:57005",
+      "payload_parsed": {
+        "addr": "0",
+        "val": "57005"
+      },
+      "exception_code": "IllegalDataAddr"
+    },
+    "security": {
+      "action_taken": "monitored_alerted",
+      "is_state_altering": true,
+      "has_protocol_exception": true,
+      "threat_score": 75
+    }
+  }
+]
