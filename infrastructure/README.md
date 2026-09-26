@@ -1,6 +1,6 @@
 # OT Testbed Infrastructure, Emulation, and Data Generation
 
-This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment.
+This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment managed by Team 4 (CYB691 Capstone).
 
 ## 1. Cloud Architecture & Cost Governance
 Provisioned within Microsoft Azure under the Virtual Network name `vnet-ot-testbed-dk` in the Denmark East region, utilizing standard cloud resource governance and budgeting controls. Standard HDD storage was utilized to minimize resource costs. Automated budget alerts ($5, $10, and $20 thresholds) and strict virtual machine auto-shutdown policies were enforced to protect student cloud credits.
@@ -30,9 +30,12 @@ Containerized instances were deployed via Docker to emulate field devices and co
 *(Figure 4: Netstat output confirming active listening service on Modbus TCP Port 502 via docker-proxy)*
 
 ## 4. Automated Data Generation & Attack Simulation
-Python automation scripts leveraging `pymodbus` were executed to simulate:
-* **Legitimate Polling:** Routine read requests (`0x03` Read Holding Registers) representing normal HMI monitoring.
+Python automation scripts leveraging `pymodbus` (`traffic_generator.py`) were executed to simulate operational and malicious activities across the testbed:
+* **Legitimate Polling:** Routine read requests (Function Code `0x03` Read Holding Registers) representing normal HMI monitoring and data acquisition.
 * **Unauthorized Command Injection:** Malicious write commands targeting industrial coil and register states—specifically utilizing Modbus function codes **0x05** (Write Single Coil), **0x06** (Write Single Register), and **0x10** (Write Multiple Registers).
+
+![Python pymodbus Script Execution](pymodbus_execution_screenshot.png)
+*(Figure 5: Terminal output demonstrating automated `pymodbus` script execution for legitimate read polling and exception responses during unauthorized write injections. Note: The output displays Modbus Exception Code 2 (Illegal Data Address), which occurs because the lightweight containerized placeholder environment does not have explicit registers pre-mapped to addresses 0, 1, or 2. However, these responses confirm that the automation script successfully transmitted the payload frames across the network socket, enabling Suricata/Zeek and firewall sensors to capture and log the unauthorized write function codes for downstream pipeline ingestion.)*
 
 ## 5. Deep Packet Inspection (DPI) & Telemetry Handoff
 * **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json` and `fast.log`.
