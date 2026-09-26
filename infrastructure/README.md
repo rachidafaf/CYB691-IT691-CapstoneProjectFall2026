@@ -5,7 +5,7 @@ This directory contains the deployment documentation, configuration scripts, and
 ## 1. Cloud Architecture & Cost Governance
 Provisioned within Microsoft Azure under the Virtual Network name `vnet-ot-testbed-dk` in the Denmark East region, utilizing standard cloud resource governance and budgeting controls. Standard HDD storage was utilized to minimize resource costs. Automated budget alerts ($5, $10, and $20 thresholds) and strict virtual machine auto-shutdown policies were enforced to protect student cloud credits.
 
-![Azure Cost Management Budget Dashboard](Azure_Cost_Management_Budget_Dashboard.png)
+![Azure Cost Management Budget Dashboard](img/Azure_Cost_Management_Budget_Dashboard.png)
 *(Figure 1: Azure Cost Management dashboard displaying the active $20.00 monthly budget threshold and current spend tracking)*
 
 ## 2. Purdue Model & Subnet Micro-Segmentation
@@ -14,7 +14,7 @@ The environment is logically segregated to mirror Purdue Model Levels 1–3:
 * **Level 2 (Control Zone) / `snet-hmi` (`10.0.2.0/24`):** Supervisory HMI and firewall routing.
 * **Level 1 (Basic Control/PLC Cell) / `snet-plc` (`10.0.3.0/24`):** Isolated containerized industrial emulators communicating over Modbus TCP.
 
-![Azure Subnet Topology](Azure_Subnet_Topology.png)
+![Azure Subnet Topology](img/Azure_Subnet_Topology.png)
 *(Figure 2: Azure Virtual Network subnets configured to mirror Purdue Model Levels 1–3)*
 
 ## 3. Industrial Control System (ICS) Protocol Emulation
@@ -23,10 +23,10 @@ Containerized instances were deployed via Docker to emulate field devices and co
 * **OpenPLC Runtime (`openplc_runtime`):** Deployed to mimic programmable logic controller execution and register states.
 * **Port Binding & Verification:** Actively listening on standard industrial **Modbus TCP Port 502**, confirming that proxy bindings are ready to handle incoming HMI polling requests and control commands.
 
-![Docker Container Status](Docker_Emulators_Status.png)
+![Docker Container Status](img/Docker_Emulators_Status.png)
 *(Figure 3: Active Docker container status showing deployed OpenPLC runtime and Conpot emulators)*
 
-![Port Binding Verification](Port_Binding_Verification.png)
+![Port Binding Verification](img/Port_Binding_Verification.png)
 *(Figure 4: Netstat output confirming active listening service on Modbus TCP Port 502 via docker-proxy)*
 
 ## 4. Automated Data Generation & Attack Simulation
@@ -34,9 +34,9 @@ Python automation scripts leveraging `pymodbus` (`traffic_generator.py`) were ex
 * **Legitimate Polling:** Routine read requests (Function Code `0x03` Read Holding Registers) representing normal HMI monitoring and data acquisition.
 * **Unauthorized Command Injection:** Malicious write commands targeting industrial coil and register states—specifically utilizing Modbus function codes **0x05** (Write Single Coil), **0x06** (Write Single Register), and **0x10** (Write Multiple Registers).
 
-![Python pymodbus Script Execution](pymodbus_execution_screenshot.png)
+![Python pymodbus Script Execution](img/pymodbus_execution_screenshot.png)
 *(Figure 5: Terminal output demonstrating automated `pymodbus` script execution for legitimate read polling and exception responses during unauthorized write injections. Note: The output displays Modbus Exception Code 2 (Illegal Data Address), which occurs because the lightweight containerized placeholder environment does not have explicit registers pre-mapped to addresses 0, 1, or 2. However, these responses confirm that the automation script successfully transmitted the payload frames across the network socket, enabling Suricata/Zeek and firewall sensors to capture and log the unauthorized write function codes for downstream pipeline ingestion.)*
 
 ## 5. Deep Packet Inspection (DPI) & Telemetry Handoff
 * **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json` and `fast.log`.
-* **Telemetry Handoff Archive:** All raw Suricata logs, firewall drop logs, and normalized CSV datasets have been bundled into `ot_telemetry_handoff_2026-09-23.tar.gz` for ingestion into Rachid's normalization and incident-triage pipeline.
+* **Telemetry Handoff Archive:** All raw Suricata logs, firewall drop logs, and normalized CSV datasets have been bundled into `ot_telemetry_handoff_2026-09-26.tar.gz` for ingestion into Rachid's normalization and incident-triage pipeline.
