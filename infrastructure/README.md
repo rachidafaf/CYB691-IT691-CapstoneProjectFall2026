@@ -38,7 +38,7 @@ Python automation scripts leveraging `pymodbus` (`traffic_generator.py`) were ex
 *(Figure 5: Terminal output demonstrating automated `pymodbus` script execution for legitimate read polling and exception responses during unauthorized write injections. Note: The output displays Modbus Exception Code 2 (Illegal Data Address), which occurs because the lightweight containerized placeholder environment does not have explicit registers pre-mapped to addresses 0, 1, or 2. However, these responses confirm that the automation script successfully transmitted the payload frames across the network socket, enabling Suricata/Zeek and firewall sensors to capture and log the unauthorized write function codes for downstream pipeline ingestion.)*
 
 ## 5. Deep Packet Inspection (DPI) & Telemetry Handoff
-* **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json` and `fast.log`.
+* **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json`.
 * **Telemetry Handoff Archive:** All raw Suricata logs, firewall drop logs, and normalized CSV datasets have been bundled into `ot_telemetry_handoff_2026-09-26.tar.gz` for ingestion into Rachid's normalization and incident-triage pipeline.
 
 ```json
