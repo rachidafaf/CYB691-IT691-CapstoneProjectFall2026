@@ -56,34 +56,37 @@ Team 4 evaluates layered threat detection, network microsegmentation, telemetry 
 
 ```
 CYB691-IT691-CapstoneProjectFall2026/
-├── README.md                      # Project overview & pipeline execution instructions
-├── LICENSE                        # MIT Open-Source License
-├── SECURITY.md                    # Security reporting & secret sanitization policy
-├── requirements.txt               # Python dependencies (pandas, numpy, scikit-learn, pytest)
-├── .gitignore                     # Git tracking exclusions
+├── README.md                      		 # Project overview & pipeline execution instructions
+├── LICENSE                        		 # MIT Open-Source License
+├── SECURITY.md                    		 # Security reporting & secret sanitization policy
+├── requirements.txt               		 # Python dependencies (pandas, numpy, scikit-learn, pytest)
+├── .gitignore                     		 # Git tracking exclusions
 │
-├── infrastructure/                # Layer 1: Virtualized OT Testbed & Traffic Generation (Erick Espinosa)
-│   ├── extracted_handoff/        # Auto-extracted handoff telemetry archives (git ignored)
-│   ├── img/                      # Testbed architecture diagrams & network topology visuals
-│   ├── logs/                     # Captured testbed logs (eve.json, iptables_drops.log, PCAPs)
-│   ├── README.md                 # Testbed setup & deployment guide
-│   ├── requirements.txt          # Infrastructure-specific dependencies
-│   └── traffic_generator.py      # Modbus TCP traffic generation script
+├── docs/                                        # Documentation 
+│   ├── anil_layer4_security_handoff.docx        # A dedicated technical handoff document for Anil Kumar (Security Hardening, Threat Modeling &amp; Documentation Lead) to guide his work on Layer 4
+│   ├── Context Diagram.png                      # Test bed Conetxt Diagam 
+│   ├── team-progress-report-1-team4.docx        # Updated Team Progress Report to incorporate the verified experimental results from your **20,075-record telemetry dataset**
+│ 
+├── infrastructure/               		 # Layer 1: Virtualized OT Testbed & Traffic Generation (Erick Espinosa)
+│   ├── extracted_handoff/        		 # Auto-extracted handoff telemetry archives (git ignored)
+│   ├── img/                      		 # Testbed architecture diagrams & network topology visuals
+│   ├── logs/                     		 # Captured testbed logs (eve.json, iptables_drops.log, PCAPs)
+│   ├── README.md                 		 # Testbed setup & deployment guide
+│   ├── requirements.txt          		 # Infrastructure-specific dependencies
+│   └── traffic_generator.py      		 # Modbus TCP traffic generation script
 │
-├── src/                           # Layer 2 & Layer 3: Telemetry Normalization & ML Detection (Rachid Afaf)
-│   ├── log_parser.py             # Normalization engine (Ingests eve.json, iptables, CSV, .tar.gz archives)
-│   ├── timeline_generator.py      # Incident triage & Markdown timeline generator
-│   └── ml_detector.py            # Layer 3 ML classifier & anomaly detection engine (Random Forest, Decision Tree, SVM)
+├── src/                          		 # Layer 2 & Layer 3: Telemetry Normalization & ML Detection (Rachid Afaf)
+│   ├── log_parser.py             		 # Normalization engine (Ingests eve.json, iptables, CSV, .tar.gz archives)
+│   ├── timeline_generator.py     		 # Incident triage & Markdown timeline generator
+│   └── ml_detector.py            		 # Layer 3 ML classifier & anomaly detection engine (Random Forest, Decision Tree, SVM)
 │
-└── data/                          # Telemetry Datasets, ML Benchmark Results & Triage Reports
-    ├── modbus_telemetry_dataset.csv # Raw OT traffic capture
-    ├── normalized_telemetry.json  # Standardized ISO 8601 JSON records
-    ├── incident_report.json       # Structured incident triage metrics
-    ├── incident_timeline.md       # Executive Markdown triage report
-    └── ml_evaluation_results.json # Layer 3 ML model performance & benchmark metrics
-```
+└── data/                            	 	 # Telemetry Datasets, ML Benchmark Results & Triage Reports
+    ├── modbus_telemetry_dataset.csv 	 	 # Raw OT traffic capture
+    ├── normalized_telemetry.json        	 # Standardized ISO 8601 JSON records
+    ├── incident_report.json                     # Structured incident triage metrics
+    ├── incident_timeline.md                     # Executive Markdown triage report
+    └── ml_evaluation_results.json   	         # Layer 3 ML model performance & benchmark metrics
 
----
 
 ## 🚀 Quickstart & Complete Pipeline Execution
 
