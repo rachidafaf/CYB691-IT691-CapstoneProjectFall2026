@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Cextensions
+# C extensions
 *.so
 
 # Distribution / packaging
@@ -41,8 +41,8 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Output & Scratch Directories
+# Auto-extracted Telemetry & Temporary Working Files
+infrastructure/extracted_handoff/
+*.tmp
 /workspace/scratch/
 /workspace/out/
-*.tmp
-*.log

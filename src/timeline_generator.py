@@ -6,7 +6,7 @@ Module: Incident Triage & Timeline Generator (timeline_generator.py)
 Author: Rachid Afaf (Security Architect / Lead Analyst)
 ===============================================================================
 Description:
-  Ingests normalized OT telemetry JSON frames, computes security metrics,
+  Ingests normalized OT telemetry JSON frames, computes security metrics, 
   and generates a structured JSON report and Markdown Incident Timeline.
 ===============================================================================
 """
@@ -25,10 +25,10 @@ def generate_incident_metrics(records):
     write_count = sum(1 for r in records if r.get('modbus', {}).get('category') == 'WRITE')
     exception_count = sum(1 for r in records if r.get('security', {}).get('has_protocol_exception'))
     high_threat_count = sum(1 for r in records if r.get('security', {}).get('threat_score', 0) >= 75)
-
+    
     unique_sources = list(set(r.get('network', {}).get('source_ip', 'Unknown') for r in records))
     unique_dests = list(set(r.get('network', {}).get('dest_ip', 'Unknown') for r in records))
-
+    
     time_start = records[0].get('timestamp_iso', 'N/A') if records else "N/A"
     time_end = records[-1].get('timestamp_iso', 'N/A') if records else "N/A"
 
@@ -61,31 +61,26 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
     md.append(f"**Generated Date:** {now_str}")
     md.append("**Lead Security Architect:** Rachid Afaf\n")
     md.append("---")
-
+    
     md.append("## Executive Incident Summary")
     md.append("During operational telemetry monitoring of the virtualized Purdue Model Level 1-3 OT testbed, ")
-    md.append(
-        f"the normalization pipeline analyzed **{metrics['total_telemetry_events']} Modbus TCP telemetry frames** ")
+    md.append(f"the normalization pipeline analyzed **{metrics['total_telemetry_events']} Modbus TCP telemetry frames** ")
     md.append(f"between `{metrics['time_window']['start']}` and `{metrics['time_window']['end']}`.")
-    md.append(
-        f"The analysis isolated **{metrics['security_flags']['unauthorized_write_attempts']} unauthorized state-altering write command attempts** ")
-    md.append(
-        f"and **{metrics['security_flags']['protocol_exceptions']} protocol exception alerts** originating from workstation `10.0.1.4` ")
+    md.append(f"The analysis isolated **{metrics['security_flags']['unauthorized_write_attempts']} unauthorized state-altering write command attempts** ")
+    md.append(f"and **{metrics['security_flags']['protocol_exceptions']} protocol exception alerts** originating from workstation `10.0.1.4` ")
     md.append("targeting Industrial PLC `172.17.0.2` (Port 502).\n")
 
     md.append("### Key Metrics Breakdown")
     md.append(f"- **Total Telemetry Ingested:** {metrics['total_telemetry_events']} records")
-    md.append(
-        f"- **Read Commands (Polling):** {metrics['traffic_distribution']['read_operations']} ({metrics['traffic_distribution']['read_to_write_ratio']} Read/Write Ratio)")
+    md.append(f"- **Read Commands (Polling):** {metrics['traffic_distribution']['read_operations']} ({metrics['traffic_distribution']['read_to_write_ratio']} Read/Write Ratio)")
     md.append(f"- **State-Altering Write Commands:** {metrics['traffic_distribution']['write_operations']}")
     md.append(f"- **Illegal Data Address Exceptions:** {metrics['security_flags']['protocol_exceptions']}")
     md.append(f"- **High-Threat Incident Alerts (Score >= 75):** {metrics['security_flags']['high_threat_events']}\n")
 
     md.append("---")
     md.append("## Chronological Incident Event Timeline\n")
-
-    md.append(
-        "| Event ID | Timestamp (ISO 8601) | Source IP | Dest IP | Function Code | Category | Risk Level | Threat Score | Payload & Status |")
+    
+    md.append("| Event ID | Timestamp (ISO 8601) | Source IP | Dest IP | Function Code | Category | Risk Level | Threat Score | Payload & Status |")
     md.append("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 
     for r in records:
@@ -102,22 +97,19 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
         payload_raw = r.get('modbus', {}).get('payload_raw', '')
         exc = r.get('modbus', {}).get('exception_code', '')
         payload = f"`{payload_raw}` [{exc}]"
-
+        
         md.append(f"| {evt_id} | {ts} | {src} | {dst} | {fn_str} | {cat} | {risk} | **{score}** | {payload} |")
 
     md.append("\n---")
     md.append("## Defensive Triage Recommendations & Security Controls")
-    md.append(
-        "1. **Enforce Purdue Model Microsegmentation (pfSense):** Restrict Modbus Port 502 ingress traffic targeting PLC `172.17.0.2` strictly to authorized HMI subnets. Drop non-whitelisted workstation traffic (`10.0.1.4`).")
-    md.append(
-        "2. **Deploy Stateful Deep Packet Inspection (Suricata/Zeek):** Enforce signature rules that block Modbus Function Codes `0x05` (Write Single Coil), `0x06` (Write Single Register), and `0x10` (Write Multiple Registers) originating outside authorized engineering workstations.")
-    md.append(
-        "3. **Automate SIEM/Triage Alerting:** Ingest standardized JSON event frames into downstream ML anomaly models (Bhavesh Dalal) to detect anomalous inter-arrival command bursts.")
+    md.append("1. **Enforce Purdue Model Microsegmentation (pfSense):** Restrict Modbus Port 502 ingress traffic targeting PLC `172.17.0.2` strictly to authorized HMI subnets. Drop non-whitelisted workstation traffic (`10.0.1.4`).")
+    md.append("2. **Deploy Stateful Deep Packet Inspection (Suricata/Zeek):** Enforce signature rules that block Modbus Function Codes `0x05` (Write Single Coil), `0x06` (Write Single Register), and `0x10` (Write Multiple Registers) originating outside authorized engineering workstations.")
+    md.append("3. **Automate SIEM/Triage Alerting:** Ingest standardized JSON event frames into downstream ML anomaly models (Rachid Afaf) to detect anomalous inter-arrival command bursts.")
 
     os.makedirs(os.path.dirname(os.path.abspath(output_md_path)), exist_ok=True)
-    with open(output_md_path, 'w') as f:
+    with open(output_md_path, 'w', encoding='utf-8') as f:
         f.write("\n".join(md))
-
+        
     print(f"[+] Successfully generated Incident Timeline Markdown report: {output_md_path}")
 
 
@@ -151,18 +143,25 @@ def main():
 
     json_input = resolve_input_path(args.input)
 
-    # Determine default output paths based on resolved input location
     if args.output_json:
         report_json_output = args.output_json
     else:
-        input_dir = os.path.dirname(json_input)
-        report_json_output = os.path.join(input_dir, "incident_report.json") if input_dir else "incident_report.json"
+        if os.path.isabs(json_input) and "PycharmProjects" in json_input:
+            base_dir = r"C:\Users\rachi\PycharmProjects\CYB691-IT691-CapstoneProjectFall2026\data"
+            report_json_output = os.path.join(base_dir, "incident_report.json")
+        else:
+            input_dir = os.path.dirname(json_input)
+            report_json_output = os.path.join(input_dir, "incident_report.json") if input_dir else "incident_report.json"
 
     if args.output_md:
         timeline_md_output = args.output_md
     else:
-        input_dir = os.path.dirname(json_input)
-        timeline_md_output = os.path.join(input_dir, "incident_timeline.md") if input_dir else "incident_timeline.md"
+        if os.path.isabs(json_input) and "PycharmProjects" in json_input:
+            base_dir = r"C:\Users\rachi\PycharmProjects\CYB691-IT691-CapstoneProjectFall2026\data"
+            timeline_md_output = os.path.join(base_dir, "incident_timeline.md")
+        else:
+            input_dir = os.path.dirname(json_input)
+            timeline_md_output = os.path.join(input_dir, "incident_timeline.md") if input_dir else "incident_timeline.md"
 
     if not os.path.exists(json_input):
         print(f"[-] Input file missing: {json_input}")
@@ -170,7 +169,7 @@ def main():
         sys.exit(1)
 
     print(f"[*] Ingesting normalized telemetry from: {json_input}")
-    with open(json_input, 'r') as f:
+    with open(json_input, 'r', encoding='utf-8') as f:
         records = json.load(f)
 
     print(f"[*] Processing {len(records)} normalized records for incident correlation...")
@@ -188,7 +187,7 @@ def main():
     }
 
     os.makedirs(os.path.dirname(os.path.abspath(report_json_output)), exist_ok=True)
-    with open(report_json_output, 'w') as f:
+    with open(report_json_output, 'w', encoding='utf-8') as f:
         json.dump(incident_report, f, indent=2)
     print(f"[+] Written structured incident report JSON: {report_json_output}")
 
