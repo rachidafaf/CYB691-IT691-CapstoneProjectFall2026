@@ -64,7 +64,7 @@ CYB691-IT691-CapstoneProjectFall2026/
 │
 ├── docs/                                        # Documentation 
 │   ├── anil_layer4_security_handoff.docx        # A dedicated technical handoff document for Anil Kumar (Security Hardening, Threat Modeling &amp; Documentation Lead) to guide his work on Layer 4
-│   ├── Context Diagram.png                      # Test bed Conetxt Diagam 
+│   ├── Context Diagram.png                      # Test bed Conetxt Diagam, most up todate context diagram can be found here https://gitdiagram.com/rachidafaf/cyb691-it691-capstoneprojectfall2026
 │   ├── team-progress-report-1-team4.docx        # Updated Team Progress Report to incorporate the verified experimental results from your **20,075-record telemetry dataset**
 │ 
 ├── infrastructure/               		 # Layer 1: Virtualized OT Testbed & Traffic Generation (Erick Espinosa)
