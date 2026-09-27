@@ -86,7 +86,9 @@ CYB691-IT691-CapstoneProjectFall2026/
     ├── incident_report.json                     # Structured incident triage metrics
     ├── incident_timeline.md                     # Executive Markdown triage report
     └── ml_evaluation_results.json   	         # Layer 3 ML model performance & benchmark metrics
+```
 
+---
 
 ## 🚀 Quickstart & Complete Pipeline Execution
 
