@@ -1,0 +1,75 @@
+{
+  "audit_timestamp": "2026-10-02T20:25:40.006083",
+  "threat_model_file": "Team 4 Threat Model.json",
+  "schema_version": "2.3.0",
+  "total_open_threats": 37,
+  "stride_category_counts": {
+    "Spoofing": 2,
+    "Tampering": 19,
+    "Repudiation": 2,
+    "Information Disclosure": 3,
+    "Denial of Service": 5,
+    "Elevation of Privilege": 6
+  },
+  "severity_counts": {
+    "Critical": 5,
+    "High": 27,
+    "Medium": 5,
+    "Low": 0
+  },
+  "trust_boundaries": [
+    {
+      "id": "boundary-purdue-ot",
+      "name": "Purdue OT Testbed Network",
+      "description": "Virtualized Purdue Model environment containing traffic generation, pfSense, Suricata, OpenPLC, and Conpot. Implementation of microsegmentation and hardening requires evidence validation."
+    },
+    {
+      "id": "boundary-analysis-zone",
+      "name": "Analysis and Evidence Zone",
+      "description": "Telemetry ingestion, parsing, normalized data, triage, ML evaluation, and reports. Requires authenticated transfer, sandboxing, least privilege, integrity, provenance, and retention."
+    },
+    {
+      "id": "boundary-enterprise",
+      "name": "Enterprise / Developer Zone",
+      "description": "Source repository, developers, dependency manifests, security policy, and administrative access."
+    },
+    {
+      "id": "curve-ot-boundary",
+      "name": "OT Network Boundary",
+      "description": "Boundary separating the isolated OT testbed from enterprise/developer access."
+    },
+    {
+      "id": "curve-analysis-boundary",
+      "name": "Analysis Evidence Boundary",
+      "description": "Boundary protecting telemetry, parser execution, analysis processes, ML assets, and reports."
+    }
+  ],
+  "codebase_validation_checks": [
+    {
+      "check": "Modbus Dataset Grounding",
+      "status": "WARN",
+      "details": "File not found"
+    },
+    {
+      "check": "Normalized JSON Schema",
+      "status": "PASS",
+      "details": "20075 events verified"
+    },
+    {
+      "check": "Parser Path Traversal Defense",
+      "status": "PASS",
+      "details": "Path sanitization & ISO 8601 normalization verified"
+    },
+    {
+      "check": "ML Detection Benchmarks",
+      "status": "PASS",
+      "details": "Models evaluated & verified"
+    },
+    {
+      "check": "Security Policy & Package Pinning",
+      "status": "PASS",
+      "details": "Policy & manifests verified"
+    }
+  ],
+  "audit_status": "SUCCESS"
+}
