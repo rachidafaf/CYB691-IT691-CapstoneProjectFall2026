@@ -1,0 +1,3931 @@
+{
+  "version": "2.3.0",
+  "summary": {
+    "title": "Complete OT Cybersecurity Testbed",
+    "owner": "Rachid Afaf",
+    "description": "Complete STRIDE model for the CYB691-IT691 Capstone Project repository, including OT infrastructure, Purdue zones, telemetry sources, normalization, triage, machine learning, hardening, policy, and software supply-chain assets.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "Complete OT Testbed STRIDE Analysis",
+        "diagramType": "STRIDE",
+        "placeholder": "Complete repository-level OT cybersecurity threat model",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.3.0",
+        "cells": [
+          {
+            "position": {
+              "x": -153.82978723404244,
+              "y": -15
+            },
+            "size": {
+              "width": 1087.6595744680849,
+              "height": 710
+            },
+            "attrs": {
+              "headerText": {
+                "text": "Purdue OT Testbed Network"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "boundary-purdue-ot",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Purdue OT Testbed Network",
+              "description": "Virtualized Purdue Model environment containing traffic generation, pfSense, Suricata, OpenPLC, and Conpot. Implementation of microsegmentation and hardening requires evidence validation.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 1010,
+              "y": -15
+            },
+            "size": {
+              "width": 1130,
+              "height": 720
+            },
+            "attrs": {
+              "headerText": {
+                "text": "Analysis and Evidence Zone"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "boundary-analysis-zone",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Analysis and Evidence Zone",
+              "description": "Telemetry ingestion, parsing, normalized data, triage, ML evaluation, and reports. Requires authenticated transfer, sandboxing, least privilege, integrity, provenance, and retention.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": -420,
+              "y": -25
+            },
+            "size": {
+              "width": 190,
+              "height": 720
+            },
+            "attrs": {
+              "headerText": {
+                "text": "Enterprise / Developer Zone"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "boundary-enterprise",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Enterprise / Developer Zone",
+              "description": "Source repository, developers, dependency manifests, security policy, and administrative access.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": -375,
+              "y": 120
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Operator"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "f0a7dbbf-30d9-4ed4-8deb-c86e9a9c198f"
+                },
+                {
+                  "group": "right",
+                  "id": "1256b28d-c57d-4e78-9e43-005973c49c71"
+                },
+                {
+                  "group": "bottom",
+                  "id": "c5f90bf0-ab62-4efc-8a05-40933ef2ad10"
+                },
+                {
+                  "group": "left",
+                  "id": "fe266d6f-3139-4af6-a369-bce00ff03b06"
+                }
+              ]
+            },
+            "id": "actor-operator",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Operator",
+              "description": "Runs baseline Modbus polling and unauthorized-write scenarios. Identity, MFA, RBAC, approvals, and audit logging require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": true,
+              "threats": [
+                {
+                  "id": "threat-operator-spoofing",
+                  "title": "Operator identity impersonation",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "An attacker could impersonate an operator if named accounts, MFA, or access controls are absent.",
+                  "mitigation": "Use named accounts, MFA, RBAC, approval for unauthorized writes, and protected audit logging.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 1,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "repudiation": 0,
+                "tampering": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": -375,
+              "y": 210
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Developer /\nMaintainer"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 2,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "cb830702-a6bd-4b0f-9707-7c8c54978161"
+                },
+                {
+                  "group": "right",
+                  "id": "8b65f9b4-0675-4388-9456-131068a1088c"
+                },
+                {
+                  "group": "bottom",
+                  "id": "88218e0f-85a5-429d-9c99-c8bc568609c2"
+                },
+                {
+                  "group": "left",
+                  "id": "307aaf8b-d142-4917-aba9-e0707991421f"
+                }
+              ]
+            },
+            "id": "actor-developer",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Developer / Maintainer",
+              "description": "Maintains source code, documentation, dependencies, security policy, and model artifacts.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": true,
+              "threats": [
+                {
+                  "id": "threat-developer-tampering",
+                  "title": "Unauthorized source or model modification",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "An unauthorized commit or compromised developer account could alter detection and security logic.",
+                  "mitigation": "Use MFA, protected branches, peer review, signed commits, and required security checks.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 2,
+                  "score": ""
+                },
+                {
+                  "id": "threat-developer-repudiation",
+                  "title": "Changes cannot be attributed",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Changes may not be reliably attributable without protected repository audit history.",
+                  "mitigation": "Enable repository audit logs, signed commits, pull-request approvals, and immutable release records.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 3,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 70,
+              "y": 120
+            },
+            "size": {
+              "width": 150,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Modbus Traffic\nGenerator"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 3,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "727b3079-ba3b-4d56-a187-b642f70fcdd1"
+                },
+                {
+                  "group": "right",
+                  "id": "1c7cd9cb-1b5d-47a7-99d2-029fa9d01365"
+                },
+                {
+                  "group": "bottom",
+                  "id": "84ad8ef6-967d-4078-8421-c07c44bf3484"
+                },
+                {
+                  "group": "left",
+                  "id": "3d7a8d93-e1dd-4f0b-bc57-65117fa93c37"
+                }
+              ]
+            },
+            "id": "process-traffic-generator",
+            "data": {
+              "type": "tm.Process",
+              "name": "Modbus Traffic Generator",
+              "description": "infrastructure/traffic_generator.py. Generates Modbus TCP read/write polling and state-altering traffic. Rate limits, write allowlists, and emergency stop controls require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Test operator",
+              "threats": [
+                {
+                  "id": "threat-generator-tampering",
+                  "title": "Unauthorized or modified Modbus commands",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Modbus/TCP does not inherently provide authentication or command integrity.",
+                  "mitigation": "Restrict TCP/502, allowlist function codes and registers, and monitor command anomalies.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 4,
+                  "score": ""
+                },
+                {
+                  "id": "threat-generator-dos",
+                  "title": "Traffic generation overwhelms the testbed",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Excessive requests may exhaust the PLC emulator or monitoring stack.",
+                  "mitigation": "Implement bounded rates, connection limits, timeouts, quotas, and emergency stop controls.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 5,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 660,
+              "y": 120
+            },
+            "size": {
+              "width": 140,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "OpenPLC\nEmulator"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 4,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "924cb6db-7cfc-49c1-b675-2fb4c581089f"
+                },
+                {
+                  "group": "right",
+                  "id": "3668804d-3638-4a97-a8f5-039742e4e2b3"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ce68a8bd-af30-4087-b159-db20798aa8b1"
+                },
+                {
+                  "group": "left",
+                  "id": "042184a5-ebee-4db0-bc56-afe305992cd1"
+                }
+              ]
+            },
+            "id": "process-openplc",
+            "data": {
+              "type": "tm.Process",
+              "name": "OpenPLC Emulator",
+              "description": "Virtualized PLC endpoint in the OT testbed. Authentication, register authorization, state reset, and management isolation require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "OT process",
+              "threats": [
+                {
+                  "id": "threat-openplc-tampering",
+                  "title": "Unauthorized PLC state modification",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Unauthorized writes could alter simulated control state.",
+                  "mitigation": "Allowlist registers and function codes, capture state snapshots, and automate rollback.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 6,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 660,
+              "y": 220
+            },
+            "size": {
+              "width": 140,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Conpot\nEmulator"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 5,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "71b6d3b7-a4d6-4df1-b457-1f15203bad09"
+                },
+                {
+                  "group": "right",
+                  "id": "105264fb-efc9-43b1-892d-8e5746650218"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ac037b03-23ac-4f8f-81f6-74c78762e3f7"
+                },
+                {
+                  "group": "left",
+                  "id": "1414e204-2a18-497b-8885-83bb35984499"
+                }
+              ]
+            },
+            "id": "process-conpot",
+            "data": {
+              "type": "tm.Process",
+              "name": "Conpot Emulator",
+              "description": "OT honeypot/emulator component identified in the repository architecture. Exposure, service emulation, and management access require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "OT process",
+              "threats": [
+                {
+                  "id": "threat-conpot-exposure",
+                  "title": "Honeypot or emulator exposed beyond the lab",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "Unexpected reachability could allow compromise of the emulator host or adjacent systems.",
+                  "mitigation": "Place in an isolated segment, deny inbound access by default, restrict management, and test routing.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 7,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 410,
+              "y": 495
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "pfSense\nFirewall"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 6,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "b989928c-2918-4085-ace9-1996ca8d3054"
+                },
+                {
+                  "group": "right",
+                  "id": "9be4e311-6e52-498e-b2ef-dbd4ecdec86d"
+                },
+                {
+                  "group": "bottom",
+                  "id": "f913a348-dd85-4786-abd4-74aba7d4310d"
+                },
+                {
+                  "group": "left",
+                  "id": "cc1d8209-7fbf-4b5a-b295-d5bd09fb4a29"
+                }
+              ]
+            },
+            "id": "process-pfsense",
+            "data": {
+              "type": "tm.Process",
+              "name": "pfSense\nFirewall",
+              "description": "Layer 3/4 firewall and ACL enforcement point. Deny-by-default rules, rule integrity, administration, and change control require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Security administrator",
+              "threats": [
+                {
+                  "id": "threat-pfsense-rules",
+                  "title": "Firewall ACLs modified to permit attack traffic",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Unauthorized rule changes could bypass segmentation and Modbus restrictions.",
+                  "mitigation": "Use MFA, administrative RBAC, approved changes, configuration backups, versioning, and audit forwarding.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 8,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 150,
+              "y": 310
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Suricata\nDPI Sensor"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 7,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "f8fab35d-31fa-4e46-b615-59e55801c87d"
+                },
+                {
+                  "group": "right",
+                  "id": "aeac49d9-854c-47a9-a756-e03300a594a1"
+                },
+                {
+                  "group": "bottom",
+                  "id": "4f01ac69-54cb-4df0-b715-ae90cee24164"
+                },
+                {
+                  "group": "left",
+                  "id": "e0b3a05e-1361-4b37-8f3b-8d3f1888ef6a"
+                }
+              ]
+            },
+            "id": "process-suricata",
+            "data": {
+              "type": "tm.Process",
+              "name": "Suricata\nDPI Sensor",
+              "description": "Deep packet inspection and alert generation. Sensor health, packet loss, ruleset integrity, and time synchronization require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Security sensor",
+              "threats": [
+                {
+                  "id": "threat-suricata-loss",
+                  "title": "Sensor overload or telemetry loss",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Packet drops or sensor failure could hide malicious OT traffic.",
+                  "mitigation": "Monitor drops, event rates, disk, process health, queues, heartbeats, and clock synchronization.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 9,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 760,
+              "y": 390
+            },
+            "size": {
+              "width": 160,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Suricata EVE\nLogs"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 8,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "443020d6-07df-4118-b0cb-5b1a58f1c2f8"
+                },
+                {
+                  "group": "right",
+                  "id": "6f1a2141-cb93-45f1-8525-4754283afd8a"
+                },
+                {
+                  "group": "bottom",
+                  "id": "27245cb0-7632-4355-9b1c-6b93f8730827"
+                },
+                {
+                  "group": "left",
+                  "id": "28e2426d-5498-4af0-b615-d75211b9eb4b"
+                }
+              ]
+            },
+            "id": "store-eve",
+            "data": {
+              "type": "tm.Store",
+              "name": "Suricata EVE Logs",
+              "description": "infrastructure/extracted_handoff/var/log/suricata/eve.json. Integrity, retention, access control, classification, and immutable storage require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-eve-integrity",
+                  "title": "EVE telemetry altered or deleted",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Local log manipulation could change the analysis result.",
+                  "mitigation": "Use protected centralized collection, restricted writers, cryptographic hashes or signatures, and immutable retention.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 10,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 760,
+              "y": 500
+            },
+            "size": {
+              "width": 160,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "iptables Drops\nLog"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 9,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "345428f2-4751-4b75-944b-9cf0ab79acdc"
+                },
+                {
+                  "group": "right",
+                  "id": "42a356e8-9737-4e41-980f-7d0204cb2492"
+                },
+                {
+                  "group": "bottom",
+                  "id": "2f58b72a-16ed-44a8-8b1d-1370d8757a58"
+                },
+                {
+                  "group": "left",
+                  "id": "51a461d9-681e-426c-8fd1-2b00d4675b5a"
+                }
+              ]
+            },
+            "id": "store-iptables",
+            "data": {
+              "type": "tm.Store",
+              "name": "iptables Drops Log",
+              "description": "infrastructure/logs/iptables_drops.log. Firewall-drop evidence requires integrity, timestamp synchronization, retention, and access validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-iptables-tampering",
+                  "title": "Firewall-drop evidence altered",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Modified drop logs could conceal blocked or attempted connections.",
+                  "mitigation": "Forward logs to protected storage, use synchronized timestamps, restrict writers, and preserve hashes.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 11,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 760,
+              "y": 610
+            },
+            "size": {
+              "width": 160,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Modbus Telemetry\nCSV / PCAP"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 10,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "123e292c-9b7e-46b2-b5de-382edd5e4f58"
+                },
+                {
+                  "group": "right",
+                  "id": "c361d6cc-8b62-481b-8aae-5cb613466c6e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "abb7fe62-f8eb-4f34-b4cb-622a508ec845"
+                },
+                {
+                  "group": "left",
+                  "id": "9fbeeffa-da0d-4466-bd0a-d29c96dc8101"
+                }
+              ]
+            },
+            "id": "store-raw-telemetry",
+            "data": {
+              "type": "tm.Store",
+              "name": "Modbus Telemetry CSV / PCAP",
+              "description": "Raw OT traffic captures and datasets. Confidentiality, integrity, provenance, access control, and retention require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-raw-disclosure",
+                  "title": "Raw OT telemetry disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Raw captures may reveal operational addresses, commands, register values, or timing.",
+                  "mitigation": "Classify data, restrict access, encrypt storage, redact unnecessary fields, and define retention.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 12,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1060,
+              "y": 100
+            },
+            "size": {
+              "width": 180,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Telemetry Handoff\nTAR.GZ"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 11,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "23fc3565-29e9-4d79-8529-35b2f653a328"
+                },
+                {
+                  "group": "right",
+                  "id": "d3aa6c65-fdba-4706-a5fc-c7b9d7f7f746"
+                },
+                {
+                  "group": "bottom",
+                  "id": "2f64ce6a-40e9-4a9c-b773-91cf18c5757b"
+                },
+                {
+                  "group": "left",
+                  "id": "3546f4cf-d384-4a1e-819a-0dd280df4b09"
+                }
+              ]
+            },
+            "id": "store-handoff",
+            "data": {
+              "type": "tm.Store",
+              "name": "Telemetry Handoff TAR.GZ",
+              "description": "infrastructure/ot_telemetry_handoff_2026-09-26.tar.gz. Authenticated transfer, cryptographic integrity, provenance, safe extraction, and size limits require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-handoff-substitution",
+                  "title": "Telemetry archive substitution",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "A manipulated archive could produce false findings.",
+                  "mitigation": "Use authenticated transfer, SHA-256 hashes or signatures, provenance metadata, and pre-parse verification.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 13,
+                  "score": ""
+                },
+                {
+                  "id": "threat-handoff-bomb",
+                  "title": "Archive decompression resource exhaustion",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Oversized or malicious archives may exhaust parser resources.",
+                  "mitigation": "Enforce size, file-count, path, symlink, extraction-depth, and decompression limits in a sandbox.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 14,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1070,
+              "y": 290
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Telemetry Parser"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 12,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "d6fa6834-28ae-4965-8573-a84f87dee75e"
+                },
+                {
+                  "group": "right",
+                  "id": "f3ce447c-e4bb-48c1-8600-f370fa6a58aa"
+                },
+                {
+                  "group": "bottom",
+                  "id": "693cd3bd-202f-4510-9d8d-9b1a9535febf"
+                },
+                {
+                  "group": "left",
+                  "id": "717aa4e4-9549-4d85-8ae8-f654bb278ed3"
+                }
+              ]
+            },
+            "id": "process-parser",
+            "data": {
+              "type": "tm.Process",
+              "name": "Telemetry Parser",
+              "description": "src/log_parser.py. Ingests EVE JSON, iptables logs, Modbus CSV, and TAR.GZ archives. Sandboxing, schema validation, non-privileged execution, and provenance require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Non-privileged parser service required",
+              "threats": [
+                {
+                  "id": "threat-parser-eop",
+                  "title": "Parser executes attacker-controlled archive content",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of Privilege",
+                  "description": "Malicious archive content may exploit extraction or parsing behavior.",
+                  "mitigation": "Run in a sandbox/container with read-only inputs, dropped privileges, restricted networking, and safe deserialization.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 15,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1530,
+              "y": 115
+            },
+            "size": {
+              "width": 180,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Normalized\nTelemetry"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 13,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "8cef497f-bb8c-44c5-aac7-f0142b441542"
+                },
+                {
+                  "group": "right",
+                  "id": "f47a62eb-1eff-497b-8823-bea63d75eabe"
+                },
+                {
+                  "group": "bottom",
+                  "id": "c14f5ac2-6e7a-4115-bec7-d35839690b4b"
+                },
+                {
+                  "group": "left",
+                  "id": "6c93e095-4022-4bea-b582-59d26c280e99"
+                }
+              ]
+            },
+            "id": "store-normalized",
+            "data": {
+              "type": "tm.Store",
+              "name": "Normalized Telemetry",
+              "description": "data/normalized_telemetry.json. Standardized ISO 8601 records consumed by triage and ML. Schema, lineage, integrity, access, and encryption require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-normalized-tampering",
+                  "title": "Normalized records manipulated",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Manipulation could alter triage and ML conclusions.",
+                  "mitigation": "Separate parser write identity from consumer read identities, add record hashes, and preserve source-event lineage.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 16,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1260,
+              "y": 340
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Incident Triage"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 14,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "5895e333-2fff-416a-ab07-7ddf89397b1d"
+                },
+                {
+                  "group": "right",
+                  "id": "060bdc36-88b6-4cdf-bc0c-db88a52edb3e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "5ad77d08-3db3-4c6d-9e4f-6bc345777414"
+                },
+                {
+                  "group": "left",
+                  "id": "fc8ac734-328d-487f-8bd9-542cd005d1b8"
+                }
+              ]
+            },
+            "id": "process-triage",
+            "data": {
+              "type": "tm.Process",
+              "name": "Incident Triage",
+              "description": "src/timeline_generator.py. Produces incident_report.json and incident_timeline.md. Code integrity, evidence references, attribution, and report signing require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Analysis service",
+              "threats": [
+                {
+                  "id": "threat-triage-tampering",
+                  "title": "Triage logic or severity classification altered",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Code integrity, dependency integrity, and release controls are not confirmed.",
+                  "mitigation": "Use protected branches, peer review, pinned dependencies, scanning, and version metadata in reports.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 17,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1300,
+              "y": 500
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "ML Detection"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 15,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "57ba71f6-b8eb-430c-a52e-0d65881951fd"
+                },
+                {
+                  "group": "right",
+                  "id": "01b3363a-08ec-4ce9-877f-ca4ba534c3bb"
+                },
+                {
+                  "group": "bottom",
+                  "id": "b6811313-be1d-4664-a187-1be06afe25a7"
+                },
+                {
+                  "group": "left",
+                  "id": "560e93e3-845a-40ba-8249-d0c24e7270fb"
+                }
+              ]
+            },
+            "id": "process-ml",
+            "data": {
+              "type": "tm.Process",
+              "name": "ML Detection",
+              "description": "src/ml_detector.py. Trains and evaluates Random Forest, Decision Tree, and SVM classifiers. Dataset/model provenance, train-test separation, input limits, and drift monitoring require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Analysis service",
+              "threats": [
+                {
+                  "id": "threat-ml-poisoning",
+                  "title": "Training or evaluation data poisoned",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Dataset provenance, model integrity, and benchmark separation are not confirmed.",
+                  "mitigation": "Version and sign datasets/models, track lineage, separate training from evaluation, and add poisoning checks.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 18,
+                  "score": ""
+                },
+                {
+                  "id": "threat-ml-dos",
+                  "title": "Malformed telemetry exhausts ML resources",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of Service",
+                  "description": "Input size, batch, timeout, and resource controls require validation.",
+                  "mitigation": "Validate inputs, bound batches, apply timeouts and quotas, and report degraded execution explicitly.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 19,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1530,
+              "y": 500
+            },
+            "size": {
+              "width": 180,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Raw Dataset /\nFeature Vectors"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 16,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "4e0de9fd-ed45-400d-ac5e-b436f7b7c1f9"
+                },
+                {
+                  "group": "right",
+                  "id": "0059ab64-66fb-446a-8efb-50ef31323686"
+                },
+                {
+                  "group": "bottom",
+                  "id": "5820c931-51fc-408a-99c1-f2c0e043badd"
+                },
+                {
+                  "group": "left",
+                  "id": "682c5083-c7e3-4f9d-a394-3fd6c4dc6f36"
+                }
+              ]
+            },
+            "id": "store-datasets",
+            "data": {
+              "type": "tm.Store",
+              "name": "Raw Dataset and Feature Vectors",
+              "description": "data/modbus_telemetry_dataset.csv and derived feature vectors. Training/evaluation separation, poisoning resistance, access control, and provenance require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-dataset-poisoning",
+                  "title": "Dataset poisoning or train-test contamination",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Manipulated or improperly separated data may create misleading benchmark results.",
+                  "mitigation": "Hash/version datasets, separate training and evaluation data, preserve lineage, and review exclusions.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 20,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1780,
+              "y": 300
+            },
+            "size": {
+              "width": 220,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "Incident Report\nTimeline\nML Results"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 17,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "e8f17ee4-234c-47a8-a624-08ef73b7c107"
+                },
+                {
+                  "group": "right",
+                  "id": "04e4a873-4127-4a5e-999d-88bc1fb9cefa"
+                },
+                {
+                  "group": "bottom",
+                  "id": "addac208-b708-49b8-abfc-99255e5f10b8"
+                },
+                {
+                  "group": "left",
+                  "id": "de22db4b-acbf-47a7-b624-4aa3e30ee8ce"
+                }
+              ]
+            },
+            "id": "store-artifacts",
+            "data": {
+              "type": "tm.Store",
+              "name": "Incident Reports, Timeline and ML Results",
+              "description": "data/incident_report.json, data/incident_timeline.md, and data/ml_evaluation_results.json. Integrity, access control, redaction, retention, and reproducibility require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-artifacts-repudiation",
+                  "title": "Reports cannot be proven from original evidence",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Repudiation",
+                  "description": "Evidence references, hashes, author attribution, and generation metadata are not confirmed.",
+                  "mitigation": "Include source IDs, input hashes, code versions, timestamps, authors, and signed manifests.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 21,
+                  "score": ""
+                },
+                {
+                  "id": "threat-artifacts-disclosure",
+                  "title": "Incident details exposed",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Reports may disclose operational details or sensitive telemetry.",
+                  "mitigation": "Restrict storage, redact sensitive values, encrypt artifacts, and enforce retention.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 22,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": -375,
+              "y": 410
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "GitHub\nRepository"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 18,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "92b69885-c49d-45f1-b318-ae7447a37a72"
+                },
+                {
+                  "group": "right",
+                  "id": "8ef6229a-c941-4619-8a0a-6c390d9591bc"
+                },
+                {
+                  "group": "bottom",
+                  "id": "4014dc31-41d5-42b7-aa27-3ac76da82e01"
+                },
+                {
+                  "group": "left",
+                  "id": "c2fd4d82-74db-457c-aedf-339d16277458"
+                }
+              ]
+            },
+            "id": "store-github",
+            "data": {
+              "type": "tm.Store",
+              "name": "GitHub Repository",
+              "description": "Source repository containing code, documentation, datasets, security policy, and dependency manifests. Repository access and branch protection require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": true,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": true,
+              "threats": [
+                {
+                  "id": "threat-github-secrets",
+                  "title": "Secrets or sensitive data committed",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "Repository content, datasets, or logs could expose secrets or sensitive operational information.",
+                  "mitigation": "Use secret scanning, sanitization checks, repository access reviews, and pre-commit validation.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 23,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": -375,
+              "y": 550
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Dependency\nManifests"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 19,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "db625a98-f23c-4888-b623-7497cb3a3dd3"
+                },
+                {
+                  "group": "right",
+                  "id": "f212207c-2691-4441-a0dd-b3f354f8c26a"
+                },
+                {
+                  "group": "bottom",
+                  "id": "0fb40813-c01b-49a4-ac65-9525c6136b7f"
+                },
+                {
+                  "group": "left",
+                  "id": "a46b7142-b0b2-42c1-8d86-0a852b8c9efc"
+                }
+              ]
+            },
+            "id": "store-dependencies",
+            "data": {
+              "type": "tm.Store",
+              "name": "Dependency Manifests",
+              "description": "requirements.txt and infrastructure/requirements.txt. Dependency pinning, scanning, provenance, and reproducible installation require validation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-dependencies",
+                  "title": "Vulnerable or malicious dependency",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "A compromised or vulnerable package could compromise parsing, telemetry, or ML execution.",
+                  "mitigation": "Pin versions, use trusted indexes, scan dependencies, generate an SBOM, and verify package provenance.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 24,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": -375,
+              "y": 645
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Security Policy\nSECURITY.md"
+              }
+            },
+            "visible": true,
+            "shape": "td-text-block",
+            "zIndex": 20,
+            "id": "policy-security-md",
+            "data": {
+              "type": "tm.Text",
+              "name": "Security Policy SECURITY.md",
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 80,
+              "y": 580
+            },
+            "size": {
+              "width": 220,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "POLICY VALIDATION GAPS\nCRITICAL: Prove Purdue-zone isolation and no production connectivity.\nCRITICAL: Restrict Modbus/TCP port 502 and write function codes.\nCRITICAL: Hash/sign telemetry archives and preserve immutable evidence.\nCRITICAL: Sandbox archive extraction and parser execution.\nHIGH: Validate pfSense ACLs, Suricata rules, and administrative MFA.\nHIGH: Validate source, dependency, dataset, and model provenance.\nMEDIUM: Define classification, redaction, retention, backup, and recovery."
+              }
+            },
+            "visible": true,
+            "shape": "td-text-block",
+            "zIndex": 50,
+            "id": "policy-gaps",
+            "data": {
+              "type": "tm.Text",
+              "name": "POLICY VALIDATION GAPS",
+              "hasOpenThreats": true
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 60,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Operator Test Commands",
+              "description": "Operator invokes infrastructure/traffic_generator.py. Validate authentication, authorization, approvals, and auditability.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "Unspecified",
+              "threats": [
+                {
+                  "id": "flow-threat-operator",
+                  "title": "Uncontrolled operator access",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "An attacker could impersonate an operator or execute unauthorized tests.",
+                  "mitigation": "Use named accounts, MFA, RBAC, approvals, and append-only audit logs.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 25,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Operator Test Commands"
+            ],
+            "id": "flow-operator-commands",
+            "source": {
+              "cell": "actor-operator"
+            },
+            "target": {
+              "cell": "process-traffic-generator"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 61,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Modbus/TCP Commands",
+              "description": "Traffic generator sends Modbus TCP read/write traffic to OpenPLC and/or Conpot. Validate source allowlisting, write controls, rate limits, and network isolation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "Modbus/TCP",
+              "threats": [
+                {
+                  "id": "flow-threat-modbus",
+                  "title": "Modbus command injection or tampering",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Modbus/TCP lacks native authentication and integrity protection.",
+                  "mitigation": "Restrict TCP/502, allowlist sources and function codes, and use protocol-aware monitoring.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 26,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Modbus/TCP Commands"
+            ],
+            "id": "flow-modbus",
+            "source": {
+              "cell": "process-traffic-generator"
+            },
+            "target": {
+              "cell": "process-openplc"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 62,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "OT Traffic to Conpot",
+              "description": "Traffic generator may interact with the Conpot emulator. Validate service exposure and isolation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "Modbus/TCP",
+              "threats": [
+                {
+                  "id": "flow-threat-conpot",
+                  "title": "Unexpected emulator exposure",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "Unexpected reachability could enable compromise of the emulator or host.",
+                  "mitigation": "Use isolated networks, deny-by-default ACLs, restricted management, and routing tests.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 27,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            },
+            "labels": [
+              "OT Traffic to Conpot"
+            ],
+            "id": "flow-conpot",
+            "source": {
+              "cell": "process-traffic-generator"
+            },
+            "target": {
+              "cell": "process-conpot"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 63,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "OT Traffic Inspection",
+              "description": "OpenPLC and Conpot traffic traverses pfSense and is inspected by Suricata.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "Network traffic",
+              "threats": [
+                {
+                  "id": "flow-threat-inspection",
+                  "title": "Monitoring blind spot",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Incorrect sensor placement or packet loss could prevent detection.",
+                  "mitigation": "Validate sensor placement, mirror traffic, monitor drops, and alert on missing telemetry.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 28,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "OT Traffic Inspection"
+            ],
+            "id": "flow-inspection",
+            "source": {
+              "cell": "process-openplc"
+            },
+            "target": {
+              "cell": "process-suricata"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 64,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "EVE JSON Events",
+              "description": "Suricata writes EVE JSON telemetry. Validate protected storage, integrity, retention, and access.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "EVE JSON",
+              "threats": [
+                {
+                  "id": "flow-threat-eve",
+                  "title": "EVE event alteration",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Events could be modified or deleted before analysis.",
+                  "mitigation": "Use centralized protected collection, restricted writers, hashes/signatures, and immutable retention.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 29,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "EVE JSON Events"
+            ],
+            "id": "flow-eve",
+            "source": {
+              "cell": "process-suricata"
+            },
+            "target": {
+              "cell": "store-eve",
+              "port": "28e2426d-5498-4af0-b615-d75211b9eb4b"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 65,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Telemetry Handoff Archive",
+              "description": "EVE JSON, iptables logs, and Modbus captures are packaged for analysis. Validate authenticated transfer, hashes, provenance, and safe handling.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "TAR.GZ",
+              "threats": [
+                {
+                  "id": "flow-threat-archive",
+                  "title": "Archive substitution",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "A manipulated archive could produce false findings.",
+                  "mitigation": "Use authenticated transfer, cryptographic hashes/signatures, provenance metadata, and pre-parse verification.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 30,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Telemetry Handoff Archive"
+            ],
+            "id": "flow-archive",
+            "source": {
+              "cell": "store-eve"
+            },
+            "target": {
+              "cell": "store-handoff"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 66,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Archive Extraction and Parsing",
+              "description": "src/log_parser.py extracts and ingests archive contents. Validate sandboxing, path traversal protection, symlink handling, and resource limits.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "Local file access",
+              "threats": [
+                {
+                  "id": "flow-threat-parser",
+                  "title": "Archive extraction privilege escalation",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of Privilege",
+                  "description": "Malicious archive content could exploit extraction or parser behavior.",
+                  "mitigation": "Use non-privileged sandboxed extraction, reject symlinks, enforce path boundaries and resource limits.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 31,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            },
+            "labels": [
+              "Archive Extraction and Parsing"
+            ],
+            "id": "flow-parser",
+            "source": {
+              "cell": "store-handoff"
+            },
+            "target": {
+              "cell": "process-parser"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 67,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Normalized ISO 8601 Records",
+              "description": "src/log_parser.py writes data/normalized_telemetry.json. Validate schema, lineage, hashes, write ownership, and access.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "JSON",
+              "threats": [
+                {
+                  "id": "flow-threat-normalized",
+                  "title": "Evidence transformation tampering",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Incorrect or manipulated normalization could alter downstream analysis.",
+                  "mitigation": "Validate schemas, record parser version and hashes, and link normalized records to source events.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 32,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Normalized ISO 8601 Records"
+            ],
+            "id": "flow-normalized",
+            "source": {
+              "cell": "process-parser"
+            },
+            "target": {
+              "cell": "store-normalized"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 68,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Telemetry to Incident Triage",
+              "description": "src/timeline_generator.py reads normalized telemetry and generates incident metrics and Markdown timeline.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "JSON read",
+              "threats": []
+            },
+            "labels": [
+              "Telemetry to Incident Triage"
+            ],
+            "id": "flow-triage-input",
+            "source": {
+              "cell": "store-normalized"
+            },
+            "target": {
+              "cell": "process-triage"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 69,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Telemetry to ML Detection",
+              "description": "src/ml_detector.py reads normalized telemetry and trains/evaluates classifiers. Validate dataset integrity, separation, input limits, and resource quotas.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "JSON read",
+              "threats": [
+                {
+                  "id": "flow-threat-ml",
+                  "title": "ML input poisoning or resource exhaustion",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Manipulated or oversized telemetry may distort results or exhaust inference resources.",
+                  "mitigation": "Validate inputs, enforce batch/resource limits, and preserve dataset lineage.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 33,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Telemetry to ML Detection"
+            ],
+            "id": "flow-ml-input",
+            "source": {
+              "cell": "store-normalized"
+            },
+            "target": {
+              "cell": "process-ml"
+            },
+            "vertices": [
+              {
+                "x": 1560,
+                "y": 300
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 70,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Incident Reports",
+              "description": "src/timeline_generator.py writes data/incident_report.json and data/incident_timeline.md.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "JSON/Markdown",
+              "threats": [
+                {
+                  "id": "flow-threat-reports",
+                  "title": "Incident report manipulation",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Reports could be modified to change incident conclusions.",
+                  "mitigation": "Hash or sign reports, include code/input versions, and preserve immutable prior versions.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 34,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Incident Reports"
+            ],
+            "id": "flow-report-output",
+            "source": {
+              "cell": "process-triage"
+            },
+            "target": {
+              "cell": "store-artifacts"
+            },
+            "vertices": [
+              {
+                "x": 1610,
+                "y": 370
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 71,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "ML Benchmark Results",
+              "description": "src/ml_detector.py writes data/ml_evaluation_results.json. Validate model, dataset, metrics, thresholds, failures, and excluded samples.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "JSON",
+              "threats": [
+                {
+                  "id": "flow-threat-benchmarks",
+                  "title": "Benchmark results altered or selectively reported",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Benchmark integrity and reproducibility are not confirmed.",
+                  "mitigation": "Create signed manifests containing model, dataset, metrics, thresholds, failures, and excluded samples.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 35,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "ML Benchmark Results"
+            ],
+            "id": "flow-benchmark-output",
+            "source": {
+              "cell": "process-ml"
+            },
+            "target": {
+              "cell": "store-artifacts"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 72,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Source Code and Dependencies",
+              "description": "Developer accesses the GitHub repository and dependency manifests. Validate MFA, branch protection, code review, dependency scanning, and secret scanning.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS/Git",
+              "threats": [
+                {
+                  "id": "flow-threat-supply-chain",
+                  "title": "Software supply-chain compromise",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Malicious code or dependency changes could compromise the full pipeline.",
+                  "mitigation": "Use protected branches, signed commits, dependency pinning/scanning, SBOMs, and reproducible builds.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 36,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "labels": [
+              "Source Code and Dependencies"
+            ],
+            "id": "flow-source-code",
+            "source": {
+              "cell": "actor-developer"
+            },
+            "target": {
+              "cell": "store-github"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 73,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Dependency Installation",
+              "description": "Python dependencies are installed from repository manifests. Validate trusted package sources, hashes, scanning, and isolation.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS/Python package index",
+              "threats": [
+                {
+                  "id": "flow-threat-dependency-install",
+                  "title": "Malicious dependency installation",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "A malicious or vulnerable package could execute with pipeline privileges.",
+                  "mitigation": "Pin versions, verify hashes, use trusted indexes, scan packages, and install in isolated environments.",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 37,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            },
+            "labels": [
+              "Dependency Installation"
+            ],
+            "id": "flow-dependencies",
+            "source": {
+              "cell": "store-dependencies"
+            },
+            "target": {
+              "cell": "process-parser"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 80,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "OT Network Boundary",
+              "description": "Boundary separating the isolated OT testbed from enterprise/developer access.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "labels": [
+              "OT Network Boundary"
+            ],
+            "id": "curve-ot-boundary",
+            "source": {
+              "x": -60,
+              "y": 80
+            },
+            "target": {
+              "x": 910,
+              "y": 80
+            },
+            "vertices": [
+              {
+                "x": 80,
+                "y": 50
+              },
+              {
+                "x": 80,
+                "y": 20
+              },
+              {
+                "x": -180,
+                "y": 20
+              },
+              {
+                "x": -290,
+                "y": 80
+              },
+              {
+                "x": 1030,
+                "y": 80
+              },
+              {
+                "x": 1090,
+                "y": 20
+              }
+            ]
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 81,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Analysis Evidence Boundary",
+              "description": "Boundary protecting telemetry, parser execution, analysis processes, ML assets, and reports.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "labels": [
+              "Analysis Evidence Boundary"
+            ],
+            "id": "curve-analysis-boundary",
+            "source": {
+              "x": 1070,
+              "y": 70
+            },
+            "target": {
+              "x": 1950,
+              "y": 80
+            },
+            "vertices": [
+              {
+                "x": 910,
+                "y": 20
+              },
+              {
+                "x": 1010,
+                "y": 80
+              },
+              {
+                "x": 2120,
+                "y": 80
+              },
+              {
+                "x": 1970,
+                "y": 10
+              }
+            ]
+          }
+        ],
+        "description": "Complete repository-level STRIDE model. Undocumented controls are represented as open validation gaps rather than confirmed implementations."
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "",
+    "threatTop": 37
+  }
+}
