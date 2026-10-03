@@ -41,8 +41,13 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Auto-extracted Telemetry & Temporary Working Files
-infrastructure/extracted_handoff/
-*.tmp
+# Output & Scratch Directories
 /workspace/scratch/
 /workspace/out/
+*.tmp
+*.log
+
+# Explicitly Track Threat Model Artifacts
+!Team_4_Threat_Model.json
+!Team_4_Threat_Model-v2.json
+!Team 4 Threat Model.json
