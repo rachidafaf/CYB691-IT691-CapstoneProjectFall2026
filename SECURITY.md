@@ -17,7 +17,7 @@ As this repository contains research code, virtualized OT infrastructure scripts
 
 1. **Do NOT open public GitHub issues** for security vulnerabilities, credential disclosures, or infrastructure exposure.
 2. Direct all vulnerability reports to the project maintainers:
-   - **Rachid Afaf** — Security Architect & Lead Security Analyst (`log_parser.py`, `timeline_generator.py`, `ml_detector.py`)
+   - **Rachid Afaf** — Security Architect & Lead Security Analyst (`log_parser.py`, `timeline_generator.py`, `ml_detector.py`, `validate_stride_threats.py` )
    - **Erick Espinosa** — Infrastructure & OT Virtualization Lead (`infrastructure/traffic_generator.py`, testbed emulators)
    - **Anil Kumar** — Security Hardening, and Documentation Lead.
 
