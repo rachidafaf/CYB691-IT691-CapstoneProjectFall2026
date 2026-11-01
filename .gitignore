@@ -1,0 +1,46 @@
+# Python Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Output & Scratch Directories
+/workspace/scratch/
+/workspace/out/
+*.tmp
+
+# SQLite Database (generated at runtime — not committed)
+data/telemetry.db
+data/telemetry.db-wal
+data/telemetry.db-shm
+
+# Explicitly Track Threat Model Artifacts
+!Team_4_Threat_Model.json
+!Team 4 Threat Model.json
+
+# --- CYB691 Docker deployment ---
+# Generated Docker secrets, local overrides, local edge data, generated test data
+deploy/docker/secrets/
+deploy/docker/.env
+deploy/edge/data/
+deploy/testdata/lab/
+.env
+.env.*
+
+# local backups
+data/_pre_dedup_backup/

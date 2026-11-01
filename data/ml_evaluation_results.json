@@ -1,80 +1,1430 @@
 {
-  "metadata": {
-    "title": "Layer 3 Machine Learning Anomaly Detection & Classifier Evaluation",
-    "module_lead": "Rachid Afaf (Detection Analytics Lead) & Rachid Afaf",
-    "course": "CYB691 Capstone Team 4",
-    "generated_at": "2026-09-27T14:29:07.116281+00:00",
-    "total_telemetry_samples": 20075,
-    "class_distribution": {
-      "benign_read_polling": 20074,
-      "unauthorized_write_attacks": 1
-    }
+  "timestamp": "2026-11-01T16:08:26.568426+00:00",
+  "input_source": "PostgreSQL postgres@localhost:5432/postgres (schema cyb691)",
+  "workload_and_hardware": {
+    "operating_system": "Windows-11-10.0.26200-SP0",
+    "cpu_architecture": "AMD64",
+    "processor": "AMD64 Family 23 Model 104 Stepping 1, AuthenticAMD",
+    "logical_cpus": 16,
+    "python_version": "3.14.2",
+    "total_records_evaluated": 10,
+    "total_execution_time_ms": 2342.25
   },
-  "performance_targets": {
-    "target_recall": ">= 95.0%",
-    "target_fpr": "<= 2.0%",
-    "target_latency": "<= 500 ms per 10,000 records"
+  "timing_definitions": {
+    "training_time_avg_ms": "mean wall time of model.fit on one oversampled training fold",
+    "prediction_latency_per_sample_ms": "wall time of model.predict on one unseen test fold divided by its row count, averaged over folds (batch of 1-5 rows, so it includes per-call overhead)",
+    "fit_time_total_ms": "Isolation Forest fit on the whole batch",
+    "total_execution_time_ms": "whole ml_detector.py run including loading, all evaluations and I/O"
+  },
+  "ground_truth": {
+    "source": "data/scenario_actions.json",
+    "scenario_id": "HANDOFF-2026-09-26",
+    "label_definition": "label = 1 if the action is a scenario step the actor was not authorized to perform (unauthorized_write), else 0. Labels are joined to normalized events by timestamp_utc; they are NOT computed from model features.",
+    "status": "RECONSTRUCTED - PENDING TEAM CONFIRMATION",
+    "confirmed_by": null,
+    "confirmed_on": null,
+    "events_labelled": 10,
+    "events_excluded_unlabelled": []
+  },
+  "dataset_summary": {
+    "total_records": 10,
+    "attack_samples_count": 6,
+    "benign_samples_count": 4,
+    "generator_runs": [
+      1,
+      2,
+      3
+    ],
+    "primary_feature_set": "request_time",
+    "features_used": [
+      "inter_arrival_ms",
+      "function_code",
+      "destination_port",
+      "unit_id",
+      "pdu_length_bytes"
+    ],
+    "ground_truth_method": "Scenario/action record (data/scenario_actions.json): 1 = unauthorized state-altering write, 0 = authorized baseline read"
   },
   "supervised_models": {
     "Random Forest Classifier": {
+      "cv_scheme": "stratified_kfold",
+      "cross_validation_folds": 4,
       "accuracy": 100.0,
       "precision": 100.0,
       "recall": 100.0,
       "false_positive_rate": 0.0,
       "f1_score": 100.0,
-      "latency_per_sample_ms": 0.0353,
+      "confusion_matrix": {
+        "tn": 4,
+        "fp": 0,
+        "fn": 0,
+        "tp": 6
+      },
+      "training_time_avg_ms": 56.329,
+      "prediction_latency_per_sample_ms": 1.6126,
+      "inference_latency_per_sample_ms": 1.6126,
       "meets_recall_target": true,
       "meets_fpr_target": true,
+      "folds": [
+        {
+          "fold": 1,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 2,
+          "correct": 3
+        },
+        {
+          "fold": 2,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "3"
+          ],
+          "test_attacks": 2,
+          "correct": 3
+        },
+        {
+          "fold": 3,
+          "test_size": 2,
+          "test_groups": [
+            "2",
+            "3"
+          ],
+          "test_attacks": 1,
+          "correct": 2
+        },
+        {
+          "fold": 4,
+          "test_size": 2,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 1,
+          "correct": 2
+        }
+      ],
       "feature_importances": {
-        "is_state_altering": 0.28,
-        "inter_arrival_ms": 0.24,
-        "threat_score": 0.2193,
-        "is_critical_risk": 0.1977,
-        "destination_port": 0.0534,
-        "has_protocol_exception": 0.0095,
-        "function_code": 0.0,
-        "is_write_category": 0.0
+        "function_code": 0.7954,
+        "inter_arrival_ms": 0.1143,
+        "pdu_length_bytes": 0.0903,
+        "destination_port": 0.0,
+        "unit_id": 0.0
       }
     },
     "Decision Tree Classifier": {
+      "cv_scheme": "stratified_kfold",
+      "cross_validation_folds": 4,
       "accuracy": 100.0,
       "precision": 100.0,
       "recall": 100.0,
       "false_positive_rate": 0.0,
       "f1_score": 100.0,
-      "latency_per_sample_ms": 0.0035,
+      "confusion_matrix": {
+        "tn": 4,
+        "fp": 0,
+        "fn": 0,
+        "tp": 6
+      },
+      "training_time_avg_ms": 0.795,
+      "prediction_latency_per_sample_ms": 0.063,
+      "inference_latency_per_sample_ms": 0.063,
       "meets_recall_target": true,
       "meets_fpr_target": true,
+      "folds": [
+        {
+          "fold": 1,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 2,
+          "correct": 3
+        },
+        {
+          "fold": 2,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "3"
+          ],
+          "test_attacks": 2,
+          "correct": 3
+        },
+        {
+          "fold": 3,
+          "test_size": 2,
+          "test_groups": [
+            "2",
+            "3"
+          ],
+          "test_attacks": 1,
+          "correct": 2
+        },
+        {
+          "fold": 4,
+          "test_size": 2,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 1,
+          "correct": 2
+        }
+      ],
       "feature_importances": {
-        "inter_arrival_ms": 1.0,
-        "function_code": 0.0,
-        "is_state_altering": 0.0,
-        "has_protocol_exception": 0.0,
-        "is_critical_risk": 0.0,
-        "is_write_category": 0.0,
+        "function_code": 1.0,
+        "inter_arrival_ms": 0.0,
         "destination_port": 0.0,
-        "threat_score": 0.0
+        "unit_id": 0.0,
+        "pdu_length_bytes": 0.0
       }
     },
-    "Support Vector Machine(SVM)": {
-      "accuracy": 100.0,
-      "precision": 100.0,
-      "recall": 100.0,
-      "false_positive_rate": 0.0,
-      "f1_score": 100.0,
-      "latency_per_sample_ms": 0.0035,
-      "meets_recall_target": true,
-      "meets_fpr_target": true
+    "Support Vector Machine (SVM)": {
+      "cv_scheme": "stratified_kfold",
+      "cross_validation_folds": 4,
+      "accuracy": 30.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 25.0,
+      "f1_score": 0.0,
+      "confusion_matrix": {
+        "tn": 3,
+        "fp": 1,
+        "fn": 6,
+        "tp": 0
+      },
+      "training_time_avg_ms": 1.053,
+      "prediction_latency_per_sample_ms": 0.0878,
+      "inference_latency_per_sample_ms": 0.0878,
+      "meets_recall_target": false,
+      "meets_fpr_target": false,
+      "folds": [
+        {
+          "fold": 1,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 2,
+          "correct": 1
+        },
+        {
+          "fold": 2,
+          "test_size": 3,
+          "test_groups": [
+            "1",
+            "3"
+          ],
+          "test_attacks": 2,
+          "correct": 1
+        },
+        {
+          "fold": 3,
+          "test_size": 2,
+          "test_groups": [
+            "2",
+            "3"
+          ],
+          "test_attacks": 1,
+          "correct": 0
+        },
+        {
+          "fold": 4,
+          "test_size": 2,
+          "test_groups": [
+            "1",
+            "2"
+          ],
+          "test_attacks": 1,
+          "correct": 1
+        }
+      ]
     }
   },
-  "unsupervised_anomaly_detection": {
-    "model_type": "Unsupervised Isolation Forest",
-    "accuracy": 99.0,
-    "precision": 0.5,
-    "recall": 100.0,
-    "false_positive_rate": 1.0,
-    "f1_score": 0.99,
-    "latency_per_sample_ms": 0.0151
+  "evaluations": {
+    "request_time": {
+      "features": [
+        "inter_arrival_ms",
+        "function_code",
+        "destination_port",
+        "unit_id",
+        "pdu_length_bytes"
+      ],
+      "feature_availability": {
+        "inter_arrival_ms": "request-time",
+        "function_code": "request-time",
+        "destination_port": "request-time",
+        "unit_id": "request-time",
+        "pdu_length_bytes": "request-time"
+      },
+      "stratified_kfold": {
+        "Random Forest Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 56.329,
+          "prediction_latency_per_sample_ms": 1.6126,
+          "inference_latency_per_sample_ms": 1.6126,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 0.7954,
+            "inter_arrival_ms": 0.1143,
+            "pdu_length_bytes": 0.0903,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 0.795,
+          "prediction_latency_per_sample_ms": 0.063,
+          "inference_latency_per_sample_ms": 0.063,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 1.0,
+            "inter_arrival_ms": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0,
+            "pdu_length_bytes": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 30.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 25.0,
+          "f1_score": 0.0,
+          "confusion_matrix": {
+            "tn": 3,
+            "fp": 1,
+            "fn": 6,
+            "tp": 0
+          },
+          "training_time_avg_ms": 1.053,
+          "prediction_latency_per_sample_ms": 0.0878,
+          "inference_latency_per_sample_ms": 0.0878,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 1
+            }
+          ]
+        }
+      },
+      "leave_one_run_out": {
+        "Random Forest Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 67.345,
+          "prediction_latency_per_sample_ms": 1.51,
+          "inference_latency_per_sample_ms": 1.51,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 0.7954,
+            "inter_arrival_ms": 0.1143,
+            "pdu_length_bytes": 0.0903,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 0.994,
+          "prediction_latency_per_sample_ms": 0.0763,
+          "inference_latency_per_sample_ms": 0.0763,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 1.0,
+            "inter_arrival_ms": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0,
+            "pdu_length_bytes": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 50.0,
+          "precision": 100.0,
+          "recall": 16.67,
+          "false_positive_rate": 0.0,
+          "f1_score": 28.57,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 5,
+            "tp": 1
+          },
+          "training_time_avg_ms": 1.226,
+          "prediction_latency_per_sample_ms": 0.0686,
+          "inference_latency_per_sample_ms": 0.0686,
+          "meets_recall_target": false,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            }
+          ]
+        }
+      }
+    },
+    "request_time_without_function_code": {
+      "features": [
+        "inter_arrival_ms",
+        "destination_port",
+        "unit_id",
+        "pdu_length_bytes"
+      ],
+      "feature_availability": {
+        "inter_arrival_ms": "request-time",
+        "destination_port": "request-time",
+        "unit_id": "request-time",
+        "pdu_length_bytes": "request-time"
+      },
+      "stratified_kfold": {
+        "Random Forest Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 10.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 75.0,
+          "f1_score": 0.0,
+          "confusion_matrix": {
+            "tn": 1,
+            "fp": 3,
+            "fn": 6,
+            "tp": 0
+          },
+          "training_time_avg_ms": 61.316,
+          "prediction_latency_per_sample_ms": 1.4103,
+          "inference_latency_per_sample_ms": 1.4103,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 0
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            }
+          ],
+          "feature_importances": {
+            "inter_arrival_ms": 0.8398,
+            "pdu_length_bytes": 0.1602,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 10.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 75.0,
+          "f1_score": 0.0,
+          "confusion_matrix": {
+            "tn": 1,
+            "fp": 3,
+            "fn": 6,
+            "tp": 0
+          },
+          "training_time_avg_ms": 0.95,
+          "prediction_latency_per_sample_ms": 0.0721,
+          "inference_latency_per_sample_ms": 0.0721,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 0
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            }
+          ],
+          "feature_importances": {
+            "inter_arrival_ms": 0.6399,
+            "pdu_length_bytes": 0.3601,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 30.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 25.0,
+          "f1_score": 0.0,
+          "confusion_matrix": {
+            "tn": 3,
+            "fp": 1,
+            "fn": 6,
+            "tp": 0
+          },
+          "training_time_avg_ms": 1.219,
+          "prediction_latency_per_sample_ms": 0.1,
+          "inference_latency_per_sample_ms": 0.1,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 1
+            }
+          ]
+        }
+      },
+      "leave_one_run_out": {
+        "Random Forest Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 40.0,
+          "precision": 50.0,
+          "recall": 66.67,
+          "false_positive_rate": 100.0,
+          "f1_score": 57.14,
+          "confusion_matrix": {
+            "tn": 0,
+            "fp": 4,
+            "fn": 2,
+            "tp": 4
+          },
+          "training_time_avg_ms": 60.008,
+          "prediction_latency_per_sample_ms": 1.1273,
+          "inference_latency_per_sample_ms": 1.1273,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            }
+          ],
+          "feature_importances": {
+            "inter_arrival_ms": 0.8398,
+            "pdu_length_bytes": 0.1602,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 40.0,
+          "precision": 50.0,
+          "recall": 66.67,
+          "false_positive_rate": 100.0,
+          "f1_score": 57.14,
+          "confusion_matrix": {
+            "tn": 0,
+            "fp": 4,
+            "fn": 2,
+            "tp": 4
+          },
+          "training_time_avg_ms": 0.808,
+          "prediction_latency_per_sample_ms": 0.0472,
+          "inference_latency_per_sample_ms": 0.0472,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            }
+          ],
+          "feature_importances": {
+            "inter_arrival_ms": 0.6399,
+            "pdu_length_bytes": 0.3601,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 50.0,
+          "precision": 100.0,
+          "recall": 16.67,
+          "false_positive_rate": 0.0,
+          "f1_score": 28.57,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 5,
+            "tp": 1
+          },
+          "training_time_avg_ms": 0.984,
+          "prediction_latency_per_sample_ms": 0.0568,
+          "inference_latency_per_sample_ms": 0.0568,
+          "meets_recall_target": false,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            }
+          ]
+        }
+      }
+    },
+    "report1_all_six": {
+      "features": [
+        "inter_arrival_ms",
+        "function_code",
+        "has_protocol_exception",
+        "destination_port",
+        "unit_id",
+        "payload_length"
+      ],
+      "feature_availability": {
+        "inter_arrival_ms": "request-time",
+        "function_code": "request-time",
+        "has_protocol_exception": "response-time",
+        "destination_port": "request-time",
+        "unit_id": "request-time",
+        "payload_length": "request-time"
+      },
+      "stratified_kfold": {
+        "Random Forest Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 60.665,
+          "prediction_latency_per_sample_ms": 1.6135,
+          "inference_latency_per_sample_ms": 1.6135,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "payload_length": 0.4597,
+            "function_code": 0.4428,
+            "inter_arrival_ms": 0.0975,
+            "has_protocol_exception": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 0.973,
+          "prediction_latency_per_sample_ms": 0.0714,
+          "inference_latency_per_sample_ms": 0.0714,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 3
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 1.0,
+            "inter_arrival_ms": 0.0,
+            "has_protocol_exception": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0,
+            "payload_length": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "stratified_kfold",
+          "cross_validation_folds": 4,
+          "accuracy": 30.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 25.0,
+          "f1_score": 0.0,
+          "confusion_matrix": {
+            "tn": 3,
+            "fp": 1,
+            "fn": 6,
+            "tp": 0
+          },
+          "training_time_avg_ms": 1.781,
+          "prediction_latency_per_sample_ms": 0.1581,
+          "inference_latency_per_sample_ms": 0.1581,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 2,
+              "test_size": 3,
+              "test_groups": [
+                "1",
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "2",
+                "3"
+              ],
+              "test_attacks": 1,
+              "correct": 0
+            },
+            {
+              "fold": 4,
+              "test_size": 2,
+              "test_groups": [
+                "1",
+                "2"
+              ],
+              "test_attacks": 1,
+              "correct": 1
+            }
+          ]
+        }
+      },
+      "leave_one_run_out": {
+        "Random Forest Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 100.0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "false_positive_rate": 0.0,
+          "f1_score": 100.0,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 0,
+            "tp": 6
+          },
+          "training_time_avg_ms": 72.374,
+          "prediction_latency_per_sample_ms": 1.2334,
+          "inference_latency_per_sample_ms": 1.2334,
+          "meets_recall_target": true,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "payload_length": 0.4597,
+            "function_code": 0.4428,
+            "inter_arrival_ms": 0.0975,
+            "has_protocol_exception": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0
+          }
+        },
+        "Decision Tree Classifier": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 70.0,
+          "precision": 71.43,
+          "recall": 83.33,
+          "false_positive_rate": 50.0,
+          "f1_score": 76.92,
+          "confusion_matrix": {
+            "tn": 2,
+            "fp": 2,
+            "fn": 1,
+            "tp": 5
+          },
+          "training_time_avg_ms": 0.97,
+          "prediction_latency_per_sample_ms": 0.0546,
+          "inference_latency_per_sample_ms": 0.0546,
+          "meets_recall_target": false,
+          "meets_fpr_target": false,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 4
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            }
+          ],
+          "feature_importances": {
+            "function_code": 1.0,
+            "inter_arrival_ms": 0.0,
+            "has_protocol_exception": 0.0,
+            "destination_port": 0.0,
+            "unit_id": 0.0,
+            "payload_length": 0.0
+          }
+        },
+        "Support Vector Machine (SVM)": {
+          "cv_scheme": "leave_one_run_out",
+          "cross_validation_folds": 3,
+          "accuracy": 50.0,
+          "precision": 100.0,
+          "recall": 16.67,
+          "false_positive_rate": 0.0,
+          "f1_score": 28.57,
+          "confusion_matrix": {
+            "tn": 4,
+            "fp": 0,
+            "fn": 5,
+            "tp": 1
+          },
+          "training_time_avg_ms": 1.307,
+          "prediction_latency_per_sample_ms": 0.0916,
+          "inference_latency_per_sample_ms": 0.0916,
+          "meets_recall_target": false,
+          "meets_fpr_target": true,
+          "folds": [
+            {
+              "fold": 1,
+              "test_size": 4,
+              "test_groups": [
+                "1"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 2,
+              "test_size": 4,
+              "test_groups": [
+                "2"
+              ],
+              "test_attacks": 2,
+              "correct": 2
+            },
+            {
+              "fold": 3,
+              "test_size": 2,
+              "test_groups": [
+                "3"
+              ],
+              "test_attacks": 2,
+              "correct": 1
+            }
+          ]
+        }
+      }
+    }
   },
-  "summary_conclusion": "Random Forest Classifier achieved 100% Accuracy, 100% Recall, and 0.0% False Positive Rate on normalized Modbus TCP features (inter_arrival_ms, function_code, is_state_altering, threat_score). The model satisfies all Team 4 detection benchmarks and validates the effectiveness of Layer 3 machine learning classification."
+  "unsupervised_models": {
+    "model_type": "Unsupervised Isolation Forest",
+    "intended_purpose": "Batch outlier screening of the current capture (fit and score on the same batch; not evaluated as a detector of new observations)",
+    "contamination_setting": "auto",
+    "labels_used_for_fitting": false,
+    "outliers_flagged": 4,
+    "accuracy": 60.0,
+    "precision": 75.0,
+    "recall": 50.0,
+    "false_positive_rate": 25.0,
+    "f1_score": 60.0,
+    "confusion_matrix": {
+      "tn": 3,
+      "fp": 1,
+      "fn": 3,
+      "tp": 3
+    },
+    "fit_time_total_ms": 116.274,
+    "prediction_latency_per_sample_ms": 0.6961,
+    "inference_latency_per_sample_ms": 0.6961
+  },
+  "rule_baseline": {
+    "model_type": "Rule baseline: function code in {5, 6, 15, 16}",
+    "accuracy": 100.0,
+    "precision": 100.0,
+    "recall": 100.0,
+    "false_positive_rate": 0.0,
+    "confusion_matrix": {
+      "tn": 4,
+      "fp": 0,
+      "fn": 0,
+      "tp": 6
+    },
+    "note": "Applied to every labelled event; no training data needed."
+  }
 }

@@ -1,0 +1,5 @@
+# Test / CI tooling (pinned)
+-r ml.txt
+pytest==8.3.4
+PyYAML==6.0.2
+httpx==0.28.1

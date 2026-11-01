@@ -8,6 +8,7 @@ Author: Rachid Afaf (Security Architect / Lead Analyst)
 Description:
   Ingests normalized OT telemetry JSON frames, computes security metrics, 
   and generates a structured JSON report and Markdown Incident Timeline.
+  Paths resolve dynamically relative to the repository root for portability.
 ===============================================================================
 """
 
@@ -16,6 +17,15 @@ import sys
 import json
 import argparse
 from datetime import datetime, timezone
+
+try:
+    from src.database import save_incident_metrics_to_db, describe_target, DEFAULT_DB_PATH
+except ImportError:
+    from database import save_incident_metrics_to_db, describe_target, DEFAULT_DB_PATH
+
+# Dynamic repository path resolution
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DEFAULT_DATA_DIR = os.path.join(REPO_ROOT, "data")
 
 
 def generate_incident_metrics(records):
@@ -97,41 +107,39 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
         payload_raw = r.get('modbus', {}).get('payload_raw', '')
         exc = r.get('modbus', {}).get('exception_code', '')
         payload = f"`{payload_raw}` [{exc}]"
-        
-        md.append(f"| {evt_id} | {ts} | {src} | {dst} | {fn_str} | {cat} | {risk} | **{score}** | {payload} |")
 
-    md.append("\n---")
-    md.append("## Defensive Triage Recommendations & Security Controls")
-    md.append("1. **Enforce Purdue Model Microsegmentation (pfSense):** Restrict Modbus Port 502 ingress traffic targeting PLC `172.17.0.2` strictly to authorized HMI subnets. Drop non-whitelisted workstation traffic (`10.0.1.4`).")
-    md.append("2. **Deploy Stateful Deep Packet Inspection (Suricata/Zeek):** Enforce signature rules that block Modbus Function Codes `0x05` (Write Single Coil), `0x06` (Write Single Register), and `0x10` (Write Multiple Registers) originating outside authorized engineering workstations.")
-    md.append("3. **Automate SIEM/Triage Alerting:** Ingest standardized JSON event frames into downstream ML anomaly models (Rachid Afaf) to detect anomalous inter-arrival command bursts.")
+        md.append(f"| {evt_id} | {ts} | `{src}` | `{dst}` | {fn_str} | **{cat}** | {risk} | **{score}** | {payload} |")
+
+    md.append("\n---\n")
+    md.append("## Defensive Recommendations & Containment Actions")
+    md.append("1. **pfSense Inbound ACL Enforcement:** Restrict port 502 to authorized Engineering Workstations (`10.0.2.10`) only; block workstation `10.0.1.4` from executing cross-subnet write operations.")
+    md.append("2. **Suricata DPI Rule Tuning:** Enforce Modbus rule SID 1000004 to drop state-altering function codes (`FC05`, `FC06`, `FC15`, `FC16`) originating outside the Control Zone.")
+    md.append("3. **Machine Learning Anomaly Quarantine:** Ingest high-threat events into `ml_detector.py` to trigger automated microsegmentation isolation.")
 
     os.makedirs(os.path.dirname(os.path.abspath(output_md_path)), exist_ok=True)
     with open(output_md_path, 'w', encoding='utf-8') as f:
-        f.write("\n".join(md))
-        
+        f.write('\n'.join(md))
+
     print(f"[+] Successfully generated Incident Timeline Markdown report: {output_md_path}")
 
 
 def resolve_input_path(custom_path=None):
-    """Resolves normalized JSON input file path across environments."""
+    """Resolves normalized JSON input file path dynamically across environments."""
     if custom_path and os.path.exists(custom_path):
         return custom_path
 
     possible_paths = [
-        r"C:\Users\rachi\PycharmProjects\CYB691-IT691-CapstoneProjectFall2026\data\normalized_telemetry.json",
+        os.path.join(DEFAULT_DATA_DIR, "normalized_telemetry.json"),
         os.path.join("data", "normalized_telemetry.json"),
         os.path.join("..", "data", "normalized_telemetry.json"),
-        "normalized_telemetry.json",
-        "/workspace/scratch/normalized_telemetry.json",
-        "/workspace/artifacts/normalized_telemetry.json"
+        "normalized_telemetry.json"
     ]
 
     for p in possible_paths:
         if os.path.exists(p):
             return p
 
-    return possible_paths[0]
+    return os.path.join(DEFAULT_DATA_DIR, "normalized_telemetry.json")
 
 
 def main():
@@ -142,26 +150,8 @@ def main():
     args = parser.parse_args()
 
     json_input = resolve_input_path(args.input)
-
-    if args.output_json:
-        report_json_output = args.output_json
-    else:
-        if os.path.isabs(json_input) and "PycharmProjects" in json_input:
-            base_dir = r"C:\Users\rachi\PycharmProjects\CYB691-IT691-CapstoneProjectFall2026\data"
-            report_json_output = os.path.join(base_dir, "incident_report.json")
-        else:
-            input_dir = os.path.dirname(json_input)
-            report_json_output = os.path.join(input_dir, "incident_report.json") if input_dir else "incident_report.json"
-
-    if args.output_md:
-        timeline_md_output = args.output_md
-    else:
-        if os.path.isabs(json_input) and "PycharmProjects" in json_input:
-            base_dir = r"C:\Users\rachi\PycharmProjects\CYB691-IT691-CapstoneProjectFall2026\data"
-            timeline_md_output = os.path.join(base_dir, "incident_timeline.md")
-        else:
-            input_dir = os.path.dirname(json_input)
-            timeline_md_output = os.path.join(input_dir, "incident_timeline.md") if input_dir else "incident_timeline.md"
+    report_json_output = args.output_json or os.path.join(DEFAULT_DATA_DIR, "incident_report.json")
+    timeline_md_output = args.output_md or os.path.join(DEFAULT_DATA_DIR, "incident_timeline.md")
 
     if not os.path.exists(json_input):
         print(f"[-] Input file missing: {json_input}")
@@ -190,6 +180,13 @@ def main():
     with open(report_json_output, 'w', encoding='utf-8') as f:
         json.dump(incident_report, f, indent=2)
     print(f"[+] Written structured incident report JSON: {report_json_output}")
+
+    # Archive metrics to the database (SQLite file or PostgreSQL URL)
+    try:
+        rep_id = save_incident_metrics_to_db(metrics)
+        print(f"[+] Saved incident triage metrics to {describe_target()} (Report: {rep_id})")
+    except Exception as e:
+        print(f"[-] Warning: Could not save incident metrics to {describe_target()}: {e}")
 
     synthesize_markdown_timeline(metrics, records, timeline_md_output)
 

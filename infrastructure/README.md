@@ -1,131 +1,104 @@
 # OT Testbed Infrastructure, Emulation, and Data Generation
 
-This directory contains the deployment documentation, configuration scripts, and telemetry handoff artifacts for the virtualized Operational Technology (OT) testbed environment managed by Team 4 member Erick Espinosa (CYB691 Capstone).
+**CYB691 / IT691 Cybersecurity Capstone — Team 4**  
+**Module lead:** Erick Espinosa (Infrastructure, Emulation & Data Generation)  
+**Contributors:** Rachid Afaf (Security Architect), Anil Kumar (Documentation & Integration)
 
-## Repository Structure
+This directory holds the testbed scripts and the telemetry handoff. Section 1 states what the **captured evidence** shows about the environment that produced the handoff. Section 2 lists each component with its status and the evidence for it. Anything not backed by an artifact in this repository is marked **To confirm** and must be filled in by the module lead (README §8, items 3–4).
+
+---
+
+## 1. What the 2026-09-26 handoff shows (evidence-derived)
+
+Every statement below comes from `ot_telemetry_handoff_2026-09-26.tar.gz` (SHA-256 `0e8bf4f5…447de6`). It can be re-checked with `tar -tvzf` and the analysis in `data/parser_integrity_report.json`.
+
+| # | Observation | Evidence |
+| :--- | :--- | :--- |
+| E1 | The capture host is an **Azure VM**, not a local host. | Archive members owned by `azureuser`; traffic to Azure platform addresses `168.63.129.16` (WireServer, 2,302 HTTP events) and `169.254.169.254` (instance metadata); DNS for `vm-firewall-gateway.…internal.cloudapp.net` and `azure.archive.ubuntu.com`. |
+| E2 | The Modbus target is a **Docker container on the VM's default bridge**: `10.0.1.4 → 172.17.0.2:5020` on interface `docker0`. | All 87 Modbus records and alerts have this tuple. Suricata saw interfaces `eth0`, `lo` and `docker0`. |
+| E3 | **No firewall was in the Modbus path** for this capture. Traffic went host → Docker bridge, so the run is a monitored *flat* path. | E2; `iptables_drops.log` contains only `-- No entries --`. |
+| E4 | The Modbus target is the **Conpot honeypot** container (`honeynet/conpot:latest`, name `conpot`, host `0.0.0.0:502 → 5020/tcp`). Port 5020 is Conpot's default Modbus port. | `img/Docker_Emulators_Status.png` (`docker ps` on `vm-firewall-gateway`); `img/Port_Binding_Verification.png` (docker-proxy listening on 502); capture tuple in E2. |
+| E5 | **All 10 Modbus requests received an exception response** (Illegal Data Address, exception code 2). None of the 6 writes changed any register. A later generator run (2026-09-26 18:46 UTC) also got code 2 for every poll and write, which is consistent with Conpot's default template not mapping these addresses. | `exception_code` in `data/normalized_telemetry.json`; `img/pymodbus_execution_screenshot.png`. |
+| E6 | The `traffic_generator.py` **inside the handoff did not produce this capture**. The capture has FC 0x01 reads, writes of 1234 and 57005 (0xDEAD) to address 0, and a run with only FC5 + FC6. The archived script sends FC 0x03 polls, writes 999 to address 1 and `[100,200,300]` to address 2, and never sends FC 0x01. | Compare `extracted_handoff/traffic_generator.py` with the 10 transactions in `data/scenario_actions.json`. |
+| E7 | Suricata local rules SIDs 1000001–1000004 were loaded (generic Modbus traffic, function code monitored, write single register, write multiple registers). No write-specific rule fired for FC 0x05. | 67 alerts in `eve.json`. |
+| E8 | The capture also contains **non-testbed host traffic**: Docker Hub, Ubuntu mirrors, `whatismyip.akamai.com`, and inbound SSH from public IPs (for example `2.57.122.150`). | DNS/HTTP/TLS/SSH events in `eve.json`. See the privacy note in §5. |
+
+### Reconciliation with earlier descriptions
+* **Azure phase.** The project explored Azure first (VNet `vnet-ot-testbed-dk`, subnets `snet-enterprise`, `snet-hmi`, `snet-plc`, budget alerts at $5/$10/$20).
+  - E1 shows the handoff itself was captured on an Azure VM named `vm-firewall-gateway`.
+  - The earlier statement that "the operational testbed was migrated to a local host" therefore does **not** describe the environment that produced this evidence.
+  - **To confirm (Erick):** whether a local deployment exists. If it does, which captures came from it.
+* **OpenPLC was a placeholder.** The container named `openplc_runtime` is `nginx:alpine` (host `503 → 502`, `8080 → 80`; `img/Docker_Emulators_Status.png`). It does not speak Modbus. No artifact shows a working OpenPLC runtime. Every Modbus exchange in the evidence went to **Conpot** (E4).
+  - **To confirm (Erick):** whether a real OpenPLC runtime was ever deployed. If not, the reports must say "Conpot honeypot" wherever they currently say "OpenPLC".
+* **pfSense.** No artifact in the repository shows pfSense in the traffic path (no pfSense log, configuration export or screenshot of rules). Its status is **planned / not evidenced** until one is added.
+
+---
+
+## 2. Components: status, version and evidence
+
+Status key: **Evidenced** = an artifact in this repo proves it · **Claimed** = stated by the team, no artifact yet · **Planned** = not built.
+
+| Zone / level | Component | Version | Address / interface | Status | Evidence / how to record |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Enterprise / L3 | Workstation running `traffic_generator.py` (pymodbus) | **To confirm** (`python -V`, `pip show pymodbus`) | `10.0.1.4` on the Azure VM (`eth0`); same host as the sensor | Evidenced (source of all Modbus requests) | E1, E2. The generator version that ran is **To confirm** (E6). |
+| Field / L1 | Conpot ICS honeypot (the Modbus target) | `honeynet/conpot:latest`, an unpinned tag. **Record the digest:** `docker inspect --format '{{.RepoDigests}}' honeynet/conpot`. Template **to confirm** (`default`?). | container `172.17.0.2:5020` on `docker0`; host `0.0.0.0:502` | Evidenced | E2, E4, E5. The default register map returns Illegal Data Address for the generator's addresses, so writes never take effect. A template with mapped holding registers and coils is needed for R1 outcome evidence. |
+| Field / L1 | "openplc_runtime" container | `nginx:alpine` | host `503 → 502`, `8080 → 80` | **Placeholder** (not a PLC, no Modbus) | `img/Docker_Emulators_Status.png` |
+| Field / L1 | OpenPLC v3 runtime | — | — | Not evidenced / planned | No artifact |
+| Monitoring / L2 | Suricata | **To confirm** (`suricata -V`, `suricata --build-info`) | on the VM: `eth0`, `lo`, `docker0` | Evidenced | `eve.json` with `modbus` and `alert` events; local SIDs 1000001–1000004 (E7) |
+| Boundary / L2–3 | pfSense CE (stated v2.7.2) | **To confirm** (Dashboard → Version) | WAN/HMI/PLC interfaces **to confirm** | Planned / not evidenced | Add a configuration backup (secrets removed) and a rules screenshot |
+| Boundary / L2–3 | Host firewall (`iptables`) drop log | — | VM | Evidenced as **empty** | `iptables_drops.log` = `-- No entries --` |
+
+### Implemented vs planned connections
+* **Implemented (evidenced):**
+  - `10.0.1.4` → Conpot container `172.17.0.2:5020` over `docker0` (host port 502 published);
+  - Suricata monitoring of that bridge;
+  - handoff packaging of `eve.json`, `iptables_drops.log` and a generator script.
+* **Planned:**
+  - a layered topology with enterprise, HMI and PLC zones separated by pfSense ACLs (R1 in the main README);
+  - the same scripted cases run in both the flat and the layered topology (README §5).
 
 ```text
-CYB691-IT691-CapstoneProjectFall2026/
-├── README.md                      # Project overview & execution instructions
-├── infrastructure/                # OT Testbed & Cloud Infrastructure (Erick Espinosa)
-│   ├── README.md                  # Infrastructure documentation & topology
-│   ├── traffic_generator.py       # Python pymodbus baseline & attack script
-│   ├── docker-compose.yml         # Container definitions for Conpot & OpenPLC
-│   ├── pfSense_rules.xml          # Purdue Model Layer 3/4 firewall ACL rules
-│   └── img/                       # Architecture diagrams & execution screenshots
-│       ├── Azure_Cost_Management_Budget_Dashboard.png
-│       ├── Azure_Subnet_Topology.png
-│       ├── Docker_Emulators_Status.png
-│       ├── Port_Binding_Verification.png
-│       └── pymodbus_execution_screenshot.png
-└── logs/                          # Raw Sensor & Security Telemetry
-    └── sample_suricata_alert.json # Sample Suricata EVE JSON modbus alert output
+EVIDENCED (2026-09-23 capture)                 PLANNED (layered topology, Report 2)
+┌──────────── Azure VM "vm-firewall-gateway" ───┐   Enterprise 10.0.1.0/24 ─┐
+│ traffic_generator.py  (10.0.1.4, eth0)        │                            │ pfSense ACLs
+│        │ Modbus/TCP                           │   HMI 10.0.2.0/24 ─────────┤ (R1 evidence:
+│        ▼ docker0                              │                            │  drop log)
+│ Conpot 172.17.0.2:5020     ◄── Suricata sees  │   PLC 10.0.3.0/24 ─────────┘
+│ (honeynet/conpot:latest)       eth0/lo/docker0│   Suricata on the HMI/PLC segment
+└───────────────────────────────────────────────┘
 ```
 
-## 1. Cloud Architecture & Cost Governance
-Provisioned within Microsoft Azure under the Virtual Network name `vnet-ot-testbed-dk` in the Denmark East region, utilizing standard cloud resource governance and budgeting controls. Standard HDD storage was utilized to minimize resource costs. Automated budget alerts ($5, $10, and $20 thresholds) and strict virtual machine auto-shutdown policies were enforced to protect student cloud credits.
+---
 
-![Azure Cost Management Budget Dashboard](img/Azure_Cost_Management_Budget_Dashboard.png)
-*(Figure 1: Azure Cost Management dashboard displaying the active $20.00 monthly budget threshold and current spend tracking)*
+## 3. Traffic generator (`traffic_generator.py`)
 
-## 2. Purdue Model & Subnet Micro-Segmentation
-The environment is logically segregated to mirror Purdue Model Levels 1–3:
-* **Level 3 (Supervisory/HMI Zone) / `snet-enterprise` (`10.0.1.0/24`):** Management and monitoring boundary.
-* **Level 2 (Control Zone) / `snet-hmi` (`10.0.2.0/24`):** Supervisory HMI and firewall routing.
-* **Level 1 (Basic Control/PLC Cell) / `snet-plc` (`10.0.3.0/24`):** Isolated containerized industrial emulators communicating over Modbus TCP.
+The script in this directory polls with FC 0x03 and then sends unauthorized FC 0x05, 0x06 and 0x10 writes. It is **not** the version that produced the 2026-09-26 capture (E6).
 
-![Azure Subnet Topology](img/Azure_Subnet_Topology.png)
-*(Figure 2: Azure Virtual Network subnets configured to mirror Purdue Model Levels 1–3)*
+**For every future run:**
+1. Commit the exact script version used (record the git commit in the run notes).
+2. Log each action as it executes (timestamp, actor, command, authorized yes/no), so that `data/scenario_actions.json` is written at execution time instead of reconstructed.
 
-### Network Topology Diagram
-```text
-+-----------------------------------------------------------------------+
-|                         Microsoft Azure VNet                          |
-|                         (vnet-ot-testbed-dk)                          |
-+-----------------------------------------------------------------------+
-                                    |
-                                    v
-+-----------------------------------------------------------------------+
-|                       pfSense Virtual Firewall                        |
-|                (Layer 3/4 ACLs & Purdue Model Routing)                |
-+-----------------------------------------------------------------------+
-                                    |
-            +-----------------------+-----------------------+
-            |                       |                       |
-            v                       v                       v
-     +---------------+       +---------------+       +---------------+
-     |   Level 3:    |       |   Level 2:    |       |   Level 1:    |
-     |  Enterprise   |       | HMI / Control |       |  PLC / Cell   |
-     |   snet-ent    |       |   snet-hmi    |       |   snet-plc    |
-     | (10.0.1.0/24) |       | (10.0.2.0/24) |       | (10.0.3.0/24) |
-     +---------------+       +---------------+       +---------------+
-            |                       |                       |
-            |                   +-------+                   |
-            |                   |Suricata|                  |
-            |                   |  DPI  |                   |
-            |                   +-------+                   |
-            |                       | (eve.json)            |
-            v                       v                       v
-     +---------------+       +---------------+       +---------------+
-     |  Traffic Gen  |       | Operator Work |       |Docker Runtimes|
-     |  (pymodbus)   |------>| station / HMI |------>|Conpot/OpenPLC |
-     | FC: 0x03,0x05 |       |               |       | (Port 502/TCP)|
-     +---------------+       +---------------+       +---------------+
-```
+---
 
-## 3. Industrial Control System (ICS) Protocol Emulation
-Containerized instances were deployed via Docker to emulate field devices and control logic:
-* **Conpot Modbus TCP Emulator:** Stood up to simulate legacy ICS behavior and respond to polling.
-* **OpenPLC Runtime (`openplc_runtime`):** Deployed to mimic programmable logic controller execution and register states.
-* **Port Binding & Verification:** Actively listening on standard industrial **Modbus TCP Port 502**, confirming that proxy bindings are ready to handle incoming HMI polling requests and control commands.
+## 4. Telemetry handoff contents
 
-![Docker Container Status](img/Docker_Emulators_Status.png)
-*(Figure 3: Active Docker container status showing deployed OpenPLC runtime and Conpot emulators)*
+`ot_telemetry_handoff_2026-09-26.tar.gz` contains:
+* `var/log/suricata/eve.json`: 20,074 records captured 2026-09-23 02:51–03:18 UTC, including 67 alerts and 20 `modbus` records.
+  - The 20 records are **10 unique transactions, each logged twice** on consecutive, byte-identical lines.
+  - The 10 transactions are 4 reads (2 × FC 0x01, 2 × FC 0x03) and 6 writes (1 × FC 0x05, 3 × FC 0x06, 2 × FC 0x10).
+  - `src/log_parser.py` counts each transaction once and records the de-duplication in `data/parser_integrity_report.json`.
+* `iptables_drops.log`: `-- No entries --` (no firewall drops recorded).
+* `traffic_generator.py`: a generator script (see E6).
 
-![Port Binding Verification](img/Port_Binding_Verification.png)
-*(Figure 4: Netstat output confirming active listening service on Modbus TCP Port 502 via docker-proxy)*
+---
 
-## 4. Automated Data Generation & Attack Simulation
-Python automation scripts leveraging `pymodbus` (`traffic_generator.py`) were executed to simulate operational and malicious activities across the testbed:
-* **Legitimate Polling:** Routine read requests (Function Code `0x03` Read Holding Registers) representing normal HMI monitoring and data acquisition.
-* **Unauthorized Command Injection:** Malicious write commands targeting industrial coil and register states—specifically utilizing Modbus function codes **0x05** (Write Single Coil), **0x06** (Write Single Register), and **0x10** (Write Multiple Registers).
+## 5. Privacy, ethics and licensing of captured material
 
-![Python pymodbus Script Execution](img/pymodbus_execution_screenshot.png)
-*(Figure 5: Terminal output demonstrating automated `pymodbus` script execution for legitimate read polling and exception responses during unauthorized write injections. Note: The output displays Modbus Exception Code 2 (Illegal Data Address), which occurs because the lightweight containerized placeholder environment does not have explicit registers pre-mapped to addresses 0, 1, or 2. However, these responses confirm that the automation script successfully transmitted the payload frames across the network socket, enabling Suricata/Zeek and firewall sensors to capture and log the unauthorized write function codes for downstream pipeline ingestion.)*
+* **Privacy.** `eve.json` contains more than testbed traffic (E8):
+  - public IP addresses of inbound SSH clients, which may include personal addresses;
+  - the VM's internal Azure DNS name;
+  - update and registry hostnames.
 
-## 5. Deep Packet Inspection (DPI) & Telemetry Handoff
-* **Suricata NSM:** Deployed inline to monitor traffic, parsing MBAP headers and payload bytes. Custom rules generated alerts stored in `eve.json`.
-* **Telemetry Handoff Archive:** All raw Suricata logs, firewall drop logs, and normalized CSV datasets have been bundled into `ot_telemetry_handoff_2026-09-26.tar.gz` for ingestion into Rachid's normalization and incident-triage pipeline.
-
-```json
-{
-  "timestamp": "2026-09-26T18:46:26.607796+0000",
-  "flow_id": 84920194830192,
-  "in_iface": "eth0",
-  "event_type": "alert",
-  "src_ip": "10.0.1.50",
-  "src_port": 49152,
-  "dest_ip": "10.0.3.10",
-  "dest_port": 502,
-  "proto": "TCP",
-  "alert": {
-    "action": "allowed",
-    "gid": 1,
-    "signature_id": 2100502,
-    "rev": 3,
-    "signature": "OT Unauthorized Modbus Write Single Coil (FC 0x05) Detected",
-    "category": "Attempted Administrator Privilege Gain",
-    "severity": 1
-  },
-  "app_proto": "modbus",
-  "modbus": {
-    "transaction_id": 2,
-    "unit_id": 1,
-    "function_code": 5,
-    "func_string": "WRITE_SINGLE_COIL",
-    "address": 0,
-    "value": 1
-  }
-```
-
-*(Figure 6: Sample Suricata EVE JSON log output capturing an unauthorized Modbus Write Single Coil command (0x05), detailing transaction details, function codes, and alert classifications saved under logs/sample_suricata_alert.json)*
+  Before any public release, either redact or drop non-Modbus events, or confirm that publishing them is acceptable. Record the decision in `THIRD_PARTY_LICENSES.md` §3.
+* **Safety.** All Modbus traffic targeted a lab container. No production or third-party control system was contacted.
+* **Licensing.** Tool and data terms are in [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md).
