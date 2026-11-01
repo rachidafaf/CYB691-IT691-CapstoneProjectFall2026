@@ -388,6 +388,16 @@ def get_counter(name: str, db_path: Optional[str] = None) -> int:
 # Telemetry queue
 # ============================================================================
 
+def is_known_event(idempotency_key: str, db_path: Optional[str] = None) -> bool:
+    """True if an envelope with this content hash is already in the queue (any status)."""
+    conn = get_edge_connection(db_path)
+    try:
+        return conn.execute("SELECT 1 FROM telemetry_queue WHERE idempotency_key = ? LIMIT 1;",
+                            (idempotency_key,)).fetchone() is not None
+    finally:
+        conn.close()
+
+
 def enqueue_telemetry(envelope: Dict[str, Any], db_path: Optional[str] = None,
                       max_pending_rows: int = DEFAULT_MAX_PENDING_ROWS,
                       min_free_disk_bytes: int = DEFAULT_MIN_FREE_DISK_BYTES) -> Optional[str]:

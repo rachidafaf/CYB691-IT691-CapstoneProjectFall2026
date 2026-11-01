@@ -50,6 +50,7 @@ Reporting API (localhost only): <http://127.0.0.1:8080/docs> ·
  │ partitions (daily) · db-migrate (once) · ml-train / ml-detector (profile ml)│
  │ postgres 16 ◄── one login role per service, password from a Docker secret   │
  │ reporting-api (read-only role) ──► public_net ──► 127.0.0.1:8080 on the host │
+ │ postgres ──► db_host_net ──► 127.0.0.1:5433 on the host (PyCharm / psql)     │
  └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -74,7 +75,7 @@ Reporting API (localhost only): <http://127.0.0.1:8080/docs> ·
 | Edge cannot be reached, and cannot reach anything | `network_mode: none` on all edge services | `test_edge_containers_have_no_network`, smoke test |
 | One-way, create-only crossing | Only `edge-sync` and `telemetry-sync` mount `landing`; atomic hard-link writes never overwrite; manifest + SHA-256 verified before ingest | `test_landing_volume_is_the_only_edge_to_analytics_path`, `test_drop_zone_never_overwrites_different_content`, `test_hash_mismatch_is_quarantined_not_ingested` |
 | No path to PLCs / TCP 502 | No container publishes or targets 502; no Modbus client or raw socket code anywhere in `deploy/` | `test_published_ports_are_loopback_only_and_never_modbus`, `test_no_code_can_send_modbus_or_open_raw_sockets` |
-| Database not exposed | `analytics_net` is `internal: true`; postgres publishes no port | `test_analytics_network_is_internal_and_only_api_is_published` |
+| Database reachable from the host only | Services reach it as `postgres:5432` on the internal `analytics_net`. For host tools it is published on `127.0.0.1:5433` (loopback only), through `db_host_net`, which no other service joins. Logins need SCRAM passwords from Docker secrets. | `test_postgres_host_port_is_loopback_only_and_isolated`, smoke test |
 | API not exposed beyond the host | `127.0.0.1:8080` only; read-only DB role, `default_transaction_read_only` | smoke test |
 | Container hardening | non-root UID 10001, read-only rootfs, `cap_drop: ALL`, `no-new-privileges`, PID limit, log rotation | `test_app_containers_are_hardened` |
 | Secrets | Random passwords in git-ignored `deploy/docker/secrets/`, mounted as Docker secrets; each service sees only its own | `test_passwords_come_only_from_docker_secrets`, gitleaks in CI |
@@ -89,7 +90,8 @@ drop zone replaced by a data diode or an outbound-only file transfer.
 
 ## 4. Results on the captured handoff
 
-Same code run against PostgreSQL 16 with the service roles from the init script:
+Full Compose stack on Docker Desktop (Windows), 2026-11-01: `smoke-test.py` **21/21 checks passed**.
+The same figures were reproduced against PostgreSQL 16 outside Docker:
 
 | Stage | Result |
 |---|---|
@@ -112,6 +114,24 @@ That matches the README finding that the capture contains no firewall-drop evide
 
 ## 5. Operations
 
+### Browsing the database from PyCharm or psql
+The Docker PostgreSQL 16.6 is published on **127.0.0.1:5433**, so it doesn't clash with a local PostgreSQL on 5432 (on Windows, 5433 can fall inside a Hyper-V/WinNAT excluded port range, which gives bind error 10013. List the ranges with `netsh interface ipv4 show excludedportrange protocol=tcp`; if 5433 is listed, reserve it once in an Administrator PowerShell: `net stop winnat`, `netsh int ipv4 add excludedportrange protocol=tcp startport=5433 numberofports=1`, `net start winnat`). Containers are unaffected and keep using `postgres:5432` inside the stack. Settings live in `deploy/docker/.env` (copy of `.env.example`, git-ignored, no passwords).
+
+| PyCharm field | Value |
+| :--- | :--- |
+| Host / Port | `127.0.0.1` / `5433` |
+| Database | `cyb691` |
+| User (read-only) | `svc_readonly`. Password: contents of `deploy/docker/secrets/pg_readonly_password` |
+| User (full access) | `cyb691_admin`. Password: contents of `deploy/docker/secrets/pg_admin_password` |
+
+```powershell
+Get-Content deploy\docker\secrets\pg_readonly_password      # copy into PyCharm's password field
+psql -h 127.0.0.1 -p 5433 -U svc_readonly -d cyb691 -c "SELECT event_type, count(*) FROM telemetry_events GROUP BY event_type"
+```
+
+Tables are in schema `public` of database `cyb691`. Prefer `svc_readonly` for browsing: it cannot change the evidence tables.
+
+
 ```bash
 C="docker compose -f deploy/docker/docker-compose.yml"
 $C ps                                   # status and health
@@ -130,6 +150,7 @@ Configuration (environment or a git-ignored `deploy/docker/.env`):
 | `CYB691_HANDOFF_ARCHIVE` / `CYB691_HANDOFF_SHA256` | the 2026-09-26 handoff / its pinned hash | Replay a different capture |
 | `CYB691_TIMELINE_HOURS` | `8760` | Incident look-back window |
 | `CYB691_API_PORT` | `8080` | Host loopback port of the API |
+| `CYB691_PG_HOST_PORT` | `5433` | Host loopback port of the Docker PostgreSQL (5432 is left to a local PostgreSQL) |
 
 **Rotating passwords.** PostgreSQL reads the secrets only when `pg_data` is first created.
 To rotate in the lab: `down -Purge`, `init-secrets.py --rotate`, `up`.
