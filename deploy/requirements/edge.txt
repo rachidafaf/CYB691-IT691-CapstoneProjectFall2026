@@ -1,0 +1,2 @@
+# Edge gateway runtime: standard library only (sqlite3, gzip, hashlib, tarfile).
+# Kept as a file so the Containerfile and CI stay uniform; add pinned packages here if ever needed.

@@ -1403,7 +1403,7 @@
             },
             "attrs": {
               "text": {
-                "text": "Modbus Telemetry\nCSV / PCAP"
+                "text": "Modbus Telemetry\nEVE JSON / PCAP"
               },
               "topLine": {
                 "stroke": "red",
@@ -1504,7 +1504,7 @@
             "id": "store-raw-telemetry",
             "data": {
               "type": "tm.Store",
-              "name": "Modbus Telemetry CSV / PCAP",
+              "name": "Modbus Telemetry EVE JSON / PCAP",
               "description": "Raw OT traffic captures and datasets. Confidentiality, integrity, provenance, access control, and retention require validation.",
               "outOfScope": false,
               "reasonOutOfScope": "",
@@ -1803,7 +1803,7 @@
             "data": {
               "type": "tm.Process",
               "name": "Telemetry Parser",
-              "description": "src/log_parser.py. Ingests EVE JSON, iptables logs, Modbus CSV, and TAR.GZ archives. Sandboxing, schema validation, non-privileged execution, and provenance require validation.",
+              "description": "src/log_parser.py. Ingests EVE JSON, iptables/pfSense logs, and TAR.GZ archives. Sandboxing, schema validation, non-privileged execution, and provenance require validation.",
               "outOfScope": false,
               "reasonOutOfScope": "",
               "hasOpenThreats": true,
@@ -2389,7 +2389,7 @@
             "data": {
               "type": "tm.Store",
               "name": "Raw Dataset and Feature Vectors",
-              "description": "data/modbus_telemetry_dataset.csv and derived feature vectors. Training/evaluation separation, poisoning resistance, access control, and provenance require validation.",
+              "description": "data/normalized_telemetry.json and derived feature vectors. Training/evaluation separation, poisoning resistance, access control, and provenance require validation.",
               "outOfScope": false,
               "reasonOutOfScope": "",
               "hasOpenThreats": true,

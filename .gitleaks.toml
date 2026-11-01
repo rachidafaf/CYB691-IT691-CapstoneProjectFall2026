@@ -1,0 +1,12 @@
+# gitleaks configuration: default rules plus a narrow allow-list for the throwaway CI database password.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ephemeral PostgreSQL service-container password used only inside GitHub Actions"
+regexes = [
+  '''ci-only-throwaway''',
+]
+paths = [
+  '''deploy/docker/secrets/''',
+]

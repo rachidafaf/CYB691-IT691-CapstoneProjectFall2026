@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1.7
+# CYB691 analytics image: telemetry-sync, log-parser, timeline-generator, partitions, reporting-api, db-migrate
+# Build from the repo root (docker compose does this for you):
+#   docker build -f deploy/docker/Containerfile.analytics -t cyb691/analytics:local .
+ARG BASE_IMAGE=python:3.12.8-slim-bookworm
+FROM ${BASE_IMAGE} AS build
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+COPY deploy/requirements/analytics.txt /tmp/req.txt
+RUN python -m venv /opt/venv && /opt/venv/bin/pip install --no-compile -r /tmp/req.txt
+
+FROM ${BASE_IMAGE}
+ARG GIT_SHA=unknown
+LABEL org.opencontainers.image.title="cyb691-analytics" org.opencontainers.image.revision="${GIT_SHA}"
+# Mount points are created here, owned by the service UID, so fresh named volumes inherit the ownership.
+RUN groupadd --system --gid 10001 cyb691 && useradd --system --uid 10001 --gid 10001 --no-create-home cyb691 \
+ && mkdir -p /objects/landing && chown -R 10001:10001 /objects && chmod -R 0750 /objects
+COPY --from=build /opt/venv /opt/venv
+COPY --chown=root:root deploy/common /app/common
+COPY --chown=root:root deploy/edge/__init__.py /app/edge/__init__.py
+COPY --chown=root:root deploy/analytics /app/analytics
+ENV PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CYB691_GIT_SHA=${GIT_SHA} \
+    CYB691_OBJECT_ROOT=/objects
+WORKDIR /app
+USER 10001:10001
+# reporting-api listens on 8080; the port is published (127.0.0.1 only) by docker-compose.yml
+ENTRYPOINT ["python", "-m"]
+CMD ["analytics.telemetry_sync"]
