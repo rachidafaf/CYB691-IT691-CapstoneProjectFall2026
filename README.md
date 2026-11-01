@@ -213,14 +213,14 @@ Status as of **2026-11-01**. Dates for Weeks 9–10 are proposed; confirm them a
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | Parser fix (function codes, Modbus-only events, empty marker), de-duplication audit, unit tests | Rachid | Oct 25 | Anil | ✅ Done |
 | 2 | Scenario-record labels, request-time features, ablation, leave-one-run-out, timing separation, behavioural validator | Rachid | Nov 1 | Anil | ✅ Done; awaiting review |
-| 3 | Confirm or replace `data/scenario_actions.json` against the 2026-09-23 run log and generator version | Erick | **Nov 3** | Rachid | ⏳ Open |
-| 4 | Record deployed versions, interfaces and the real topology (infrastructure README §2 table "to confirm" fields) | Erick | **Nov 4** | Anil | ⏳ Open |
-| 5 | Generator logs each action at execution time (scenario record written automatically) | Erick + Rachid | **Nov 5** | Anil | ⏳ Open |
+| 3 | Confirm or replace `data/scenario_actions.json` against the 2026-09-23 run log and generator version | Erick | **TBD** | Rachid | ⏳ Open |
+| 4 | Record deployed versions, interfaces and the real topology (infrastructure README §2 table "to confirm" fields) | Erick | **TBD** | Anil | ⏳ Open |
+| 5 | Generator logs each action at execution time (scenario record written automatically) | Erick + Rachid | **TBD** | Anil | ⏳ Open |
 | 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | **Nov 6** (was Nov 1) | Rachid | ⏳ Open, slipped |
-| 7 | Matched runs: 30 × C1–C6 in baseline and layered topologies, with authorized-writer and unauthorized-reader variants | Erick + Rachid | **Nov 9** | Anil | ⏳ Open |
-| 8 | Re-run pipeline, validator and Docker smoke test on the new captures; update §5–§6 tables | Rachid | **Nov 11** | Erick | ⏳ Open |
-| 9 | Report 2 draft: synthesis (§2) reviewed against the full papers, citations checked | Anil | **Nov 13** | Rachid + Erick | ⏳ Open |
-| 10 | Report 2 final: threat-model status updates, AI-use log, final figures (readable threat-model figure) | Anil | **Nov 15** | Team | ⏳ Open |
+| 7 | Matched runs: 30 × C1–C6 in baseline and layered topologies, with authorized-writer and unauthorized-reader variants | Erick + Rachid | **TBD** | Anil | ⏳ Open |
+| 8 | Re-run pipeline, validator and Docker smoke test on the new captures; update §5–§6 tables | Rachid | **TBD** | Erick | ⏳ Open |
+| 9 | Report 2 draft: synthesis (§2) reviewed against the full papers, citations checked | Anil | **TBD** | Rachid + Erick | ⏳ Open |
+| 10 | Report 2 final: threat-model status updates, AI-use log, final figures (readable threat-model figure) | Anil | **TBD** | Team | ⏳ Open |
 
 ---
 
@@ -228,8 +228,8 @@ Status as of **2026-11-01**. Dates for Weeks 9–10 are proposed; confirm them a
 
 | Date / period | Used by | Reviewed by | Tool | Purpose | Prompt (summary) | Verification & changes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 2026-09-24 – 09-26 | Rachid Afaf | Anil Kumar | Claude 3.5 Sonnet / Gemini | Schema boilerplate for `log_parser.py` | "Generate a Python script parsing Suricata EVE JSON into ISO 8601 format" | Added Modbus function map; fixed path bugs; UTC timestamps |
-| 2026-10-01 – 10-02 | Rachid Afaf | Anil Kumar | Claude 3.5 Sonnet | AST helpers for `validate_stride_threats.py` | "Write Python code using ast module to inspect function definitions" | Integrated into the auditor (later replaced, see 11-01 row) |
+| 2026-09-24 – 09-26 | Rachid Afaf | Anil Kumar | Claude 3.5 Sonnet / Gemini | Schema boilerplate for `log_parser.py` | "Review a Python script parsing Suricata EVE JSON into ISO 8601 format" | Added Modbus function map; fixed path bugs; UTC timestamps |
+| 2026-10-01 – 10-02 | Rachid Afaf | Anil Kumar | Claude 3.5 Sonnet | AST helpers for `validate_stride_threats.py` | "Review the Python code using ast module to inspect function definitions" | Integrated into the auditor (later replaced, see 11-01 row) |
 | 2026-10-24 | Rachid Afaf, Anil Kumar | Erick Espinosa | Gemini | Timing refactor | "Refactor cross-validation loop to isolate model.predict timing from model.fit" | Checked with `time.perf_counter()`; unit tests |
 | 2026-10-31 – 11-01 | Rachid Afaf | *Pending: Anil Kumar* | Claude (Anthropic) | Duplicate-record fix (`log_parser.py`), stale-row fix (`database.py`), fold-count fix, Docker deployment (`deploy/`, `docs/DEPLOYMENT_DOCKER.md`) | "Fix the data issue and run …"; "make it deployable in Docker only" | Pipeline re-run by Rachid on Windows (10/10 tests, smoke test 21/21); code review pending |
 | 2026-11-01 | Rachid Afaf | *Pending: Anil Kumar (code), Erick Espinosa (scenario record, environment)* | Claude (Anthropic) | Report 1 feedback resolution: scenario-record labels, feature/ablation/CV redesign, behavioural validator, research synthesis draft and reference verification, environment reconciliation, licence terms | "See if all feedback is implemented and resolved … implement it all" | Tests re-run; sources checked against publisher/DOI pages; **team must read the cited papers and confirm the scenario record and environment facts before submission** |
