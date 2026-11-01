@@ -9,7 +9,9 @@
 #   EDGE       handoff-unpack, edge-collector, edge-sync    network_mode: none (no network at all)
 #   ANALYTICS  postgres, db-migrate, telemetry-sync, log-parser, timeline-generator, partitions,
 #              reporting-api, ml-*                          internal network analytics_net (no egress)
-#   HOST       reporting-api only, published on 127.0.0.1:8080 via public_net
+#   HOST       reporting-api on 127.0.0.1:8080 (public_net) and, for browsing the data from the
+#              host (PyCharm/psql), postgres on 127.0.0.1:${CYB691_PG_HOST_PORT:-5433} (db_host_net).
+#              Both bind to loopback only; containers still reach the database as postgres:5432.
 #
 # The ONLY path between the zones is the `landing` volume: edge-sync writes create-only
 # batches + manifests into it, telemetry-sync verifies and ingests them. Nothing in the
@@ -74,9 +76,17 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
-    networks: [analytics_net]
+    # analytics_net: how the services reach it (hostname "postgres", port 5432).
+    # db_host_net: only so Docker can publish the loopback port below; ports on a container
+    # that is attached only to an internal network are never published.
+    networks: [analytics_net, db_host_net]
+    ports:
+      # Host 127.0.0.1:5433 -> container 5432. 5432 is the local PostgreSQL 17. On Windows, reserve
+      # 5433 if Hyper-V/WinNAT has excluded it (bind error 10013); see docs/DEPLOYMENT_DOCKER.md.
+      # Loopback only: not reachable from other machines. Set CYB691_PG_HOST_PORT in .env to change.
+      - "127.0.0.1:${CYB691_PG_HOST_PORT:-5433}:5432"
     # The official entrypoint starts as root and drops to the postgres user, so it needs
-    # these capabilities; everything else is dropped. No ports are published.
+    # these capabilities; everything else is dropped.
     cap_drop: [ALL]
     cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
     security_opt: ["no-new-privileges:true"]
@@ -283,6 +293,7 @@ networks:
   analytics_net:
     internal: true          # no route to the host network or the internet
   public_net: {}            # only reporting-api joins it, to publish 127.0.0.1:8080
+  db_host_net: {}           # only postgres joins it, to publish 127.0.0.1:5433 for host tools
 
 volumes:
   pg_data: {}

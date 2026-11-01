@@ -132,3 +132,21 @@ def test_raw_snapshot_chunks_are_hashed_and_queued(edge_db, tmp_path):
     assert ec.snapshot_raw_range(str(f), "EVE_JSON", "edge-test-01", edge_db, str(tmp_path / "out")) is None
     ups = db.lease_ready_uploads(10, edge_db)
     assert len(ups) == 1 and len(ups[0]["sha256_hash"]) == 64
+
+
+def test_duplicate_raw_records_raise_one_local_alert(edge_db, tmp_path):
+    """The captured eve.json logs every Modbus record twice; the edge must alert once per event."""
+    import json as _json
+    line = _json.dumps({"timestamp": "2026-09-23T03:18:40.337284+0000", "event_type": "modbus", "flow_id": 7,
+                        "src_ip": "10.0.1.4", "src_port": 47766, "dest_ip": "172.17.0.2", "dest_port": 5020,
+                        "proto": "TCP", "modbus": {"request": {"transaction_id": 5, "unit_id": 1,
+                        "function_raw": 5, "function_code": "WrSingleCoil", "write": {"address": 0, "data": 65280}}}})
+    eve = tmp_path / "eve.json"
+    eve.write_text(line + "\n" + line + "\n")
+    fw = tmp_path / "fw.log"
+    fw.write_text("")
+    alerts = tmp_path / "alerts.jsonl"
+    c = ec.Collector("edge-test-01", db_path=edge_db, detector=ec.LocalDetector([], {1, 3, 5, 6, 16}),
+                     alerter=ec.LocalAlerter(str(alerts)), quarantine_path=str(tmp_path / "q.jsonl"))
+    c.poll_once(str(eve), str(fw))
+    assert len(read_jsonl(str(alerts))) == 1

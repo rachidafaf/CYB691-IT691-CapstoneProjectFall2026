@@ -264,6 +264,10 @@ class Collector:
         except ValidationError as exc:
             self._quarantine(source, line, str(exc))
             return False
+        if db.is_known_event(env["idempotency_key"], self.db_path):
+            # Same content already collected (e.g. Suricata wrote the record twice, or the file was
+            # re-read after rotation/replay): the queue would drop it anyway, so don't alert twice.
+            return False
         for a in self.detector.evaluate(env):
             alert_env = build_envelope(
                 edge_id=self.edge_id, event_type="LOCAL_ALERT", timestamp_utc=env["timestamp_utc"],

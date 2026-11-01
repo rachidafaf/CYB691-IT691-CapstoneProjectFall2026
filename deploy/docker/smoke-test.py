@@ -24,6 +24,19 @@ API = f"http://127.0.0.1:{os.environ.get('CYB691_API_PORT', '8080')}"
 results = []
 
 
+def pg_host_port():
+    """Shell variable first (as docker compose does), then deploy/docker/.env, then the compose default."""
+    if os.environ.get("CYB691_PG_HOST_PORT"):
+        return os.environ["CYB691_PG_HOST_PORT"].strip()
+    env_file = os.path.join(HERE, ".env")
+    if os.path.exists(env_file):
+        for line in open(env_file, encoding="utf-8"):
+            key, _, value = line.strip().partition("=")
+            if key == "CYB691_PG_HOST_PORT" and value:
+                return value.strip()
+    return "5433"
+
+
 def sh(args, check=False):
     p = subprocess.run(args, capture_output=True, text=True)
     if check and p.returncode:
@@ -104,6 +117,9 @@ def main():
     record("nothing publishes TCP/502", not any(re.search(r":502->", p) for p in published))
     record("published ports bind to 127.0.0.1 only", bool(published) and all(p.startswith("127.0.0.1:") for p in published),
            ", ".join(published) or "none")
+    want = f"127.0.0.1:{pg_host_port()}"
+    got = sh(COMPOSE + ["port", "postgres", "5432"])
+    record("postgres published for host tools on loopback only", got == want, got or "not published")
     write = subprocess.run(COMPOSE + ["exec", "-T", "postgres", "psql", "-U", "svc_readonly", "-d", "cyb691",
                                       "-c", "DELETE FROM incidents"], capture_output=True, text=True)
     record("read-only role cannot modify data", write.returncode != 0 and

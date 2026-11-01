@@ -48,6 +48,8 @@ def test_analytics_network_is_internal_and_only_api_is_published(compose):
         nets = set(svc.get("networks", []))
         if name == "reporting-api":
             assert nets == {"analytics_net", "public_net"}
+        elif name == "postgres":
+            assert nets == {"analytics_net", "db_host_net"}
         else:
             assert nets == {"analytics_net"}, f"{name} must not reach the host network"
             assert "ports" not in svc, name
@@ -97,7 +99,21 @@ def test_postgres_has_minimal_capabilities(compose):
     assert set(pg["cap_add"]) <= {"CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"}
     assert "no-new-privileges:true" in pg["security_opt"]
     assert re.match(r"^postgres:\d+\.\d+", pg["image"])
-    assert "ports" not in pg
+
+
+def test_postgres_host_port_is_loopback_only_and_isolated(compose):
+    """The database is published for host tools on 127.0.0.1 only (default 5433, to avoid a
+    local PostgreSQL on 5432), and db_host_net carries nothing but postgres."""
+    ports = [str(p) for p in compose["services"]["postgres"].get("ports", [])]
+    assert ports == ["127.0.0.1:${CYB691_PG_HOST_PORT:-5433}:5432"]
+    users = {n for n, s in compose["services"].items() if "db_host_net" in s.get("networks", [])}
+    assert users == {"postgres"}
+    assert compose["services"]["reporting-api"]["environment"]["PGHOST"] == "postgres"
+    assert compose["services"]["reporting-api"]["environment"]["PGPORT"] == "5432"
+
+
+def test_only_api_and_database_publish_ports(compose):
+    assert {n for n, s in compose["services"].items() if s.get("ports")} == {"reporting-api", "postgres"}
 
 
 def test_long_running_services_have_healthchecks(compose):
