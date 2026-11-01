@@ -216,7 +216,7 @@ Status as of **2026-11-01**. Dates for Weeks 9–10 are proposed; confirm them a
 | 3 | Confirm or replace `data/scenario_actions.json` against the 2026-09-23 run log and generator version | Erick | **TBD** | Rachid | ⏳ Open |
 | 4 | Record deployed versions, interfaces and the real topology (infrastructure README §2 table "to confirm" fields) | Erick | **TBD** | Anil | ⏳ Open |
 | 5 | Generator logs each action at execution time (scenario record written automatically) | Erick + Rachid | **TBD** | Anil | ⏳ Open |
-| 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | **Nov 6** (was Nov 1) | Rachid | ⏳ Open, slipped |
+| 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | **TBD** | Rachid | ⏳ Open, slipped |
 | 7 | Matched runs: 30 × C1–C6 in baseline and layered topologies, with authorized-writer and unauthorized-reader variants | Erick + Rachid | **TBD** | Anil | ⏳ Open |
 | 8 | Re-run pipeline, validator and Docker smoke test on the new captures; update §5–§6 tables | Rachid | **TBD** | Erick | ⏳ Open |
 | 9 | Report 2 draft: synthesis (§2) reviewed against the full papers, citations checked | Anil | **TBD** | Rachid + Erick | ⏳ Open |
