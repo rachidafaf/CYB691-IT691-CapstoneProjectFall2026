@@ -1,0 +1,7 @@
+﻿timestamp,scenario_id,network_mode,source_ip,function_code,authorized_yes_no
+2026-11-02T00:30:00Z,C1,normal,192.168.1.50,03,1
+2026-11-02T00:30:05Z,C2,normal,192.168.1.50,03,1
+2026-11-02T00:30:10Z,C3,attack,192.168.1.200,06,0
+2026-11-02T00:30:15Z,C4,attack,192.168.1.200,16,0
+2026-11-02T00:30:20Z,C5,normal,192.168.1.50,03,1
+2026-11-02T00:30:25Z,C6,attack,192.168.1.200,05,0
