@@ -1,0 +1,67 @@
+# CYB691 CI for the Docker deployment. Copy to .github/workflows/docker-ci.yml to enable.
+name: docker-ci
+on:
+  push: {branches: [main]}
+  pull_request:
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16.6-bookworm
+        env: {POSTGRES_DB: cyb691, POSTGRES_USER: ci_owner, POSTGRES_PASSWORD: ci-only-throwaway}
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U ci_owner" --health-interval 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r deploy/requirements/dev.txt -r requirements.txt
+      - name: Unit, integration and static security tests
+        env:
+          CYB691_PG_TEST: "1"
+          PGHOST: localhost
+          PGUSER: ci_owner
+          PGPASSWORD: ci-only-throwaway
+          PGDATABASE: cyb691
+          PGSSLMODE: disable
+        run: python -m pytest -q tests
+
+  secrets-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: gitleaks/gitleaks-action@v2
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+
+  images:
+    runs-on: ubuntu-24.04
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose file
+        run: |
+          mkdir -p deploy/docker/secrets && python deploy/docker/init-secrets.py
+          docker compose -f deploy/docker/docker-compose.yml --profile ml config --quiet
+      - name: Build images
+        run: docker compose -f deploy/docker/docker-compose.yml --profile ml build
+      - name: Scan images (fail on HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: image
+          image-ref: cyb691/analytics:local
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+      - uses: aquasecurity/trivy-action@0.28.0
+        with: {scan-type: image, image-ref: "cyb691/edge:local", severity: "CRITICAL,HIGH", ignore-unfixed: true, exit-code: "1"}
+      - name: End-to-end smoke test on the captured handoff
+        run: |
+          docker compose -f deploy/docker/docker-compose.yml up -d
+          python deploy/docker/smoke-test.py --timeout 600
+      - if: always()
+        run: docker compose -f deploy/docker/docker-compose.yml logs --no-color | tail -n 300

@@ -1,42 +1,26 @@
-# STRIDE Threat Model Automated Audit Report
+# STRIDE Inventory & Security Property Audit
 
-**Timestamp:** 2026-10-02T20:26:24.440069  
-**Threat Model Source:** `Team 4 Threat Model.json`  
-**OWASP Threat Dragon Standard:** `2.3.0`  
-**Audit Status:** `SUCCESS — 100% STRIDE FINDINGS VERIFIED`
+**Timestamp:** 2026-11-01T15:08:44.745003+00:00  
+**Threat model:** `Team 4 Threat Model.json`  
+**Conclusion:** PARTIAL - 2 property check(s) passed, 1 warning(s). Threat status is as recorded in the model ({'Open': 37}); this audit does not close threats.
 
----
+> INVENTORY rows confirm that artifacts exist and are well formed. PROPERTY rows record a security property that was actually exercised. Only PROPERTY rows are evidence of a control working, and none of them closes a threat-model entry by itself.
 
-## 📌 Executive Summary
-The automated STRIDE auditor parsed **37 open threats** across **32 components** and verified **2 trust boundaries**. All mitigations were evaluated against codebase modules, dataset records, and security policy manifests.
+## Threat model inventory
 
-### STRIDE Category Breakdown
-| STRIDE Category | Validated Threats | Status |
-| :--- | :---: | :---: |
-| **Spoofing** | 2 | PASS |
-| **Tampering** | 19 | PASS |
-| **Repudiation** | 2 | PASS |
-| **Information Disclosure** | 3 | PASS |
-| **Denial of Service** | 5 | PASS |
-| **Elevation of Privilege** | 6 | PASS |
+- 37 threats on 32 components, 5 trust boundaries
+- STRIDE: {'Spoofing': 2, 'Tampering': 19, 'Repudiation': 2, 'Denial of Service': 5, 'Elevation of Privilege': 6, 'Information Disclosure': 3}
+- Severity: {'High': 27, 'Medium': 5, 'Critical': 5}
+- Status recorded in the model: {'Open': 37}
 
-### Severity Distribution
-* **Critical Severity:** 5 threats
-* **High Severity:** 27 threats
-* **Medium Severity:** 5 threats
-* **Low Severity:** 0 threats
+## Checks
 
----
-
-## 🛡️ Trust Boundaries Verified
-1. **OT Network Boundary (`curve-ot-boundary`):** Segregates Level 1–3 Purdue Model testbed components from management/developer subnets.
-2. **Analysis Evidence Boundary (`curve-analysis-boundary`):** Enforces cryptographic and execution isolation around telemetry archives (`.tar.gz`), log parsing routines (`log_parser.py`), incident triage (`timeline_generator.py`), and machine learning classifiers (`ml_detector.py`).
-
----
-
-## 🔍 Codebase & Asset Verification Checks
-* **Modbus Dataset Grounding:** `WARN` — File not found
-* **Normalized JSON Schema:** `PASS` — 20075 events verified
-* **Parser Path Traversal Defense:** `PASS` — Path sanitization & ISO 8601 normalization verified
-* **ML Detection Benchmarks:** `PASS` — Models evaluated & verified
-* **Security Policy & Package Pinning:** `PASS` — Policy & manifests verified
+| Kind | Check | Result | Details |
+| :--- | :--- | :---: | :--- |
+| INVENTORY | Threat model structure | INVENTORY | 37 threats on 32 components, 5 trust boundaries; status as recorded in the model: {'Open': 37} |
+| INVENTORY | Trust boundary 'OT Network Boundary' | INVENTORY | present in model |
+| INVENTORY | Trust boundary 'Analysis Evidence Boundary' | INVENTORY | present in model |
+| INVENTORY | Policy & licence files | INVENTORY | present: SECURITY.md, requirements.txt, THIRD_PARTY_LICENSES.md, LICENSE (existence only - not a security test) |
+| PROPERTY | P1 Parser controls | PASS | exercised: Tar-Slip and link members refused, '-- No entries --' -> 0 drops, real drop -> 1, non-Modbus EVE ignored, function_raw 6 preserved |
+| PROPERTY | P2 Normalized vs raw | PASS | 10 normalized Modbus events == 10 unique raw transactions; function codes {1: 2, 3: 2, 5: 1, 6: 3, 16: 2} match; 0 firewall drops == raw drop lines |
+| PROPERTY | P3 ML evaluation | WARN | method checks passed; scenario record not yet confirmed by the team (RECONSTRUCTED - PENDING TEAM CONFIRMATION); without function_code, Random Forest recall falls to 0.0%: detection rests on the function code (rule baseline gives the same result); only 10 labelled events: metrics are not statistically stable |

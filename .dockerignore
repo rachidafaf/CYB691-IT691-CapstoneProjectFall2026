@@ -1,0 +1,16 @@
+.git
+.idea
+.venv
+venv
+**/__pycache__
+**/*.pyc
+data/
+infrastructure/
+img
+docs
+tests
+*.docx
+deploy/docker/secrets/
+deploy/docker/.env
+# The captured handoff is NOT baked into any image: docker-compose.yml bind-mounts it
+# read-only into the handoff-unpack container, which verifies its pinned SHA-256.

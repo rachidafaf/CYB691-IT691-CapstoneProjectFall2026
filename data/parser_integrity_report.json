@@ -1,0 +1,76 @@
+{
+  "generated_at_utc": "2026-11-01T16:08:18.635537+00:00",
+  "handoff_target": "infrastructure\\ot_telemetry_handoff_2026-09-26.tar.gz",
+  "handoff_sha256": "0e8bf4f580d7269a46c6740ce9abb3f6d29494f272f6d527933812dd34447de6",
+  "eve_json": {
+    "path": "infrastructure\\extracted_handoff\\var\\log\\suricata\\eve.json",
+    "sha256": "d8fda885f5a336b7ee427d136a8cdf70969f2fcf8ef7b0400697ac428773750c",
+    "eve_records_total": 20074,
+    "modbus_records_seen": 20,
+    "exact_duplicates_removed": 10,
+    "duplicates": [
+      {
+        "timestamp": "2026-09-23T02:51:42.772834+0000",
+        "flow_id": 1906024709332245,
+        "transaction_id": 1,
+        "sha256": "3c255650fa8fddf0195912bdb1b93148da83e507b6408620ab332bb25f04ea0a"
+      },
+      {
+        "timestamp": "2026-09-23T02:51:42.974256+0000",
+        "flow_id": 1927543193965146,
+        "transaction_id": 2,
+        "sha256": "c88e50be8f616dd18a9d4c0412c3511c1a8f2a6d2662b79b76e07cba83a94a7f"
+      },
+      {
+        "timestamp": "2026-09-23T02:51:43.175714+0000",
+        "flow_id": 2157772539818290,
+        "transaction_id": 3,
+        "sha256": "5bddca991efc149853bcc7e0b847fbd377b8a374395b1497f544bc9c23a6f26d"
+      },
+      {
+        "timestamp": "2026-09-23T02:51:43.377147+0000",
+        "flow_id": 2177942428041386,
+        "transaction_id": 4,
+        "sha256": "f0a764f606d9ba6dff68411937dc315b9cc0bff762a50b9e5be55738e84b74db"
+      },
+      {
+        "timestamp": "2026-09-23T02:52:55.414908+0000",
+        "flow_id": 2059209624964774,
+        "transaction_id": 1,
+        "sha256": "3c903f96b5a964c31502e0cfb98d207fb21cc2bf9e938f98fe78b84b2ad43cf8"
+      },
+      {
+        "timestamp": "2026-09-23T02:52:55.616642+0000",
+        "flow_id": 2079712050908453,
+        "transaction_id": 2,
+        "sha256": "9f712b6fbe4f432da9a17f3e205c995b74b56fafc91469f7815d561e4020d600"
+      },
+      {
+        "timestamp": "2026-09-23T02:52:55.818597+0000",
+        "flow_id": 2101457439722612,
+        "transaction_id": 3,
+        "sha256": "b778f8a8a23fd215d19ebdd899a44904d9e586b3fc544db5d0ca74c42f1868b4"
+      },
+      {
+        "timestamp": "2026-09-23T02:52:56.019737+0000",
+        "flow_id": 80870995121951,
+        "transaction_id": 4,
+        "sha256": "8298665791fe7d77383032693e8fd84bf6e459303b0fb4d6ea56314838524a31"
+      },
+      {
+        "timestamp": "2026-09-23T03:18:40.337284+0000",
+        "flow_id": 36056229163122,
+        "transaction_id": 5,
+        "sha256": "8f2206516e4468513fba040145a405c37d288c8f9f19843ca774d09be1c66d25"
+      },
+      {
+        "timestamp": "2026-09-23T03:18:40.538822+0000",
+        "flow_id": 57111642167516,
+        "transaction_id": 6,
+        "sha256": "5cb46feac861a38104bd7addcbbfd2b123709ee6be19afc74eb6cd64d6081db6"
+      }
+    ],
+    "unique_modbus_events": 10
+  },
+  "normalized_events_written": 10
+}

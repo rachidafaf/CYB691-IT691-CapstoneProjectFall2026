@@ -1,0 +1,310 @@
+# =============================================================================
+# CYB691 Capstone - Team 4: OT telemetry defense stack, Docker Compose deployment
+# =============================================================================
+#   python deploy/docker/init-secrets.py          # once: generates deploy/docker/secrets/*
+#   docker compose -f deploy/docker/docker-compose.yml up -d --build
+#   (or deploy/docker/up.ps1 / up.sh, which do both and run the smoke test)
+#
+# Trust zones
+#   EDGE       handoff-unpack, edge-collector, edge-sync    network_mode: none (no network at all)
+#   ANALYTICS  postgres, db-migrate, telemetry-sync, log-parser, timeline-generator, partitions,
+#              reporting-api, ml-*                          internal network analytics_net (no egress)
+#   HOST       reporting-api on 127.0.0.1:8080 (public_net) and, for browsing the data from the
+#              host (PyCharm/psql), postgres on 127.0.0.1:${CYB691_PG_HOST_PORT:-5433} (db_host_net).
+#              Both bind to loopback only; containers still reach the database as postgres:5432.
+#
+# The ONLY path between the zones is the `landing` volume: edge-sync writes create-only
+# batches + manifests into it, telemetry-sync verifies and ingests them. Nothing in the
+# analytics zone can reach the edge, and no container can reach Modbus/TCP 502 or a PLC.
+# =============================================================================
+name: cyb691
+
+x-hardened: &hardened
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: ["/tmp:size=64m,mode=1777"]
+  user: "10001:10001"
+  pids_limit: 256
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options: {max-size: "10m", max-file: "5"}
+
+x-edge-image: &edge-image
+  image: cyb691/edge:${CYB691_IMAGE_TAG:-local}
+  build:
+    context: ../..
+    dockerfile: deploy/docker/Containerfile.edge
+    args: {GIT_SHA: "${CYB691_GIT_SHA:-unknown}"}
+
+x-analytics-image: &analytics-image
+  image: cyb691/analytics:${CYB691_IMAGE_TAG:-local}
+  build:
+    context: ../..
+    dockerfile: deploy/docker/Containerfile.analytics
+    args: {GIT_SHA: "${CYB691_GIT_SHA:-unknown}"}
+
+x-pg-env: &pg-env
+  PGHOST: postgres
+  PGPORT: "5432"
+  PGDATABASE: cyb691
+  PGSSLMODE: prefer
+  CYB691_ENVIRONMENT: ${CYB691_ENVIRONMENT:-dev}
+  CYB691_IMAGE_REF: cyb691/analytics:${CYB691_IMAGE_TAG:-local}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+x-worker-health: &worker-health
+  test: ["CMD", "python", "-m", "common.health", "--max-age", "900"]
+  interval: 60s
+  timeout: 10s
+  start_period: 120s
+  retries: 3
+
+services:
+  # ---------------------------------------------------------------- ANALYTICS
+  postgres:
+    image: postgres:16.6-bookworm
+    environment:
+      POSTGRES_DB: cyb691
+      POSTGRES_USER: cyb691_admin
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_admin_password
+      # Network logins use SCRAM; the in-container Unix socket (docker exec only) stays trust.
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    secrets: [pg_admin_password, pg_migrate_password, pg_ingestion_password,
+              pg_analytics_password, pg_readonly_password]
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    # analytics_net: how the services reach it (hostname "postgres", port 5432).
+    # db_host_net: only so Docker can publish the loopback port below; ports on a container
+    # that is attached only to an internal network are never published.
+    networks: [analytics_net, db_host_net]
+    ports:
+      # Host 127.0.0.1:5433 -> container 5432. 5432 is the local PostgreSQL 17. On Windows, reserve
+      # 5433 if Hyper-V/WinNAT has excluded it (bind error 10013); see docs/DEPLOYMENT_DOCKER.md.
+      # Loopback only: not reachable from other machines. Set CYB691_PG_HOST_PORT in .env to change.
+      - "127.0.0.1:${CYB691_PG_HOST_PORT:-5433}:5432"
+    # The official entrypoint starts as root and drops to the postgres user, so it needs
+    # these capabilities; everything else is dropped.
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    security_opt: ["no-new-privileges:true"]
+    shm_size: 256m
+    pids_limit: 512
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyb691_admin -d cyb691 -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  db-migrate:
+    <<: [*hardened, *analytics-image]
+    restart: "no"
+    command: ["analytics.migrate"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_migrate
+      PGPASSWORD_FILE: /run/secrets/pg_migrate_password
+      CYB691_WORKLOAD: db-migrate
+    secrets: [pg_migrate_password]
+    networks: [analytics_net]
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  telemetry-sync:
+    <<: [*hardened, *analytics-image]
+    command: ["analytics.telemetry_sync"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_ingestion
+      PGPASSWORD_FILE: /run/secrets/pg_ingestion_password
+      CYB691_WORKLOAD: telemetry-sync
+      CYB691_POLL_SECONDS: "15"
+    secrets: [pg_ingestion_password]
+    volumes:
+      - objects:/objects
+      - landing:/objects/landing
+    networks: [analytics_net]
+    healthcheck: *worker-health
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  log-parser:
+    <<: [*hardened, *analytics-image]
+    command: ["analytics.jobs", "log-parser", "--every", "300"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_ingestion
+      PGPASSWORD_FILE: /run/secrets/pg_ingestion_password
+      CYB691_WORKLOAD: log-parser
+    secrets: [pg_ingestion_password]
+    volumes: [objects:/objects]
+    networks: [analytics_net]
+    healthcheck: *worker-health
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  timeline-generator:
+    <<: [*hardened, *analytics-image]
+    # The handoff capture is from 2026-09-26, so the default window looks back one year.
+    command: ["analytics.jobs", "timeline", "--hours", "${CYB691_TIMELINE_HOURS:-8760}", "--every", "300"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_analytics
+      PGPASSWORD_FILE: /run/secrets/pg_analytics_password
+      CYB691_WORKLOAD: timeline-generator
+    secrets: [pg_analytics_password]
+    volumes: [objects:/objects]
+    networks: [analytics_net]
+    healthcheck: *worker-health
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  partitions:
+    <<: [*hardened, *analytics-image]
+    command: ["analytics.jobs", "partitions", "--every", "86400"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_ingestion
+      PGPASSWORD_FILE: /run/secrets/pg_ingestion_password
+      CYB691_WORKLOAD: partitions
+    secrets: [pg_ingestion_password]
+    networks: [analytics_net]
+    healthcheck:
+      <<: *worker-health
+      test: ["CMD", "python", "-m", "common.health", "--max-age", "90000"]
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  reporting-api:
+    <<: [*hardened, *analytics-image]
+    command: ["uvicorn", "analytics.reporting_api:app", "--host", "0.0.0.0", "--port", "8080",
+              "--no-server-header", "--proxy-headers", "--forwarded-allow-ips", "127.0.0.1"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_readonly
+      PGPASSWORD_FILE: /run/secrets/pg_readonly_password
+      CYB691_WORKLOAD: reporting-api
+    secrets: [pg_readonly_password]
+    networks: [analytics_net, public_net]
+    ports:
+      - "127.0.0.1:${CYB691_API_PORT:-8080}:8080"     # loopback of the Docker host only
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/readyz', timeout=5).status == 200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  # ML (opt-in):  docker compose --profile ml run --rm ml-train   then  --profile ml up -d ml-detector
+  ml-train:
+    <<: *hardened
+    image: cyb691/ml:${CYB691_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Containerfile.ml
+      args: {GIT_SHA: "${CYB691_GIT_SHA:-unknown}"}
+    profiles: [ml]
+    restart: "no"
+    command: ["ml-train"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_analytics
+      PGPASSWORD_FILE: /run/secrets/pg_analytics_password
+      CYB691_WORKLOAD: ml-train
+      CYB691_MODEL_VERSION: ${CYB691_MODEL_VERSION:-}
+      CYB691_TRAINING_OBJECT: ${CYB691_TRAINING_OBJECT:-}
+      CYB691_TRAINING_SHA256: ${CYB691_TRAINING_SHA256:-}
+    secrets: [pg_analytics_password]
+    volumes: [objects:/objects]
+    networks: [analytics_net]
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  ml-detector:
+    <<: *hardened
+    image: cyb691/ml:${CYB691_IMAGE_TAG:-local}
+    profiles: [ml]
+    command: ["ml-score", "--minutes", "60", "--every", "600"]
+    environment:
+      <<: *pg-env
+      PGUSER: svc_analytics
+      PGPASSWORD_FILE: /run/secrets/pg_analytics_password
+      CYB691_WORKLOAD: ml-detector
+      CYB691_MODEL_VERSION: ${CYB691_MODEL_VERSION:-}
+      CYB691_ALERT_THRESHOLD: ${CYB691_ALERT_THRESHOLD:-0.9}
+    secrets: [pg_analytics_password]
+    volumes: [objects:/objects]
+    networks: [analytics_net]
+    healthcheck: *worker-health
+    depends_on:
+      db-migrate: {condition: service_completed_successfully}
+
+  # --------------------------------------------------------------------- EDGE
+  handoff-unpack:
+    <<: [*hardened, *edge-image]
+    restart: "no"
+    network_mode: none
+    # Verifies the pinned SHA-256 of the team's captured handoff before extracting anything.
+    command: ["edge.replay_handoff", "--archive", "/handoff/archive.tar.gz",
+              "--sha256", "${CYB691_HANDOFF_SHA256:-0e8bf4f580d7269a46c6740ce9abb3f6d29494f272f6d527933812dd34447de6}",
+              "--out", "/replay"]
+    volumes:
+      - ${CYB691_HANDOFF_ARCHIVE:-../../infrastructure/ot_telemetry_handoff_2026-09-26.tar.gz}:/handoff/archive.tar.gz:ro
+      - replay:/replay
+
+  edge-collector:
+    <<: [*hardened, *edge-image]
+    network_mode: none
+    command: ["edge.edge_collector"]
+    environment:
+      CYB691_EDGE_ID: ${CYB691_EDGE_ID:-edge-lab-01}
+      CYB691_EVE_PATH: /replay/eve.json
+      CYB691_FIREWALL_LOG_PATH: /replay/iptables_drops.log
+      CYB691_ALLOWED_WRITER_CIDRS: ${CYB691_ALLOWED_WRITER_CIDRS:-}
+      CYB691_SNAPSHOT_INTERVAL: "60"
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - edge_data:/data
+      - replay:/replay:ro
+    depends_on:
+      handoff-unpack: {condition: service_completed_successfully}
+
+  edge-sync:
+    <<: [*hardened, *edge-image]
+    network_mode: none
+    command: ["edge.sync_service"]
+    environment:
+      CYB691_EDGE_ID: ${CYB691_EDGE_ID:-edge-lab-01}
+      CYB691_LANDING_DIR: /landing
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - edge_data:/data
+      - landing:/landing
+    depends_on:
+      edge-collector: {condition: service_started}
+
+networks:
+  analytics_net:
+    internal: true          # no route to the host network or the internet
+  public_net: {}            # only reporting-api joins it, to publish 127.0.0.1:8080
+  db_host_net: {}           # only postgres joins it, to publish 127.0.0.1:5433 for host tools
+
+volumes:
+  pg_data: {}
+  objects: {}
+  landing: {}
+  edge_data: {}
+  replay: {}
+
+secrets:
+  pg_admin_password:     {file: ./secrets/pg_admin_password}
+  pg_migrate_password:   {file: ./secrets/pg_migrate_password}
+  pg_ingestion_password: {file: ./secrets/pg_ingestion_password}
+  pg_analytics_password: {file: ./secrets/pg_analytics_password}
+  pg_readonly_password:  {file: ./secrets/pg_readonly_password}

@@ -1,0 +1,4 @@
+# Analytics services: telemetry-sync, log-parser, timeline-generator, partitions, reporting-api, db-migrate (pinned)
+psycopg2-binary==2.9.10
+fastapi==0.115.6
+uvicorn==0.32.1
