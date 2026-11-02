@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-11-01T22:15:42.108Z",
+  "flow_id": 84931024,
+  "event_type": "alert",
+  "src_ip": "10.0.2.10",
+  "src_port": 54321,
+  "dest_ip": "10.0.3.10",
+  "dest_port": 502,
+  "proto": "TCP",
+  "alert": {
+    "action": "allowed",
+    "gid": 1,
+    "signature_id": 2026003,
+    "rev": 1,
+    "signature": "ET MODBUS Unauthorized Write Function Code 16 Detected",
+    "category": "Attempted Administrator Privilege Gain",
+    "severity": 2
+  },
+  "modbus": {
+    "funct_code": 16,
+    "trans_id": 1
+  }
+}
