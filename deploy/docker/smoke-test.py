@@ -24,17 +24,35 @@ API = f"http://127.0.0.1:{os.environ.get('CYB691_API_PORT', '8080')}"
 results = []
 
 
-def pg_host_port():
-    """Shell variable first (as docker compose does), then deploy/docker/.env, then the compose default."""
-    if os.environ.get("CYB691_PG_HOST_PORT"):
-        return os.environ["CYB691_PG_HOST_PORT"].strip()
+def setting(name, default=None):
+    """Shell variable first (as docker compose does), then deploy/docker/.env, then the default."""
+    if os.environ.get(name):
+        return os.environ[name].strip()
     env_file = os.path.join(HERE, ".env")
     if os.path.exists(env_file):
-        for line in open(env_file, encoding="utf-8"):
+        for line in open(env_file, encoding="utf-8-sig"):
             key, _, value = line.strip().partition("=")
-            if key == "CYB691_PG_HOST_PORT" and value:
+            if key == name and value:
                 return value.strip()
-    return "5433"
+    return default
+
+
+def pg_host_port():
+    return setting("CYB691_PG_HOST_PORT", "5433")
+
+
+def expected_modbus():
+    """Optional exact count of unique Modbus transactions (CYB691_EXPECT_MODBUS); otherwise > 0."""
+    return setting("CYB691_EXPECT_MODBUS")
+
+
+def handoff_files():
+    logs = setting("CYB691_HANDOFF_DIR") or "../../infrastructure/logs"
+    logs = logs if os.path.isabs(logs) else os.path.normpath(os.path.join(HERE, logs))
+    files = sorted(f for f in os.listdir(logs) if re.match(r"ot_telemetry_handoff_.*\.tar\.gz$", f)) if os.path.isdir(logs) else []
+    done = [f for f in files if os.path.exists(os.path.join(logs, f + ".sha256"))
+            and "processed_at_utc" in open(os.path.join(logs, f + ".sha256"), errors="replace").read()]
+    return logs, files, done
 
 
 def sh(args, check=False):
@@ -68,11 +86,13 @@ def main():
     for line in sh(COMPOSE + ["ps", "-a", "--format", "json"]).splitlines():
         for row in (json.loads(line) if line.startswith("[") else [json.loads(line)]):
             ps[row["Service"]] = row
-    for svc in ("db-migrate", "handoff-unpack"):
-        row = ps.get(svc, {})
-        record(f"{svc} completed", row.get("State") == "exited" and row.get("ExitCode") == 0,
-               f"{row.get('State')} exit={row.get('ExitCode')}")
-    for svc in ("postgres", "edge-collector", "edge-sync", "telemetry-sync", "log-parser",
+    row = ps.get("db-migrate", {})
+    record("db-migrate completed", row.get("State") == "exited" and row.get("ExitCode") == 0,
+           f"{row.get('State')} exit={row.get('ExitCode')}")
+    logs, files, _ = handoff_files()
+    if not files:
+        print(f"NOTE: no ot_telemetry_handoff_*.tar.gz in {logs}; drop one there for the watcher to ingest.")
+    for svc in ("postgres", "handoff-watcher", "pipeline-runner", "edge-collector", "edge-sync", "telemetry-sync", "log-parser",
                 "timeline-generator", "partitions", "reporting-api"):
         record(f"{svc} running", ps.get(svc, {}).get("State") == "running", ps.get(svc, {}).get("Status", "missing"))
 
@@ -89,11 +109,39 @@ def main():
             last_note = time.time()
         time.sleep(10)
     record("telemetry ingested into PostgreSQL", events > 0, f"{events} events")
+    logs, files, done = handoff_files()
+    record("handoff files ingested and receipted", bool(files) and len(done) == len(files),
+           f"{len(done)}/{len(files)} with a processing receipt")
+
+    # pipeline-runner re-runs src/ (parser, timeline, ML, validator) for each receipted handoff
+    runs_dir = os.path.normpath(os.path.join(HERE, "..", "..", "data", "runs"))
+    want = [re.sub(r"\.tar\.gz$", "", f) for f in done]
+    t_end = time.time() + 300
+    while time.time() < t_end and not all(os.path.exists(os.path.join(runs_dir, n, "run.json")) for n in want):
+        time.sleep(10)
+    runs = {}
+    for n in want:
+        p = os.path.join(runs_dir, n, "run.json")
+        if os.path.exists(p):
+            runs[n] = json.load(open(p, encoding="utf-8"))
+    for n, r in runs.items():
+        print(f"       {n}: {r.get('status')}  " + ", ".join(f"{s['step']}={s['exit_code']}" for s in r.get("steps", [])))
+    ok = bool(want) and len(runs) == len(want) and all(
+        {s["step"]: s["exit_code"] for s in r.get("steps", [])}.get(k) == 0
+        for r in runs.values() for k in ("log_parser", "timeline_generator"))
+    record("analysis layers refreshed for every handoff (data/runs/<name>/run.json)", ok,
+           f"{len(runs)}/{len(want)} runs; ML and validator results are reported above, not required to pass")
     # incidents appear on the timeline-generator's next 5-minute cycle after ingestion
     by_type = psql("SELECT event_type || '=' || count(*) FROM telemetry_events GROUP BY event_type ORDER BY event_type")
     print("       by type:", by_type.replace("\n", ", "))
     modbus = psql("SELECT count(*) FROM telemetry_events WHERE event_type='MODBUS_DPI'")
-    record("unique Modbus transactions ingested", modbus == "10", f"{modbus} (expected 10 after de-duplication)")
+    want_mb = expected_modbus()
+    if want_mb:
+        record("unique Modbus transactions ingested", modbus == want_mb,
+               f"{modbus} (expected {want_mb} after de-duplication)")
+    else:
+        record("Modbus transactions ingested", modbus.isdigit() and int(modbus) > 0,
+               f"{modbus} (set CYB691_EXPECT_MODBUS to check an exact count)")
     record("evidence manifests VERIFIED, none mismatched",
            psql("SELECT count(*) FROM evidence_manifests WHERE verification_status='HASH_MISMATCH'") == "0"
            and int(psql("SELECT count(*) FROM evidence_manifests WHERE verification_status='VERIFIED'") or 0) > 0)

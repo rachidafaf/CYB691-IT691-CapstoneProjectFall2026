@@ -1,0 +1,3622 @@
+{
+  "timestamp": "2026-11-06T13:05:04.347557+00:00",
+  "status": "INSUFFICIENT_LABELS",
+  "detail": "0 events matched a scenario action ([] label values); at least 2 events of both classes are needed",
+  "input_source": "../tmp/telemetry.db",
+  "ground_truth": {
+    "source": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-06/scenario_file.csv",
+    "scenario_id": "scenario_file",
+    "label_definition": "label = 1 if the generator logged the action as not authorized (authorized = 0/no)",
+    "status": "generator CSV (as delivered)",
+    "confirmed_by": null,
+    "confirmed_on": null,
+    "events_labelled": 0,
+    "events_excluded_unlabelled": [],
+    "unmatched_actions": [
+      {
+        "action_id": "R01-L2",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:09:05.798035Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L3",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:09:07.850307Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L4",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:09:09.901415Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L5",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:09:11.951365Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L6",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:09:13.999540Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L7",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:09:16.046756Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L8",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:09:18.094314Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L9",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:09:20.143379Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L10",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:09:22.190379Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L11",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:09:24.238338Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L12",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:09:26.286250Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L13",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:09:28.332983Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L14",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:09:30.382701Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L15",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:09:32.429681Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L16",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:09:34.476390Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L17",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:09:36.523811Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L18",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:09:38.573213Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L19",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:09:40.620929Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L20",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:09:42.670085Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L21",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:09:44.718234Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L22",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:09:46.765947Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L23",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:09:48.813696Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L24",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:09:50.861378Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L25",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:09:52.908973Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L26",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:09:54.958978Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L27",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:09:57.008607Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L28",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:09:59.056118Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L29",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:10:01.106291Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L30",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:10:03.159821Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L31",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:10:05.206514Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L32",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:10:07.253311Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L33",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:10:09.300156Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L34",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:10:11.347406Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L35",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:10:13.394644Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L36",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:10:15.443562Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L37",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:10:17.491773Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L38",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:10:19.554917Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L39",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:10:21.609973Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L40",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:10:23.656709Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L41",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:10:25.703876Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L42",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:10:27.750510Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L43",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:10:29.800188Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L44",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:10:31.848215Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L45",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:10:33.896037Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L46",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:10:35.943311Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L47",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:10:37.990586Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L48",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:10:40.038030Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L49",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:10:42.089892Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L50",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:10:44.136933Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L51",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:10:46.183889Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L52",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:10:48.230896Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L53",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:10:50.278160Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L54",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:10:52.326149Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L55",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:10:54.372281Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L56",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:10:56.419647Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L57",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:10:58.466461Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L58",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:11:00.515681Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L59",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:11:02.563280Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L60",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:11:04.611941Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L61",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:11:06.657797Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L62",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:11:08.706077Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L63",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:11:10.754740Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L64",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:11:12.802858Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L65",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:11:14.855151Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L66",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:11:16.903376Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L67",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:11:18.950702Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L68",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:11:20.997611Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L69",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:11:23.044385Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L70",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:11:25.092243Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L71",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:11:27.138940Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L72",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:11:29.189781Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L73",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:11:31.239087Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L74",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:11:33.294621Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L75",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:11:35.345860Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L76",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:11:37.393124Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L77",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:11:39.440809Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L78",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:11:41.488794Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L79",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:11:43.536227Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L80",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:11:45.583032Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L81",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:11:47.633425Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L82",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:11:49.681570Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L83",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:11:51.729540Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L84",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:11:53.782697Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L85",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:11:55.829642Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L86",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:11:57.877358Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L87",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:11:59.925108Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L88",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:12:01.975814Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L89",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:12:04.024217Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L90",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:12:06.072001Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L91",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:12:08.123014Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L92",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:12:44.231158Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L93",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:12:46.280413Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L94",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:12:48.333505Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L95",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:12:50.381948Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L96",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:12:52.430760Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L97",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:12:54.478982Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L98",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:12:56.533435Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L99",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:12:58.588496Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L100",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:13:00.648100Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L101",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:13:02.703853Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L102",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:13:04.751759Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L103",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:13:06.799631Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L104",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:13:08.856325Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L105",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:13:10.905859Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L106",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:13:12.954601Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L107",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:13:15.004828Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L108",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:13:17.055955Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L109",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:13:19.108980Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L110",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:13:21.159461Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L111",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:13:23.209570Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L112",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:13:25.257778Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L113",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:13:27.306729Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L114",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:13:29.363135Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L115",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:13:31.410749Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L116",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:13:33.458932Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L117",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:13:35.507588Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L118",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:13:37.555717Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L119",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:13:39.605679Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L120",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:13:41.662738Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R01-L121",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:13:43.717964Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L122",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:13:45.767074Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L123",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:13:47.814649Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L124",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:13:49.864481Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L125",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:13:51.913295Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L126",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:13:53.970116Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L127",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:13:56.018700Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L128",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:13:58.067604Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L129",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:14:00.120438Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L130",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:14:02.169838Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L131",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:14:04.220118Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L132",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:14:06.268764Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L133",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:14:08.326051Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L134",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:14:10.379463Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L135",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:14:12.429222Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L136",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:14:14.477735Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L137",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:14:16.528080Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L138",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:14:18.582418Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L139",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:14:20.630247Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L140",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:14:22.690773Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L141",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:14:24.740134Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L142",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:14:26.793641Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L143",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:14:28.842481Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L144",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:14:30.892545Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L145",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:14:32.944140Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L146",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:14:34.996866Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L147",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:14:37.044834Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L148",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:14:39.093369Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L149",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:14:41.141808Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L150",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:14:43.191124Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R02-L151",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:14:45.251085Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L152",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:14:47.303568Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L153",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:14:49.351867Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L154",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:14:51.400700Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L155",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:14:53.461272Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L156",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:14:55.516683Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L157",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:14:57.564322Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L158",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:14:59.616700Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L159",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:15:01.671111Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L160",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:15:03.719396Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L161",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:15:05.771512Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L162",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:15:07.819923Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L163",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:15:09.867823Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L164",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:15:11.916789Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L165",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:15:13.965383Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L166",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:15:16.020771Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L167",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:15:18.069491Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L168",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:15:20.127801Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L169",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:15:22.185068Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L170",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:15:24.233296Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L171",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:15:26.282091Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L172",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:15:28.330453Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L173",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:15:30.378089Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L174",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:15:32.427454Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L175",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:15:34.477854Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L176",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:15:36.536375Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L177",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:15:38.585429Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L178",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:15:40.638052Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L179",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:15:42.687633Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L180",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:15:44.739709Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R03-L181",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:15:46.789098Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L182",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:16:50.894921Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L183",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:16:52.942323Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L184",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:16:54.991838Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L185",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:16:57.045361Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L186",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:16:59.096746Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L187",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:17:01.143119Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L188",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:17:03.190904Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L189",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:17:05.239178Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L190",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:17:07.287825Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L191",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:17:09.335035Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L192",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:17:11.382877Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L193",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:17:13.429751Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L194",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:17:15.477792Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L195",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:17:17.525250Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L196",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:17:19.572142Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L197",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:17:21.618637Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L198",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:17:23.668597Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L199",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:17:25.715370Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L200",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:17:27.762075Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L201",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:17:29.808819Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L202",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:17:31.855956Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L203",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:17:33.902959Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L204",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:17:35.950176Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L205",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:17:37.999782Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L206",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:17:40.046330Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L207",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:17:42.094821Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L208",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:17:44.142293Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L209",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:17:46.189188Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L210",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:17:48.238285Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L211",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:17:50.285418Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L212",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:17:52.332160Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L213",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:17:54.383029Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L214",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:17:56.432779Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L215",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:17:58.480736Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L216",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:18:00.528841Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L217",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:18:02.574772Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L218",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:18:04.625247Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L219",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:18:06.672938Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L220",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:18:08.724037Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L221",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:18:10.771498Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L222",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:18:12.824643Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L223",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:18:14.871227Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L224",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:18:16.921726Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L225",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:18:18.978798Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L226",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:18:21.033917Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L227",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:18:23.080572Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L228",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:18:25.127543Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L229",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:18:27.178022Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L230",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:18:29.224846Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L231",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:18:31.273804Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L232",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:18:33.328087Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L233",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:18:35.384245Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L234",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:18:37.431136Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L235",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:18:39.477054Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L236",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:18:41.526647Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L237",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:18:43.574248Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L238",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:18:45.621552Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L239",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:18:47.668635Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L240",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:18:49.716592Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L241",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:18:51.763420Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L242",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:18:53.811815Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L243",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:18:55.863141Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L244",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:18:57.911758Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L245",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:18:59.959005Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L246",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:19:02.016389Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L247",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:19:04.064288Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L248",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:19:06.111298Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L249",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:19:08.160125Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L250",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:19:10.207499Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L251",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:19:12.254207Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L252",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:19:14.301752Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L253",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:19:16.348141Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L254",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:19:18.398599Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L255",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:19:20.445729Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L256",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:19:22.492887Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L257",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:19:24.540006Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L258",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:19:26.587826Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L259",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:19:28.634818Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L260",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:19:30.681923Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L261",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:19:32.729601Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L262",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:19:34.776569Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L263",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:19:36.823771Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L264",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:19:38.881352Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L265",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:19:40.927597Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L266",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:19:42.982522Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L267",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:19:45.037496Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L268",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:19:47.085743Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L269",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:19:49.133540Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L270",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:19:51.181276Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L271",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:19:53.229927Z",
+        "actor_ip": "10.0.1.10",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L272",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:20:29.383173Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L273",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:20:32.429657Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L274",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:20:35.478080Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L275",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:20:38.523804Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L276",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:20:41.570026Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L277",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:20:44.616189Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L278",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:20:47.662504Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L279",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:20:50.708071Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L280",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:20:53.754595Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L281",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:20:56.800857Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L282",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:20:59.846858Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L283",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:21:02.892705Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L284",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:21:05.938852Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L285",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:21:08.984521Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L286",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:21:12.030619Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L287",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:21:15.076698Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L288",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:21:18.122881Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L289",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:21:21.169110Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L290",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:21:24.213850Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L291",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:21:27.259416Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L292",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:21:30.306096Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L293",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:21:33.351805Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L294",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:21:36.398472Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L295",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:21:39.443722Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L296",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:21:42.490436Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L297",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:21:45.536739Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L298",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:21:48.582531Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L299",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:21:51.629210Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L300",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:21:54.675934Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R04-L301",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:21:57.721701Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L302",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:22:00.767391Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L303",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:22:03.812929Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L304",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:22:06.859282Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L305",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:22:09.906648Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L306",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:22:12.953137Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L307",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:22:15.998904Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L308",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:22:19.045804Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L309",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:22:22.091464Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L310",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:22:25.137570Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L311",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:22:28.183460Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L312",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:22:31.229058Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L313",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:22:34.274843Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L314",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:22:37.321409Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L315",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:22:40.367483Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L316",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:22:43.413916Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L317",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:22:46.458875Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L318",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:22:49.507915Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L319",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:22:52.553527Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L320",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:22:55.599608Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L321",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:22:58.645831Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L322",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:23:01.695066Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L323",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:23:04.740947Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L324",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:23:07.786938Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L325",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:23:10.833547Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L326",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:23:13.878961Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L327",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:23:16.925864Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L328",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:23:19.972925Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L329",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:23:23.019063Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L330",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:23:26.065067Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R05-L331",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:23:29.110970Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L332",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:23:32.155884Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L333",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:23:35.202228Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L334",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:23:38.247743Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L335",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:23:41.293485Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L336",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:23:44.357898Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L337",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:23:47.404353Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L338",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:23:50.449824Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L339",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:23:53.495829Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L340",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:23:56.541907Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L341",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:23:59.587611Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L342",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:24:02.633040Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L343",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:24:05.680973Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L344",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:24:08.726880Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L345",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:24:11.772925Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L346",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:24:14.818624Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L347",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:24:17.864914Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L348",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:24:20.910937Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L349",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:24:23.957379Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L350",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:24:27.004069Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L351",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:24:30.050309Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L352",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:24:33.096394Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L353",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:24:36.142848Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L354",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:24:39.188380Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L355",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:24:42.233868Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L356",
+        "case_id": "C1",
+        "timestamp_utc": "2026-11-04T20:24:45.279405Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 1,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L357",
+        "case_id": "C2",
+        "timestamp_utc": "2026-11-04T20:24:48.325022Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 3,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L358",
+        "case_id": "C3",
+        "timestamp_utc": "2026-11-04T20:24:51.370628Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 5,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L359",
+        "case_id": "C4",
+        "timestamp_utc": "2026-11-04T20:24:54.417264Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 6,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L360",
+        "case_id": "C5",
+        "timestamp_utc": "2026-11-04T20:24:57.463542Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 15,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      },
+      {
+        "action_id": "R06-L361",
+        "case_id": "C6",
+        "timestamp_utc": "2026-11-04T20:25:00.509632Z",
+        "actor_ip": "10.0.1.20",
+        "function_code": 16,
+        "nearest_event": null,
+        "offset_s": null,
+        "reason": "no Modbus event from this source with this function code"
+      }
+    ]
+  },
+  "dataset_summary": {
+    "total_records": 0
+  },
+  "supervised_models": {}
+}

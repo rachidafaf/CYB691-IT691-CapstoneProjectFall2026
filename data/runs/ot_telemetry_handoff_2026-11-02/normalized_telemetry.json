@@ -1,0 +1,33 @@
+[
+  {
+    "event_id": "MODBUS-EVT-0001",
+    "timestamp_iso": "2026-11-03T09:00:01+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "10.0.1.20",
+      "dest_ip": "10.0.3.10",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 0,
+      "function_name": "Firewall Boundary Drop",
+      "category": "FIREWALL_DROP",
+      "risk_level": "CRITICAL",
+      "payload_raw": "INBOUND_ACL_DROP",
+      "payload_parsed": {
+        "status": "BLOCKED",
+        "action_tag": "drop",
+        "timestamp_source": "bsd_syslog_assumed_utc"
+      },
+      "exception_code": "AccessDenied"
+    },
+    "security": {
+      "action_taken": "blocked_dropped",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 90
+    }
+  }
+]

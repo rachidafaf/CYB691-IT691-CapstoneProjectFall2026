@@ -9,9 +9,16 @@ $compose = Join-Path $here "docker-compose.yml"
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw "docker not found on PATH (install Docker Desktop)" }
 docker info *> $null
 if ($LASTEXITCODE -ne 0) { throw "Docker daemon is not running (start Docker Desktop)" }
-$archive = if ($env:CYB691_HANDOFF_ARCHIVE) { $env:CYB691_HANDOFF_ARCHIVE } else { Join-Path $here "..\..\infrastructure\ot_telemetry_handoff_2026-09-26.tar.gz" }
-if (-not (Test-Path $archive -PathType Leaf)) { throw "handoff archive not found: $archive" }
 $py = if (Get-Command python -ErrorAction SilentlyContinue) { "python" } else { "py" }
+
+# The handoff-watcher service ingests every new infrastructure\logs\ot_telemetry_handoff_*.tar.gz.
+$logs = Join-Path $here "..\..\infrastructure\logs"
+foreach ($d in @($logs, (Join-Path $here "..\..\data"), (Join-Path $here "..\..\infrastructure\extracted_handoff"))) {
+    if (-not (Test-Path $d -PathType Container)) { New-Item -ItemType Directory -Path $d | Out-Null }
+}
+$new = @(Get-ChildItem $logs -Filter "ot_telemetry_handoff_*.tar.gz" | Where-Object {
+    -not ((Test-Path "$($_.FullName).sha256") -and (Select-String -Path "$($_.FullName).sha256" -Pattern "processed_at_utc" -Quiet)) })
+Write-Host "Handoff folder: $((Resolve-Path $logs).Path)  ($($new.Count) new file(s) to ingest: $(($new | ForEach-Object Name) -join ', '))"
 
 & $py (Join-Path $here "init-secrets.py")
 if ($LASTEXITCODE -ne 0) { throw "init-secrets failed" }

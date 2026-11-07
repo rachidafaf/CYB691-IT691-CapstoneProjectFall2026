@@ -6,12 +6,14 @@
 #   (or deploy/docker/up.ps1 / up.sh, which do both and run the smoke test)
 #
 # Trust zones
-#   EDGE       handoff-unpack, edge-collector, edge-sync    network_mode: none (no network at all)
+#   EDGE       handoff-watcher, edge-collector, edge-sync   network_mode: none (no network at all)
 #   ANALYTICS  postgres, db-migrate, telemetry-sync, log-parser, timeline-generator, partitions,
 #              reporting-api, ml-*                          internal network analytics_net (no egress)
 #   HOST       reporting-api on 127.0.0.1:8080 (public_net) and, for browsing the data from the
 #              host (PyCharm/psql), postgres on 127.0.0.1:${CYB691_PG_HOST_PORT:-5433} (db_host_net).
 #              Both bind to loopback only; containers still reach the database as postgres:5432.
+#
+#   PIPELINE   pipeline-runner                              network_mode: none; reruns src/ after each handoff
 #
 # The ONLY path between the zones is the `landing` volume: edge-sync writes create-only
 # batches + manifests into it, telemetry-sync verifies and ingests them. Nothing in the
@@ -149,7 +151,7 @@ services:
 
   timeline-generator:
     <<: [*hardened, *analytics-image]
-    # The handoff capture is from 2026-09-26, so the default window looks back one year.
+    # Captures are replayed after the fact, so the default window looks back one year.
     command: ["analytics.jobs", "timeline", "--hours", "${CYB691_TIMELINE_HOURS:-8760}", "--every", "300"]
     environment:
       <<: *pg-env
@@ -245,18 +247,64 @@ services:
     depends_on:
       db-migrate: {condition: service_completed_successfully}
 
-  # --------------------------------------------------------------------- EDGE
-  handoff-unpack:
-    <<: [*hardened, *edge-image]
-    restart: "no"
+  # ----------------------------------------------------------------- PIPELINE
+  pipeline-runner:
+    <<: *hardened
+    image: cyb691/ml:${CYB691_IMAGE_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Containerfile.ml
+      args: {GIT_SHA: "${CYB691_GIT_SHA:-unknown}"}
+    # After handoff-watcher receipts a new handoff, runs src/log_parser.py, src/timeline_generator.py,
+    # src/ml_detector.py and validate_stride_threats.py on it (deploy/pipeline/run_pipeline.py).
+    # No network. The repository is mounted read-only with deploy/docker/secrets hidden by a tmpfs;
+    # only data/ (results) and infrastructure/extracted_handoff/ are writable.
     network_mode: none
-    # Verifies the pinned SHA-256 of the team's captured handoff before extracting anything.
-    command: ["edge.replay_handoff", "--archive", "/handoff/archive.tar.gz",
-              "--sha256", "${CYB691_HANDOFF_SHA256:-0e8bf4f580d7269a46c6740ce9abb3f6d29494f272f6d527933812dd34447de6}",
-              "--out", "/replay"]
+    entrypoint: ["python", "/repo/deploy/pipeline/run_pipeline.py"]
+    command: []
+    working_dir: /repo
+    environment:
+      CYB691_REPO_ROOT: /repo
+      CYB691_HANDOFF_WATCH_DIR: /repo/infrastructure/logs
+      # Scratch SQLite database: rebuilt from the handoff on every run, so it lives in the tmpfs.
+      CYB691_DATABASE_URL: /tmp/telemetry.db
+      CYB691_PIPELINE_POLL_SECONDS: ${CYB691_PIPELINE_POLL_SECONDS:-30}
+      MPLCONFIGDIR: /tmp
+    tmpfs: ["/tmp:size=512m,mode=1777", "/repo/deploy/docker/secrets:size=4k,mode=0700"]
     volumes:
-      - ${CYB691_HANDOFF_ARCHIVE:-../../infrastructure/ot_telemetry_handoff_2026-09-26.tar.gz}:/handoff/archive.tar.gz:ro
+      - ../..:/repo:ro
+      - ../../data:/repo/data
+      - ../../infrastructure/extracted_handoff:/repo/infrastructure/extracted_handoff
+      - ${CYB691_HANDOFF_DIR:-../../infrastructure/logs}:/repo/infrastructure/logs:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,sys,time; sys.exit(0 if time.time()-os.path.getmtime('/tmp/pipeline.alive') < 7500 else 1)"]
+      interval: 60s
+      timeout: 10s
+      start_period: 120s
+    depends_on:
+      handoff-watcher: {condition: service_started}
+
+  # --------------------------------------------------------------------- EDGE
+  handoff-watcher:
+    <<: [*hardened, *edge-image]
+    network_mode: none
+    # Watches infrastructure/logs for new ot_telemetry_handoff_*.tar.gz files, extracts each into
+    # replay/<name>/ and writes <name>.tar.gz.sha256 next to it as the processing receipt.
+    # The only writable host mount in the stack; the watcher never modifies the .tar.gz itself.
+    command: ["edge.handoff_watcher"]
+    environment:
+      CYB691_HANDOFF_WATCH_DIR: /handoffs
+      CYB691_REPLAY_DIR: /replay
+      CYB691_HANDOFF_POLL_SECONDS: ${CYB691_HANDOFF_POLL_SECONDS:-30}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - ${CYB691_HANDOFF_DIR:-../../infrastructure/logs}:/handoffs
       - replay:/replay
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,sys,time; sys.exit(0 if time.time()-os.path.getmtime('/tmp/watcher.alive') < 180 else 1)"]
+      interval: 60s
+      timeout: 10s
+      start_period: 60s
 
   edge-collector:
     <<: [*hardened, *edge-image]
@@ -266,6 +314,7 @@ services:
       CYB691_EDGE_ID: ${CYB691_EDGE_ID:-edge-lab-01}
       CYB691_EVE_PATH: /replay/eve.json
       CYB691_FIREWALL_LOG_PATH: /replay/iptables_drops.log
+      CYB691_HANDOFF_GLOB: /replay/ot_telemetry_handoff_*
       CYB691_ALLOWED_WRITER_CIDRS: ${CYB691_ALLOWED_WRITER_CIDRS:-}
       CYB691_SNAPSHOT_INTERVAL: "60"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
@@ -273,7 +322,7 @@ services:
       - edge_data:/data
       - replay:/replay:ro
     depends_on:
-      handoff-unpack: {condition: service_completed_successfully}
+      handoff-watcher: {condition: service_started}
 
   edge-sync:
     <<: [*hardened, *edge-image]

@@ -37,7 +37,7 @@ Reporting API (localhost only): <http://127.0.0.1:8080/docs> ·
 ```
  EDGE ZONE  (network_mode: none — no network interface at all)
  ┌──────────────────────────────────────────────────────────────────────┐
- │ handoff-unpack ──► [replay] ──► edge-collector ──► [edge_data] ──► edge-sync │
+ │ handoff-watcher ─► [replay] ──► edge-collector ──► [edge_data] ──► edge-sync │
  │  verifies SHA-256    eve.json     normalise, local     SQLite WAL     gzip+manifest │
  │  of the archive      iptables     alerting, dedup      buffer         create-only   │
  └───────────────────────────────────────────────────────────────┬──────┘
@@ -56,7 +56,7 @@ Reporting API (localhost only): <http://127.0.0.1:8080/docs> ·
 
 | Service | Image | Network | Writes to | DB login (group role) |
 |---|---|---|---|---|
-| handoff-unpack | edge | none | `replay` | — |
+| handoff-watcher | edge | none | `replay`, receipts in `infrastructure/logs` | — |
 | edge-collector | edge | none | `edge_data` | — |
 | edge-sync | edge | none | `edge_data`, `landing` | — |
 | postgres | postgres:16.6 | analytics_net | `pg_data` | `cyb691_admin` (bootstrap only) |
@@ -90,7 +90,7 @@ drop zone replaced by a data diode or an outbound-only file transfer.
 
 ## 4. Results on the captured handoff
 
-Full Compose stack on Docker Desktop (Windows), 2026-11-01: `smoke-test.py` **21/21 checks passed**.
+Full Compose stack on Docker Desktop (Windows), 2026-11-01: `smoke-test.py` **22/22 checks passed**.
 The same figures were reproduced against PostgreSQL 16 outside Docker:
 
 | Stage | Result |
@@ -111,6 +111,50 @@ was rolled back and retried, which is why the first smoke test showed 0 events.
 
 `iptables_drops.log` holds only `-- No entries --`, so no firewall-drop events are ingested.
 That matches the README finding that the capture contains no firewall-drop evidence.
+
+### Ingesting new handoff files (infrastructure/logs)
+The `handoff-watcher` service watches **`infrastructure/logs/`** (mounted at `/handoffs`) and checks
+it every 30 seconds while the stack runs. Drop each new `ot_telemetry_handoff_YYYY-MM-DD.tar.gz`
+there; nothing needs restarting. For each file without a receipt, oldest date first, it:
+
+1. waits until the file stops changing (a copy in progress is never read);
+2. if the delivery includes `<name>.tar.gz.sha256` from the capture host, refuses the file unless the hash matches;
+3. extracts `eve.json`, `iptables_drops.log` and `scenario_file.csv` (Tar-Slip guards, size limits,
+   both the 2026-09-26 and 2026-11-01 layouts) into `replay/<name>/`;
+4. writes the receipt **`<name>.tar.gz.sha256`** next to the file: a `sha256sum`-compatible first line,
+   then `processed_at_utc`, whether a delivered hash was verified, and the hash of each extracted file.
+
+A file with a receipt is never ingested again. The `.tar.gz` is never modified, moved or deleted.
+`edge-collector` tails every `replay/ot_telemetry_handoff_*/` directory, so each handoff flows
+edge → landing → PostgreSQL. Events from different handoffs stay distinguishable by
+`raw_ref.file` (`/replay/<name>/eve.json`).
+
+### Automatic analysis after each handoff (pipeline-runner)
+When a handoff has its receipt, the `pipeline-runner` service (no network) refreshes every analysis
+layer from the repository root, exactly as you would by hand:
+
+| Step | Command | Writes |
+| :--- | :--- | :--- |
+| 1 | `python src/log_parser.py -i infrastructure/logs/<file>` | `data/normalized_telemetry.json`, `data/parser_integrity_report.json` |
+| 2 | `python src/timeline_generator.py` | `data/incident_report.json`, `data/incident_timeline.md` |
+| 3 | `python src/ml_detector.py` (`--scenario <handoff>/scenario_file.csv` when the handoff has one) | `data/ml_evaluation_results.json` |
+| 4 | `python validate_stride_threats.py` | `data/stride_validation_report.json` / `.md` |
+
+- **Run history:** each run is kept in `data/runs/<handoff name>/`: one log per step, a copy of every output, and `run.json` with the commands, exit codes, durations and the handoff's SHA-256.
+- **Which handoff `data/` describes:** always the newest one. If an older handoff is processed later, the newest is re-run afterwards.
+- **When a step fails:** the other steps still run, so the validator can report the failure. The exception is a failed `log_parser`, after which nothing else runs; that run is retried every 10 minutes (`CYB691_PIPELINE_RETRY_SECONDS`).
+- **Not enough labels:** if a handoff has too few labelled events, `ml_detector.py` writes `status: INSUFFICIENT_LABELS`, listing each scenario action that could not be matched, instead of leaving an older evaluation in place.
+- **Isolation:** the repository is mounted read-only, with `deploy/docker/secrets` hidden behind an empty tmpfs. Only `data/` and `infrastructure/extracted_handoff/` are writable. The pipeline's scratch SQLite database is in the container's `/tmp`, because it is rebuilt from the handoff on every run.
+- **By hand:** `python deploy/pipeline/run_pipeline.py --once` (pending handoffs) or `--rerun <file>` runs the same steps on your PC, using your own `CYB691_DATABASE_URL`.
+
+- **Re-ingest a file:** delete its receipt. Content-hash de-duplication keeps events from doubling.
+- **Start the database from scratch:** `down.ps1 -Purge` deletes the volumes and clears the receipts
+  (`reset_receipts.py`), so the next `up` ingests every handoff in the folder again. A hash delivered
+  with a handoff is kept and still enforced.
+- **Watch it work:** `docker compose -f deploy/docker/docker-compose.yml logs -f handoff-watcher`
+  (`handoff_ingested` / `handoff_refused` lines).
+- **Writable mount:** `infrastructure/logs` is the only host folder the stack can write to, and only
+  this container mounts it. On Linux, the folder must be writable by UID 10001.
 
 ## 5. Operations
 
@@ -138,7 +182,7 @@ $C ps                                   # status and health
 $C logs -f telemetry-sync               # structured JSON logs; "alert": true lines are detections
 $C exec postgres psql -U cyb691_admin -d cyb691 -c "SELECT event_type, count(*) FROM telemetry_events GROUP BY 1"
 $C run --rm db-migrate                  # re-apply migrations (checksum-verified, idempotent)
-$C up -d --force-recreate handoff-unpack edge-collector    # replay again (events stay de-duplicated)
+$C logs -f handoff-watcher               # handoff files ingested / refused
 ```
 
 Configuration (environment or a git-ignored `deploy/docker/.env`):
@@ -147,7 +191,8 @@ Configuration (environment or a git-ignored `deploy/docker/.env`):
 |---|---|---|
 | `CYB691_EDGE_ID` | `edge-lab-01` | Edge identifier stamped on every event |
 | `CYB691_ALLOWED_WRITER_CIDRS` | *(empty: every write alerts)* | Authorised Modbus writers, e.g. `10.0.2.10/32` |
-| `CYB691_HANDOFF_ARCHIVE` / `CYB691_HANDOFF_SHA256` | the 2026-09-26 handoff / its pinned hash | Replay a different capture |
+| `CYB691_HANDOFF_DIR` | `../../infrastructure/logs` | Folder the handoff watcher ingests from |
+| `CYB691_HANDOFF_POLL_SECONDS` | `30` | How often the watcher checks the folder |
 | `CYB691_TIMELINE_HOURS` | `8760` | Incident look-back window |
 | `CYB691_API_PORT` | `8080` | Host loopback port of the API |
 | `CYB691_PG_HOST_PORT` | `5433` | Host loopback port of the Docker PostgreSQL (5432 is left to a local PostgreSQL) |

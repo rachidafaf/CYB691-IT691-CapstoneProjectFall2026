@@ -1,0 +1,232 @@
+[
+  {
+    "event_id": "MODBUS-EVT-0001",
+    "timestamp_iso": "2026-11-02T00:30:10.150000+00:00",
+    "inter_arrival_ms": 0.0,
+    "network": {
+      "source_ip": "192.168.1.200",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 0,
+      "function_name": "Firewall Boundary Drop",
+      "category": "FIREWALL_DROP",
+      "risk_level": "CRITICAL",
+      "payload_raw": "INBOUND_ACL_DROP",
+      "payload_parsed": {
+        "status": "BLOCKED",
+        "action_tag": "untagged",
+        "timestamp_source": "log_line"
+      },
+      "exception_code": "AccessDenied"
+    },
+    "security": {
+      "action_taken": "blocked_dropped",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 90
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0002",
+    "timestamp_iso": "2026-11-02T00:30:15.200000+00:00",
+    "inter_arrival_ms": 5050.0,
+    "network": {
+      "source_ip": "192.168.1.200",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 0,
+      "function_name": "Firewall Boundary Drop",
+      "category": "FIREWALL_DROP",
+      "risk_level": "CRITICAL",
+      "payload_raw": "INBOUND_ACL_DROP",
+      "payload_parsed": {
+        "status": "BLOCKED",
+        "action_tag": "drop",
+        "timestamp_source": "log_line",
+        "rule_id": "REJECT_UNAUTH_SCADA_FC16"
+      },
+      "exception_code": "AccessDenied"
+    },
+    "security": {
+      "action_taken": "blocked_dropped",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 90
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0003",
+    "timestamp_iso": "2026-11-02T00:30:25.400000+00:00",
+    "inter_arrival_ms": 10200.0,
+    "network": {
+      "source_ip": "192.168.1.200",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 0,
+      "function_name": "Firewall Boundary Drop",
+      "category": "FIREWALL_DROP",
+      "risk_level": "CRITICAL",
+      "payload_raw": "INBOUND_ACL_DROP",
+      "payload_parsed": {
+        "status": "BLOCKED",
+        "action_tag": "drop",
+        "timestamp_source": "log_line",
+        "rule_id": "DROP_UNAUTH_COIL_WRITE_FC05"
+      },
+      "exception_code": "AccessDenied"
+    },
+    "security": {
+      "action_taken": "blocked_dropped",
+      "is_state_altering": false,
+      "has_protocol_exception": true,
+      "threat_score": 90
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0004",
+    "timestamp_iso": "2026-11-02T00:30:00.200000-05:00",
+    "inter_arrival_ms": 17974800.0,
+    "network": {
+      "source_ip": "192.168.1.50",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "FC=3",
+      "payload_parsed": {},
+      "exception_code": "None"
+    },
+    "security": {
+      "action_taken": "monitored_captured",
+      "is_state_altering": false,
+      "has_protocol_exception": false,
+      "threat_score": 10
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0005",
+    "timestamp_iso": "2026-11-02T00:30:05.100000-05:00",
+    "inter_arrival_ms": 4900.0,
+    "network": {
+      "source_ip": "192.168.1.50",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "FC=3",
+      "payload_parsed": {},
+      "exception_code": "None"
+    },
+    "security": {
+      "action_taken": "monitored_captured",
+      "is_state_altering": false,
+      "has_protocol_exception": false,
+      "threat_score": 10
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0006",
+    "timestamp_iso": "2026-11-02T00:30:10.150100-05:00",
+    "inter_arrival_ms": 5050.1,
+    "network": {
+      "source_ip": "192.168.1.200",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 6,
+      "function_name": "Write Single Register",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "FC=6",
+      "payload_parsed": {},
+      "exception_code": "None"
+    },
+    "security": {
+      "action_taken": "monitored_captured",
+      "is_state_altering": true,
+      "has_protocol_exception": false,
+      "threat_score": 60
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0007",
+    "timestamp_iso": "2026-11-02T00:30:20.100000-05:00",
+    "inter_arrival_ms": 9949.9,
+    "network": {
+      "source_ip": "192.168.1.50",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 3,
+      "function_name": "Read Holding Registers",
+      "category": "READ",
+      "risk_level": "LOW",
+      "payload_raw": "FC=3",
+      "payload_parsed": {},
+      "exception_code": "None"
+    },
+    "security": {
+      "action_taken": "monitored_captured",
+      "is_state_altering": false,
+      "has_protocol_exception": false,
+      "threat_score": 10
+    }
+  },
+  {
+    "event_id": "MODBUS-EVT-0008",
+    "timestamp_iso": "2026-11-02T00:30:25.400000-05:00",
+    "inter_arrival_ms": 5300.0,
+    "network": {
+      "source_ip": "192.168.1.200",
+      "dest_ip": "192.168.1.100",
+      "destination_port": 502,
+      "protocol": "Modbus_TCP"
+    },
+    "modbus": {
+      "unit_id": 1,
+      "function_code": 5,
+      "function_name": "Write Single Coil",
+      "category": "WRITE",
+      "risk_level": "HIGH",
+      "payload_raw": "FC=5",
+      "payload_parsed": {},
+      "exception_code": "None"
+    },
+    "security": {
+      "action_taken": "monitored_captured",
+      "is_state_altering": true,
+      "has_protocol_exception": false,
+      "threat_score": 60
+    }
+  }
+]

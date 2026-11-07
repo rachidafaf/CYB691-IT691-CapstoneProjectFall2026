@@ -28,36 +28,54 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_DATA_DIR = os.path.join(REPO_ROOT, "data")
 
 
+def _utc(ts):
+    try:
+        return datetime.fromisoformat(str(ts).replace("Z", "+00:00")).astimezone(timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+
+def _is_fw(r):
+    return r.get('modbus', {}).get('category') == 'FIREWALL_DROP'
+
+
 def generate_incident_metrics(records):
-    """Computes summary security metrics from normalized telemetry records."""
-    total_events = len(records)
-    read_count = sum(1 for r in records if r.get('modbus', {}).get('category') == 'READ')
-    write_count = sum(1 for r in records if r.get('modbus', {}).get('category') == 'WRITE')
-    exception_count = sum(1 for r in records if r.get('security', {}).get('has_protocol_exception'))
+    """Computes summary security metrics from normalized telemetry records.
+    Firewall drops are counted on their own, never as Modbus frames or protocol exceptions."""
+    modbus = [r for r in records if not _is_fw(r)]
+    drops = [r for r in records if _is_fw(r)]
+    read_count = sum(1 for r in modbus if r.get('modbus', {}).get('category') == 'READ')
+    writes = [r for r in modbus if r.get('modbus', {}).get('category') == 'WRITE']
+    exception_count = sum(1 for r in modbus if r.get('security', {}).get('has_protocol_exception'))
     high_threat_count = sum(1 for r in records if r.get('security', {}).get('threat_score', 0) >= 75)
-    
-    unique_sources = list(set(r.get('network', {}).get('source_ip', 'Unknown') for r in records))
-    unique_dests = list(set(r.get('network', {}).get('dest_ip', 'Unknown') for r in records))
-    
-    time_start = records[0].get('timestamp_iso', 'N/A') if records else "N/A"
-    time_end = records[-1].get('timestamp_iso', 'N/A') if records else "N/A"
+
+    unique_sources = sorted(set(r.get('network', {}).get('source_ip', 'Unknown') for r in records))
+    unique_dests = sorted(set(r.get('network', {}).get('dest_ip', 'Unknown') for r in records))
+    times = [t for t in (_utc(r.get('timestamp_iso')) for r in records) if t]
 
     return {
-        "total_telemetry_events": total_events,
-        "time_window": {"start": time_start, "end": time_end},
+        "total_telemetry_events": len(records),
+        "modbus_frames": len(modbus),
+        "firewall_drops": len(drops),
+        "time_window": {"start": min(times).isoformat() if times else "N/A",
+                        "end": max(times).isoformat() if times else "N/A"},
         "traffic_distribution": {
             "read_operations": read_count,
-            "write_operations": write_count,
-            "read_to_write_ratio": round(read_count / max(write_count, 1), 2)
+            "write_operations": len(writes),
+            "read_to_write_ratio": round(read_count / max(len(writes), 1), 2)
         },
         "security_flags": {
             "protocol_exceptions": exception_count,
-            "unauthorized_write_attempts": write_count,
+            "unauthorized_write_attempts": len(writes),
+            "firewall_drops": len(drops),
             "high_threat_events": high_threat_count
         },
         "participating_hosts": {
             "source_ips": unique_sources,
-            "destination_ips": unique_dests
+            "destination_ips": unique_dests,
+            "write_sources": sorted(set(r.get('network', {}).get('source_ip', 'Unknown') for r in writes)),
+            "write_targets": sorted(set(r.get('network', {}).get('dest_ip', 'Unknown') for r in writes)),
+            "blocked_sources": sorted(set(r.get('network', {}).get('source_ip', 'Unknown') for r in drops)),
         }
     }
 
@@ -74,17 +92,22 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
     
     md.append("## Executive Incident Summary")
     md.append("During operational telemetry monitoring of the virtualized Purdue Model Level 1-3 OT testbed, ")
-    md.append(f"the normalization pipeline analyzed **{metrics['total_telemetry_events']} Modbus TCP telemetry frames** ")
-    md.append(f"between `{metrics['time_window']['start']}` and `{metrics['time_window']['end']}`.")
-    md.append(f"The analysis isolated **{metrics['security_flags']['unauthorized_write_attempts']} unauthorized state-altering write command attempts** ")
-    md.append(f"and **{metrics['security_flags']['protocol_exceptions']} protocol exception alerts** originating from workstation `10.0.1.4` ")
-    md.append("targeting Industrial PLC `172.17.0.2` (Port 502).\n")
+    hosts = metrics['participating_hosts']
+    fmt = lambda ips: ", ".join(f"`{ip}`" for ip in ips) or "none"
+    md.append(f"the normalization pipeline analyzed **{metrics['modbus_frames']} Modbus TCP telemetry frames** "
+              f"and **{metrics['firewall_drops']} firewall drop records** ")
+    md.append(f"between `{metrics['time_window']['start']}` and `{metrics['time_window']['end']}` (UTC).")
+    md.append(f"The analysis isolated **{metrics['security_flags']['unauthorized_write_attempts']} state-altering write command attempts** "
+              f"from {fmt(hosts['write_sources'])} targeting {fmt(hosts['write_targets'])} (port 502), ")
+    md.append(f"**{metrics['security_flags']['protocol_exceptions']} protocol exception responses**, and "
+              f"**{metrics['firewall_drops']} firewall drops** of traffic from {fmt(hosts['blocked_sources'])}.\n")
 
     md.append("### Key Metrics Breakdown")
     md.append(f"- **Total Telemetry Ingested:** {metrics['total_telemetry_events']} records")
     md.append(f"- **Read Commands (Polling):** {metrics['traffic_distribution']['read_operations']} ({metrics['traffic_distribution']['read_to_write_ratio']} Read/Write Ratio)")
     md.append(f"- **State-Altering Write Commands:** {metrics['traffic_distribution']['write_operations']}")
-    md.append(f"- **Illegal Data Address Exceptions:** {metrics['security_flags']['protocol_exceptions']}")
+    md.append(f"- **Modbus Protocol Exceptions:** {metrics['security_flags']['protocol_exceptions']}")
+    md.append(f"- **Firewall Drops:** {metrics['firewall_drops']}")
     md.append(f"- **High-Threat Incident Alerts (Score >= 75):** {metrics['security_flags']['high_threat_events']}\n")
 
     md.append("---")
@@ -93,7 +116,8 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
     md.append("| Event ID | Timestamp (ISO 8601) | Source IP | Dest IP | Function Code | Category | Risk Level | Threat Score | Payload & Status |")
     md.append("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 
-    for r in records:
+    ordered = sorted(records, key=lambda r: _utc(r.get('timestamp_iso')) or datetime.max.replace(tzinfo=timezone.utc))
+    for r in ordered:
         evt_id = r.get('event_id', 'N/A')
         ts = str(r.get('timestamp_iso', '')).replace("T", " ")
         src = r.get('network', {}).get('source_ip', 'N/A')
@@ -112,7 +136,7 @@ def synthesize_markdown_timeline(metrics, records, output_md_path):
 
     md.append("\n---\n")
     md.append("## Defensive Recommendations & Containment Actions")
-    md.append("1. **pfSense Inbound ACL Enforcement:** Restrict port 502 to authorized Engineering Workstations (`10.0.2.10`) only; block workstation `10.0.1.4` from executing cross-subnet write operations.")
+    md.append(f"1. **Inbound ACL Enforcement:** Restrict port 502 to authorized engineering workstations only; review write traffic from {fmt(hosts['write_sources'])}.")
     md.append("2. **Suricata DPI Rule Tuning:** Enforce Modbus rule SID 1000004 to drop state-altering function codes (`FC05`, `FC06`, `FC15`, `FC16`) originating outside the Control Zone.")
     md.append("3. **Machine Learning Anomaly Quarantine:** Ingest high-threat events into `ml_detector.py` to trigger automated microsegmentation isolation.")
 

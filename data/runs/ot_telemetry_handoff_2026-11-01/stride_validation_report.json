@@ -1,0 +1,95 @@
+{
+  "audit_timestamp": "2026-11-03T15:00:06.730174+00:00",
+  "threat_model_file": "Team 4 Threat Model.json",
+  "inventory": {
+    "title": "Complete OT Cybersecurity Testbed",
+    "schema_version": "2.3.0",
+    "diagrams": 1,
+    "threats": 37,
+    "components_with_threats": 32,
+    "trust_boundaries": [
+      {
+        "id": "boundary-purdue-ot",
+        "name": "Purdue OT Testbed Network"
+      },
+      {
+        "id": "boundary-analysis-zone",
+        "name": "Analysis and Evidence Zone"
+      },
+      {
+        "id": "boundary-enterprise",
+        "name": "Enterprise / Developer Zone"
+      },
+      {
+        "id": "curve-ot-boundary",
+        "name": "OT Network Boundary"
+      },
+      {
+        "id": "curve-analysis-boundary",
+        "name": "Analysis Evidence Boundary"
+      }
+    ],
+    "stride_counts": {
+      "Spoofing": 2,
+      "Tampering": 19,
+      "Repudiation": 2,
+      "Denial of Service": 5,
+      "Elevation of Privilege": 6,
+      "Information Disclosure": 3
+    },
+    "status_counts": {
+      "Open": 37
+    },
+    "severity_counts": {
+      "High": 27,
+      "Medium": 5,
+      "Critical": 5
+    }
+  },
+  "checks": [
+    {
+      "kind": "INVENTORY",
+      "check": "Threat model structure",
+      "status": "INVENTORY",
+      "details": "37 threats on 32 components, 5 trust boundaries; status as recorded in the model: {'Open': 37}"
+    },
+    {
+      "kind": "INVENTORY",
+      "check": "Trust boundary 'OT Network Boundary'",
+      "status": "INVENTORY",
+      "details": "present in model"
+    },
+    {
+      "kind": "INVENTORY",
+      "check": "Trust boundary 'Analysis Evidence Boundary'",
+      "status": "INVENTORY",
+      "details": "present in model"
+    },
+    {
+      "kind": "INVENTORY",
+      "check": "Policy & licence files",
+      "status": "INVENTORY",
+      "details": "present: SECURITY.md, requirements.txt, THIRD_PARTY_LICENSES.md, LICENSE (existence only - not a security test)"
+    },
+    {
+      "kind": "PROPERTY",
+      "check": "P1 Parser controls",
+      "status": "PASS",
+      "details": "exercised: Tar-Slip and link members refused, '-- No entries --' -> 0 drops, real drop -> 1, non-Modbus EVE ignored, function_raw 6 preserved"
+    },
+    {
+      "kind": "PROPERTY",
+      "check": "P2 Normalized vs raw",
+      "status": "PASS",
+      "details": "5 normalized Modbus events == 5 unique raw transactions; function codes {3: 3, 5: 1, 6: 1} match; 3 firewall drops == raw drop lines"
+    },
+    {
+      "kind": "PROPERTY",
+      "check": "P3 ML evaluation",
+      "status": "FAIL",
+      "details": "no model evaluated on the current data: 0 events matched a scenario action ([] label values); at least 2 events of both classes are needed"
+    }
+  ],
+  "audit_status": "FAILED",
+  "audit_conclusion": "FAILED - 1 check(s) failed, 0 warning(s). Threat status is as recorded in the model ({'Open': 37}); this audit does not close threats."
+}

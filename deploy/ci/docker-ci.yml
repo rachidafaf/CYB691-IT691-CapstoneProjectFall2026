@@ -61,6 +61,10 @@ jobs:
         with: {scan-type: image, image-ref: "cyb691/edge:local", severity: "CRITICAL,HIGH", ignore-unfixed: true, exit-code: "1"}
       - name: End-to-end smoke test on the captured handoff
         run: |
+          mkdir -p ci-handoffs && cp infrastructure/logs/ot_telemetry_handoff_*.tar.gz ci-handoffs/
+          mkdir -p data infrastructure/extracted_handoff
+          chmod 0777 ci-handoffs data infrastructure/extracted_handoff   # container UID 10001 writes here
+          export CYB691_HANDOFF_DIR="$PWD/ci-handoffs" CYB691_HANDOFF_POLL_SECONDS=5
           docker compose -f deploy/docker/docker-compose.yml up -d
           python deploy/docker/smoke-test.py --timeout 600
       - if: always()

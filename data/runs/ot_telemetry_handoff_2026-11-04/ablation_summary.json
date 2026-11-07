@@ -1,0 +1,222 @@
+{
+  "handoff": "ot_telemetry_handoff_2026-11-04",
+  "capture_date": "2026-11-04",
+  "generated_at_utc": "2026-11-07T17:52:07.832314+00:00",
+  "ground_truth": {
+    "authorized_ip": "10.0.1.10",
+    "unauthorized_ip": "10.0.1.20"
+  },
+  "containment": {
+    "unauth_reached_plc_flat": 90,
+    "unauth_reached_plc_enforced": 0,
+    "firewall_drops": 91,
+    "contained_pct": 100.0
+  },
+  "detection_on_flat": {
+    "population": 90,
+    "firewall_source": {
+      "recall_pct": 101.1,
+      "fpr_pct": 0.0
+    },
+    "suricata": {
+      "hits": 60,
+      "recall_pct": 66.7,
+      "fpr_pct": 0.0
+    },
+    "ml": {
+      "available": true,
+      "n_models": 18,
+      "models": [
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 27.94,
+          "fpr_pct": 35.81,
+          "accuracy_pct": 52.78
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 33.82,
+          "fpr_pct": 45.27,
+          "accuracy_pct": 48.15
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 36.76,
+          "fpr_pct": 43.24,
+          "accuracy_pct": 50.46
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 38.24,
+          "fpr_pct": 37.84,
+          "accuracy_pct": 54.63
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 39.71,
+          "fpr_pct": 44.59,
+          "accuracy_pct": 50.46
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 30.88,
+          "fpr_pct": 37.84,
+          "accuracy_pct": 52.31
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 36.76,
+          "fpr_pct": 37.84,
+          "accuracy_pct": 54.17
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 48.53,
+          "fpr_pct": 56.08,
+          "accuracy_pct": 45.37
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 36.76,
+          "fpr_pct": 42.57,
+          "accuracy_pct": 50.93
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 38.24,
+          "fpr_pct": 41.89,
+          "accuracy_pct": 51.85
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 44.12,
+          "fpr_pct": 54.05,
+          "accuracy_pct": 45.37
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 30.88,
+          "fpr_pct": 37.84,
+          "accuracy_pct": 52.31
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 30.88,
+          "fpr_pct": 35.14,
+          "accuracy_pct": 54.17
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 33.82,
+          "fpr_pct": 44.59,
+          "accuracy_pct": 48.61
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 36.76,
+          "fpr_pct": 43.24,
+          "accuracy_pct": 50.46
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 38.24,
+          "fpr_pct": 36.49,
+          "accuracy_pct": 55.56
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 39.71,
+          "fpr_pct": 44.59,
+          "accuracy_pct": 50.46
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 30.88,
+          "fpr_pct": 37.84,
+          "accuracy_pct": 52.31
+        }
+      ],
+      "best_supervised": {
+        "model": "Random Forest Classifier",
+        "feature_set": "report1_all_six",
+        "cv": "leave_one_run_out",
+        "recall_pct": 38.24,
+        "fpr_pct": 36.49,
+        "accuracy_pct": 55.56
+      },
+      "accuracy_range_pct": [
+        45.37,
+        55.56
+      ],
+      "recall_range_pct": [
+        27.94,
+        48.53
+      ],
+      "rule_baseline": {
+        "recall_pct": 67.65,
+        "fpr_pct": 67.57
+      },
+      "isolation_forest": {
+        "flagged": 92,
+        "total": 216,
+        "recall_pct": 42.65,
+        "fpr_pct": 42.57
+      },
+      "labelled_records": {
+        "total": 216,
+        "unauthorized": 68,
+        "authorized": 148
+      }
+    }
+  },
+  "raw_matrix": {
+    "baseline|auth|LOCAL_ALERT": 120,
+    "baseline|auth|MODBUS_DPI": 180,
+    "baseline|unauth|LOCAL_ALERT": 60,
+    "baseline|unauth|MODBUS_DPI": 90,
+    "baseline|unauth|SURICATA_ALERT": 60,
+    "layered|unauth|FIREWALL_DROP": 91,
+    "layered|unauth|LOCAL_ALERT": 91
+  },
+  "findings": [
+    "No Suricata alerts in the layered phase: the firewall drops WS packets before DPI inspects them, so the IDS has no visibility into contained traffic.",
+    "Edge-collector LOCAL_ALERT fires on 120/180 authorized commands (high false-positive heuristic); not part of the layered controls.",
+    "ML operates at chance: best model recall 38.24% vs FPR 36.49% (recall approx FPR = no discriminative signal)."
+  ]
+}

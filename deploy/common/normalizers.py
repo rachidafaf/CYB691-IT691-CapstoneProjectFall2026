@@ -12,7 +12,9 @@ normalised event (and backfill any that are missing).
 
 from __future__ import annotations
 
-from datetime import datetime
+import re
+
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 from common.telemetry_schema import (
@@ -84,18 +86,72 @@ def _parse_pfsense_filterlog(line: str) -> Optional[Dict[str, Any]]:
             "src": f[18], "dst": f[19], "spt": _int_or_none(f[20]), "dpt": _int_or_none(f[21])}
 
 
+_RULE_ID = re.compile(r"\[RULE_ID:\s*([^\]]+)\]")
+
+
+def firewall_action_tag(line: str) -> str:
+    """What the log line itself says happened, from the text before the first KEY=VALUE field
+    (the iptables --log-prefix, e.g. "CYB691-DROP "): "drop", "accept", or "untagged" when
+    the line carries no action word. Untagged lines in a drop log are still ingested as drops,
+    but the tag is kept so analysts can tell an explicit drop from an inferred one."""
+    head = line.split(" IN=", 1)[0].upper()
+    if re.search(r"DROP|REJECT|BLOCK|DENY", head):
+        return "drop"
+    if re.search(r"ACCEPT|ALLOW|PASS", head):
+        return "accept"
+    return "untagged"
+
+
 def _parse_iptables(line: str) -> Optional[Dict[str, Any]]:
     if "SRC=" not in line or "DST=" not in line:
         return None
     kv = dict(tok.split("=", 1) for tok in line.split() if "=" in tok)
-    return {"action": "block", "direction": "in", "interface": kv.get("IN"), "rule": kv.get("PREFIX"),
+    tag = firewall_action_tag(line)
+    rule = _RULE_ID.search(line)
+    return {"action": "accept" if tag == "accept" else "block", "action_tag": tag,
+            "direction": "in", "interface": kv.get("IN"),
+            "rule": rule.group(1).strip() if rule else kv.get("PREFIX"),
             "proto": kv.get("PROTO"), "src": kv.get("SRC"), "dst": kv.get("DST"),
-            "spt": _int_or_none(kv.get("SPT")), "dpt": _int_or_none(kv.get("DPT"))}
+            "spt": _int_or_none(kv.get("SPT")), "dpt": _int_or_none(kv.get("DPT")),
+            "tcp_flags": [f for f in ("SYN", "ACK", "FIN", "RST", "PSH", "URG") if f in line.split()]}
+
+
+
+_BSD_TS = re.compile(r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})\b")
+_MONTHS = {m: i for i, m in enumerate("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), 1)}
+
+
+def bsd_syslog_time(line, reference):
+    """'Nov  3 09:00:01 host kernel: ...' (no year, no zone) -> aware UTC datetime.
+    The lab VMs run on UTC (runbook Step 4), so the time is read as UTC; the year is the
+    reference's, or the previous one if that would put the line more than a day in the future.
+    Deterministic, so re-reading the same line gives the same event (and the same hash)."""
+    m = _BSD_TS.match(line)
+    if not m:
+        return None
+    mon, day, hh, mm, ss = _MONTHS[m.group(1)], int(m.group(2)), int(m.group(3)), int(m.group(4)), int(m.group(5))
+    try:
+        dt = datetime(reference.year, mon, day, hh, mm, ss, tzinfo=timezone.utc)
+    except ValueError:
+        return None
+    if (dt - reference).total_seconds() > 86400:
+        dt = dt.replace(year=dt.year - 1)
+    return dt
+
+
+def _leading_timestamp(line: str):
+    """ISO timestamp at the start of a line, bare or in brackets ("[2026-11-02T00:30:15.200Z]")."""
+    for token in line.split()[:2]:
+        try:
+            return parse_utc(token.strip("[]"))
+        except ValidationError:
+            continue
+    return None
 
 
 def normalise_firewall_line(line: str, edge_id: str, raw_ref: Dict[str, Any],
                             observed_at: Optional[datetime] = None) -> Optional[Dict[str, Any]]:
-    line = line.strip()
+    line = line.lstrip("\ufeff").strip()
     if not line or line.startswith("--"):          # e.g. "-- No entries --" markers
         return None
     p = _parse_pfsense_filterlog(line) or _parse_iptables(line)
@@ -105,18 +161,18 @@ def normalise_firewall_line(line: str, edge_id: str, raw_ref: Dict[str, Any],
     # Prefer an RFC 5424 / ISO timestamp at the start of the line (stable hash on
     # re-read). Legacy BSD syslog lacks year/zone: fall back to observation time
     # and keep the raw line for forensic re-interpretation.
-    ts: Any = observed_at or utcnow()
-    for token in line.split()[:2]:
-        try:
-            ts = parse_utc(token)
-            break
-        except ValidationError:
-            continue
+    ts: Any = _leading_timestamp(line)
+    basis = "log_line"
+    if ts is None:
+        ts = bsd_syslog_time(line, observed_at or utcnow())
+        basis = "bsd_syslog_assumed_utc"
+    if ts is None:
+        ts, basis = observed_at or utcnow(), "observation_time"
     return build_envelope(
         edge_id=edge_id, event_type="FIREWALL_DROP", timestamp_utc=ts, severity=sev,
         src_ip=p.get("src"), src_port=p.get("spt"), dest_ip=p.get("dst"), dest_port=p.get("dpt"),
         protocol=p.get("proto"), modbus=None,
-        raw={"line": line, "parsed": p}, raw_ref=raw_ref)
+        raw={"line": line, "parsed": dict(p, timestamp_basis=basis)}, raw_ref=raw_ref)
 
 
 
@@ -124,13 +180,8 @@ def normalise_firewall_line(line: str, edge_id: str, raw_ref: Dict[str, Any],
 def has_stable_timestamp(line: str) -> bool:
     """True if a firewall log line carries its own ISO/RFC 5424 timestamp, so that
     re-normalising it later yields the same content hash (reconcilable)."""
-    for token in line.strip().split()[:2]:
-        try:
-            parse_utc(token)
-            return True
-        except ValidationError:
-            continue
-    return False
+    line = line.lstrip("\ufeff").strip()
+    return _leading_timestamp(line) is not None or _BSD_TS.match(line) is not None
 
 
 def legacy_record(env: Dict[str, Any], inter_arrival_ms: float) -> Dict[str, Any]:

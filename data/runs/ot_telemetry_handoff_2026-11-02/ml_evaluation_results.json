@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-11-03T15:00:19.031662+00:00",
+  "status": "INSUFFICIENT_LABELS",
+  "detail": "scenario record rejected: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-02/handoff/scenario_file.csv: missing column(s) for ['authorized']; header is ['timestamp', 'source_ip', 'dest_ip', 'function_code', 'action']",
+  "ground_truth": {
+    "source": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-02/handoff/scenario_file.csv",
+    "status": "REJECTED"
+  },
+  "dataset_summary": {
+    "total_records": 0
+  },
+  "supervised_models": {}
+}

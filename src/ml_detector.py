@@ -49,11 +49,11 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 try:
     from src.database import (load_telemetry_records, save_ml_benchmarks_to_db, database_available,
                               describe_target, DEFAULT_DB_PATH)
-    from src.scenario import load_scenario, join_labels, provenance_summary, DEFAULT_SCENARIO_PATH, UNLABELED
+    from src.scenario import load_scenario, join_labels, provenance_summary, explain_unmatched, DEFAULT_SCENARIO_PATH, UNLABELED
 except ImportError:
     from database import (load_telemetry_records, save_ml_benchmarks_to_db, database_available,
                           describe_target, DEFAULT_DB_PATH)
-    from scenario import load_scenario, join_labels, provenance_summary, DEFAULT_SCENARIO_PATH, UNLABELED
+    from scenario import load_scenario, join_labels, provenance_summary, explain_unmatched, DEFAULT_SCENARIO_PATH, UNLABELED
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_DATA_DIR = os.path.join(REPO_ROOT, "data")
@@ -352,9 +352,29 @@ def main():
         source = path
         print(f"[*] Loaded {len(records)} records from JSON: {path}")
 
-    scenario = load_scenario(args.scenario)
+    try:
+        scenario = load_scenario(args.scenario)
+    except ValueError as exc:             # e.g. a CSV row without a timezone or a required column
+        print(f"[-] Scenario record rejected: {exc}")
+        out = args.output or os.path.join(DEFAULT_DATA_DIR, "ml_evaluation_results.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump({"timestamp": datetime.now(timezone.utc).isoformat(), "status": "INSUFFICIENT_LABELS",
+                       "detail": f"scenario record rejected: {exc}",
+                       "ground_truth": {"source": os.path.relpath(args.scenario, REPO_ROOT).replace(os.sep, "/"),
+                                        "status": "REJECTED"},
+                       "dataset_summary": {"total_records": 0}, "supervised_models": {}}, f, indent=2)
+        print(f"[+] Wrote {out} (status INSUFFICIENT_LABELS)")
+        sys.exit(1)
     if scenario is None:
         print(f"[-] Error: scenario action record '{args.scenario}' not found; ground truth cannot be assigned.")
+        out = args.output or os.path.join(DEFAULT_DATA_DIR, "ml_evaluation_results.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out, "w", encoding="utf-8") as f:     # never leave an older evaluation looking current
+            json.dump({"timestamp": datetime.now(timezone.utc).isoformat(), "status": "INSUFFICIENT_LABELS",
+                       "detail": f"no scenario record ({os.path.relpath(args.scenario, REPO_ROOT)} not found)",
+                       "ground_truth": {"source": None, "status": "MISSING"},
+                       "dataset_summary": {"total_records": 0}, "supervised_models": {}}, f, indent=2)
         sys.exit(1)
     labels, groups, matched, unmatched = join_labels(records, scenario)
     print(f"[*] Ground truth from scenario record: {len(matched)} events labelled, {len(unmatched)} without a "
@@ -362,6 +382,33 @@ def main():
     prov = provenance_summary(scenario, args.scenario)
     if prov.get("confirmed_by") is None:
         print(f"[!] Scenario record status: {prov.get('status')} (not yet confirmed by the team)")
+
+    known = [l for l in labels if l != UNLABELED]
+    if len(known) < 2 or len(set(known)) < 2:
+        # Not enough ground truth to train or score anything. Write that down instead of leaving
+        # an older evaluation in place, so every later layer describes the current data.
+        why = explain_unmatched(records, scenario)
+        out = args.output or os.path.join(DEFAULT_DATA_DIR, "ml_evaluation_results.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump({
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "status": "INSUFFICIENT_LABELS",
+                "detail": (f"{len(known)} events matched a scenario action "
+                           f"({sorted(set(known))} label values); at least 2 events of both classes are needed"),
+                "input_source": (describe_target(source) if str(source).lower().startswith("postgres")
+                                 else os.path.relpath(source, REPO_ROOT).replace(os.sep, "/")) if source else None,
+                "ground_truth": {**prov, "events_labelled": len(matched), "events_excluded_unlabelled": unmatched,
+                                 "unmatched_actions": why},
+                "dataset_summary": {"total_records": len(known)},
+                "supervised_models": {},
+            }, f, indent=2)
+        print(f"[-] Not enough labelled events to evaluate ({len(known)}). Unmatched scenario actions:")
+        for row in why:
+            print(f"    {row['action_id']} {row.get('case_id') or ''} {row['timestamp_utc']} "
+                  f"{row['actor_ip']} FC{row['function_code']}: {row['reason']}")
+        print(f"[+] Wrote {out} (status INSUFFICIENT_LABELS)")
+        sys.exit(1)
 
     evaluations = {}
     y = g = None
@@ -408,11 +455,11 @@ def main():
             "total_records": int(len(y)),
             "attack_samples_count": attack_count,
             "benign_samples_count": benign_count,
-            "generator_runs": sorted({int(x) for x in g if x is not None}),
+            "generator_runs": sorted({str(x) for x in g if x is not None}),
             "primary_feature_set": PRIMARY_FEATURE_SET,
             "features_used": names_primary,
-            "ground_truth_method": "Scenario/action record (data/scenario_actions.json): 1 = unauthorized "
-                                   "state-altering write, 0 = authorized baseline read",
+            "ground_truth_method": f"Scenario/action record ({prov.get('source')}): 1 = action logged as "
+                                   "not authorized, 0 = authorized action",
         },
         "supervised_models": evaluations[PRIMARY_FEATURE_SET]["stratified_kfold"],
         "evaluations": evaluations,

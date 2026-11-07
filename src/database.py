@@ -34,9 +34,9 @@ import pandas as pd
 from datetime import datetime, timezone
 
 try:
-    from src.scenario import load_scenario, action_index, _ts_key, UNLABELED
+    from src.scenario import load_scenario, join_labels, UNLABELED
 except ImportError:
-    from scenario import load_scenario, action_index, _ts_key, UNLABELED
+    from scenario import load_scenario, join_labels, UNLABELED
 
 # Canonical project directories dynamically resolved relative to repo root
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -218,7 +218,7 @@ def insert_telemetry_records(records, db_path=None, replace=True, scenario_path=
     cursor = conn.cursor()
 
     scenario = load_scenario(scenario_path)
-    scenario_labels = {k: int(a["label"]) for k, a in action_index(scenario).items()}
+    scenario_labels, _, _, _ = join_labels(records, scenario) if scenario else ([UNLABELED] * len(records), 0, 0, 0)
 
     if pg:
         verb, conflict = "INSERT", ("" if replace else " ON CONFLICT (event_id) DO NOTHING")
@@ -227,15 +227,15 @@ def insert_telemetry_records(records, db_path=None, replace=True, scenario_path=
     now_iso = datetime.now(timezone.utc).isoformat()
 
     rows = []
-    for r in records:
+    for idx, r in enumerate(records):
         net = r.get("network", {})
         mb = r.get("modbus", {})
         sec = r.get("security", {})
         fcode = int(mb.get("function_code", 0))
 
         # Ground truth comes from the scenario/action record (data/scenario_actions.json), joined by
-        # timestamp - never from the function code or other features. -1 = no matching action.
-        ground_truth = int(scenario_labels.get(_ts_key(r.get("timestamp_iso")), UNLABELED))
+        # timestamp (src/scenario.py) - never from the function code or other features. -1 = no matching action.
+        ground_truth = int(scenario_labels[idx])
 
         rows.append((
             r.get("event_id"),

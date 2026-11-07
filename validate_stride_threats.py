@@ -269,9 +269,38 @@ def _raw_unique_modbus(eve_path):
             if key in seen:
                 continue
             seen.add(key)
-            req = (rec.get("modbus") or {}).get("request") or {}
-            fcs[int(req.get("function_raw", 0) or 0)] += 1
+            mb = rec.get("modbus") or {}
+            req = mb.get("request") or {}
+            fc = req.get("function_raw")
+            if fc is None and isinstance(mb.get("function_code"), int):    # flat layout (2026-11-01 handoff)
+                fc = mb["function_code"]
+            fcs[int(fc or 0)] += 1
     return len(seen), fcs
+
+
+def _raw_paths(root):
+    """Raw eve.json / firewall log that data/normalized_telemetry.json was built from: the paths
+    log_parser.py recorded in data/parser_integrity_report.json, else the 2026-09-26 layout."""
+    r = get_repo_root(root)
+    eve = fw = None
+    integ = locate_artifact_file("parser_integrity_report.json", root)
+    if integ:
+        try:
+            with open(integ, "r", encoding="utf-8") as f:
+                rep = json.load(f)
+            if (rep.get("eve_json") or {}).get("path"):
+                eve = os.path.normpath(os.path.join(r, rep["eve_json"]["path"]))
+            if (rep.get("firewall_log") or {}).get("path"):
+                fw = os.path.normpath(os.path.join(r, rep["firewall_log"]["path"]))
+            elif eve:
+                fw = os.path.join(os.path.dirname(eve), "iptables_drops.log")
+        except (OSError, ValueError):
+            pass
+    if not eve:
+        base = os.path.join(r, "infrastructure", "extracted_handoff")
+        eve = os.path.join(base, "var", "log", "suricata", "eve.json")
+        fw = os.path.join(base, "iptables_drops.log")
+    return eve, fw
 
 
 def property_normalized_vs_raw(root, checks):
@@ -292,14 +321,15 @@ def property_normalized_vs_raw(root, checks):
     if not all(all(k in r for k in required) for r in norm):
         checks.add("PROPERTY", "P2 Normalized vs raw", "FAIL", f"records missing one of {required}")
         return
-    modbus = [r for r in norm if str(r.get("network", {}).get("protocol", "")).lower().startswith("modbus")]
+    modbus = [r for r in norm if str(r.get("network", {}).get("protocol", "")).lower().startswith("modbus")
+              and r.get("modbus", {}).get("category") != "FIREWALL_DROP"]
     norm_fcs = Counter(int(r["modbus"].get("function_code", 0) or 0) for r in modbus)
     drops = [r for r in norm if "drop" in str(r.get("security", {}).get("action_taken", "")).lower()]
     if norm_fcs.get(0):
         checks.add("PROPERTY", "P2 Normalized vs raw", "FAIL", f"{norm_fcs[0]} Modbus records with function code 0")
         return
-    eve = os.path.join(get_repo_root(root), "infrastructure", "extracted_handoff", "var", "log", "suricata", "eve.json")
-    if not os.path.exists(eve):
+    eve, fw = _raw_paths(root)
+    if not eve or not os.path.exists(eve):
         checks.add("PROPERTY", "P2 Normalized vs raw", "WARN",
                    f"raw eve.json not extracted; structure only: {len(modbus)} Modbus records, fcs {dict(norm_fcs)}")
         return
@@ -309,10 +339,12 @@ def property_normalized_vs_raw(root, checks):
         problems.append(f"raw has {raw_n} unique Modbus transactions, normalized has {len(modbus)}")
     if raw_fcs != norm_fcs:
         problems.append(f"function codes differ: raw {dict(raw_fcs)} vs normalized {dict(norm_fcs)}")
-    fw = os.path.join(get_repo_root(root), "infrastructure", "extracted_handoff", "iptables_drops.log")
-    if os.path.exists(fw):
+    if fw and os.path.exists(fw):
         with open(fw, "r", encoding="utf-8", errors="replace") as f:
-            real_lines = [l for l in f if l.strip() and "no entries" not in l.lower()]
+            # Count only genuine kernel drop lines (SRC=...), as the parser does; this
+            # ignores stray log lines that merely mention the drop prefix (e.g. a sudo audit
+            # line for the iptables command that installs the LOG rule).
+            real_lines = [l for l in f if "SRC=" in l and "no entries" not in l.lower()]
         if len(drops) != len(real_lines):
             problems.append(f"firewall: {len(real_lines)} real raw lines but {len(drops)} normalized drops")
     integ = locate_artifact_file("parser_integrity_report.json", root)
@@ -346,6 +378,10 @@ def property_ml_method(root, checks):
     except ValueError as exc:
         checks.add("PROPERTY", "P3 ML evaluation", "FAIL", f"unparseable: {exc}")
         return
+    if ml.get("status") == "INSUFFICIENT_LABELS":
+        checks.add("PROPERTY", "P3 ML evaluation", "FAIL",
+                   f"no model evaluated on the current data: {ml.get('detail')}")
+        return
     sup = ml.get("supervised_models") or {}
     if not isinstance(sup, dict) or not sup:
         checks.add("PROPERTY", "P3 ML evaluation", "FAIL", "no supervised model results")
@@ -353,7 +389,7 @@ def property_ml_method(root, checks):
     gt = ml.get("ground_truth") or {}
     ds = ml.get("dataset_summary") or {}
     fails, warns = [], []
-    if not str(gt.get("source", "")).endswith("scenario_actions.json"):
+    if not str(gt.get("source", "")).endswith(("scenario_actions.json", ".csv")):
         fails.append("ground truth is not taken from the scenario/action record")
     elif not gt.get("confirmed_by"):
         warns.append(f"scenario record not yet confirmed by the team ({gt.get('status')})")

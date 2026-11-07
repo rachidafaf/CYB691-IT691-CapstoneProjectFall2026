@@ -44,3 +44,6 @@ deploy/testdata/lab/
 
 # local backups
 data/_pre_dedup_backup/
+
+# Pipeline runner bookkeeping (which handoffs were analysed)
+data/runs/.pipeline_state.json

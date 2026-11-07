@@ -23,6 +23,7 @@ Immediate blocking is NOT done here. It stays in pfSense ACLs and Suricata IPS
 from __future__ import annotations
 
 import argparse
+import glob
 import gzip
 import ipaddress
 import json
@@ -50,6 +51,9 @@ logger = logging.getLogger("edge_collector")
 EDGE_ID = os.environ.get("CYB691_EDGE_ID", "")                       # REQUIRED_INPUT
 EVE_PATH = os.environ.get("CYB691_EVE_PATH", "/var/log/suricata/eve.json")
 FIREWALL_LOG_PATH = os.environ.get("CYB691_FIREWALL_LOG_PATH", "/var/log/firewall/filter.log")
+# Optional: directories that each hold one handoff's eve.json / iptables_drops.log, written by
+# handoff_watcher.py (e.g. /replay/ot_telemetry_handoff_*). Every match is tailed independently.
+HANDOFF_GLOB = os.environ.get("CYB691_HANDOFF_GLOB", "")
 OUTBOX_DIR = os.environ.get("CYB691_OUTBOX_DIR", os.path.join(db.DEFAULT_EDGE_DATA_DIR, "outbox"))
 ALERT_LOG_PATH = os.environ.get("CYB691_ALERT_LOG", os.path.join(db.DEFAULT_EDGE_DATA_DIR, "local_alerts.jsonl"))
 QUARANTINE_PATH = os.environ.get("CYB691_QUARANTINE_LOG",
@@ -239,6 +243,18 @@ def enqueue_evidence_file(local_path: str, kind: str, edge_id: str, db_path: Opt
 # Collector loop
 # ============================================================================
 
+def sources(pattern: str = None) -> List[Tuple[str, str]]:
+    """(eve.json, firewall log) pairs to tail: the configured live paths, plus one pair per
+    handoff directory matching CYB691_HANDOFF_GLOB (sorted, so older handoffs go first)."""
+    pairs = [(EVE_PATH, FIREWALL_LOG_PATH)]
+    pattern = HANDOFF_GLOB if pattern is None else pattern
+    if pattern:
+        for d in sorted(glob.glob(pattern)):
+            if os.path.isdir(d):
+                pairs.append((os.path.join(d, "eve.json"), os.path.join(d, "iptables_drops.log")))
+    return pairs
+
+
 class Collector:
     def __init__(self, edge_id: str, db_path: Optional[str] = None,
                  detector: Optional[LocalDetector] = None, alerter: Optional[LocalAlerter] = None,
@@ -296,7 +312,7 @@ class Collector:
         lines, st = read_new_lines(eve_path, f"tail:{eve_path}", self.db_path)
         for off, line in lines:
             try:
-                rec = json.loads(line)
+                rec = json.loads(line.lstrip("\ufeff"))
                 env = normalise_eve(rec, self.edge_id, {"file": eve_path, "offset": off})
             except (json.JSONDecodeError, ValidationError, ValueError, TypeError) as exc:
                 self._quarantine("eve", line, f"parse error: {exc}")
@@ -322,11 +338,17 @@ class Collector:
         signal.signal(signal.SIGTERM, lambda *_: setattr(self, "_stop", True))
         signal.signal(signal.SIGINT, lambda *_: setattr(self, "_stop", True))
         last_snapshot = 0.0
+        known = set()
         while not self._stop:
-            self.poll_once()
-            if time.monotonic() - last_snapshot >= SNAPSHOT_INTERVAL_SECONDS:
-                snapshot_raw_range(EVE_PATH, "EVE_JSON", self.edge_id, self.db_path)
-                snapshot_raw_range(FIREWALL_LOG_PATH, "FIREWALL_LOG", self.edge_id, self.db_path)
+            srcs = sources()
+            for eve, fw in srcs:
+                self.poll_once(eve, fw)
+            new_source = bool(set(srcs) - known)
+            known |= set(srcs)
+            if new_source or time.monotonic() - last_snapshot >= SNAPSHOT_INTERVAL_SECONDS:
+                for eve, fw in srcs:
+                    snapshot_raw_range(eve, "EVE_JSON", self.edge_id, self.db_path)
+                    snapshot_raw_range(fw, "FIREWALL_LOG", self.edge_id, self.db_path)
                 db.cleanup_expired(db_path=self.db_path)
                 last_snapshot = time.monotonic()
             time.sleep(POLL_SECONDS)
@@ -350,7 +372,7 @@ def main() -> None:
     if args.enqueue_file:
         print(enqueue_evidence_file(args.enqueue_file[1], args.enqueue_file[0], EDGE_ID))
     elif args.once:
-        print(c.poll_once())
+        print(sum(c.poll_once(eve, fw) for eve, fw in sources()))
     else:
         c.run()
 

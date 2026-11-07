@@ -31,10 +31,10 @@ import json
 import hashlib
 import tarfile
 import argparse
+import re
 import pandas as pd
 from datetime import datetime, timezone
 
-from jinja2.exceptions import SecurityError
 
 try:
     from src.database import insert_telemetry_records, describe_target, DEFAULT_DB_PATH
@@ -42,6 +42,10 @@ except ImportError:
     from database import insert_telemetry_records, describe_target, DEFAULT_DB_PATH
 
 # Canonical project directories dynamically resolved relative to repo root
+class SecurityError(Exception):
+    """Raised when a handoff archive member would escape the extraction folder or is a link/device."""
+
+
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_DATA_DIR = os.path.join(REPO_ROOT, "data")
 DEFAULT_INFRA_DIR = os.path.join(REPO_ROOT, "infrastructure")
@@ -283,7 +287,7 @@ def normalize_suricata_eve_json(json_path, stats=None):
         return []
 
     raw_events = []
-    with open(json_path, 'r', encoding='utf-8') as f:
+    with open(json_path, 'r', encoding='utf-8-sig') as f:
         content = f.read().strip()
         if content.startswith('['):
             raw_events = json.loads(content)
@@ -409,6 +413,54 @@ def normalize_suricata_eve_json(json_path, stats=None):
     return parsed_items
 
 
+
+_BSD_TS = re.compile(r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})\b")
+_MONTHS = {m: i for i, m in enumerate("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), 1)}
+
+
+def bsd_syslog_time(line, reference):
+    """'Nov  3 09:00:01 host kernel: ...' (no year, no zone) -> aware UTC datetime.
+    The lab VMs run on UTC (runbook Step 4), so the time is read as UTC; the year is the
+    reference's, or the previous one if that would put the line more than a day in the future.
+    Deterministic, so re-reading the same line gives the same event (and the same hash)."""
+    m = _BSD_TS.match(line)
+    if not m:
+        return None
+    mon, day, hh, mm, ss = _MONTHS[m.group(1)], int(m.group(2)), int(m.group(3)), int(m.group(4)), int(m.group(5))
+    try:
+        dt = datetime(reference.year, mon, day, hh, mm, ss, tzinfo=timezone.utc)
+    except ValueError:
+        return None
+    if (dt - reference).total_seconds() > 86400:
+        dt = dt.replace(year=dt.year - 1)
+    return dt
+
+
+def _firewall_line_time(line):
+    """ISO-8601 timestamp (with zone) at the start of a firewall log line, bare or in brackets."""
+    for token in line.split()[:2]:
+        t = token.strip("[]").replace("Z", "+00:00")
+        if len(t) > 5 and t[-5] in "+-" and t[-4:].isdigit() and t[-3] != ":":
+            t = t[:-2] + ":" + t[-2:]
+        try:
+            dt = datetime.fromisoformat(t)
+        except ValueError:
+            continue
+        if dt.tzinfo is not None:
+            return dt.astimezone(timezone.utc)
+    return None
+
+
+def _firewall_action_tag(line):
+    """'drop' / 'accept' from the log prefix before the first KEY=VALUE field, else 'untagged'."""
+    head = line.split(" IN=", 1)[0].upper()
+    if re.search(r"DROP|REJECT|BLOCK|DENY", head):
+        return "drop"
+    if re.search(r"ACCEPT|ALLOW|PASS", head):
+        return "accept"
+    return "untagged"
+
+
 def normalize_iptables_drops(log_path):
     """
     Parses iptables/pfSense firewall drop syslog entries.
@@ -419,7 +471,7 @@ def normalize_iptables_drops(log_path):
         return []
 
     parsed_items = []
-    with open(log_path, 'r', encoding='utf-8') as f:
+    with open(log_path, 'r', encoding='utf-8-sig') as f:
         for line in f:
             clean_line = line.strip()
             # Explicitly reject empty log markers, header bars, and non-packet lines
@@ -448,7 +500,18 @@ def normalize_iptables_drops(log_path):
             if not src_ip or not dest_ip:
                 continue
 
-            dt = datetime.now(timezone.utc)
+            # Time the firewall logged the drop: an ISO timestamp at the start of the line
+            # (bare or "[...]"). Lines without one (BSD syslog has no year/zone) fall back
+            # to processing time, flagged so the timeline does not present it as observed.
+            dt, ts_source = _firewall_line_time(clean_line), "log_line"
+            if dt is None:
+                dt, ts_source = bsd_syslog_time(clean_line, datetime.now(timezone.utc)), "bsd_syslog_assumed_utc"
+            if dt is None:
+                dt, ts_source = datetime.now(timezone.utc), "processing_time"
+            tag = _firewall_action_tag(clean_line)
+            if tag == "accept":
+                continue
+            rule = re.search(r"\[RULE_ID:\s*([^\]]+)\]", clean_line)
 
             parsed_items.append({
                 "dt": dt,
@@ -459,7 +522,8 @@ def normalize_iptables_drops(log_path):
                 "fcode": 0,
                 "f_info": {"name": "Firewall Boundary Drop", "category": "FIREWALL_DROP", "risk_level": "CRITICAL"},
                 "payload_raw": "INBOUND_ACL_DROP",
-                "payload_meta": {"status": "BLOCKED"},
+                "payload_meta": {"status": "BLOCKED", "action_tag": tag, "timestamp_source": ts_source,
+                                 **({"rule_id": rule.group(1).strip()} if rule else {})},
                 "exception_code": "AccessDenied",
                 "is_write_op": False,
                 "has_exception": True,
@@ -486,7 +550,13 @@ def main():
 
     print(f"[*] Selected telemetry handoff target: {target_handoff}")
     
-    extract_dir = os.path.join(DEFAULT_INFRA_DIR, "extracted_handoff")
+    # One folder per handoff, so files from different captures are never mixed up when the
+    # logs are located below (both layouts contain an eve.json).
+    handoff_name = os.path.basename(os.path.normpath(target_handoff))
+    for ext in (".tar.gz", ".tgz"):
+        if handoff_name.endswith(ext):
+            handoff_name = handoff_name[: -len(ext)]
+    extract_dir = os.path.join(DEFAULT_INFRA_DIR, "extracted_handoff", handoff_name)
     working_dir = extract_tarball_if_needed(target_handoff, extract_dir)
 
     logs = discover_logs_in_dir(working_dir)
@@ -510,7 +580,11 @@ def main():
 
     if logs["iptables_log"]:
         print(f"[*] Ingesting Firewall Drop log: {logs['iptables_log']}")
-        all_events.extend(normalize_iptables_drops(logs["iptables_log"]))
+        fw_events = normalize_iptables_drops(logs["iptables_log"])
+        all_events.extend(fw_events)
+        integrity["firewall_log"] = {"path": os.path.relpath(logs["iptables_log"], REPO_ROOT),
+                                     "sha256": sha256_of_file(logs["iptables_log"]),
+                                     "drop_events": len(fw_events)}
 
     all_events.sort(key=lambda x: x['dt'])
     

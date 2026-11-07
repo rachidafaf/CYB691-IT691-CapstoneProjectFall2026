@@ -12,10 +12,11 @@ import yaml
 from conftest import DEPLOY, REPO
 
 COMPOSE_PATH = os.path.join(DEPLOY, "docker", "docker-compose.yml")
-EDGE = {"handoff-unpack", "edge-collector", "edge-sync"}
+EDGE = {"handoff-watcher", "edge-collector", "edge-sync"}
 ANALYTICS = {"postgres", "db-migrate", "telemetry-sync", "log-parser", "timeline-generator", "partitions",
              "reporting-api", "ml-train", "ml-detector"}
-APP_SERVICES = (EDGE | ANALYTICS) - {"postgres"}
+PIPELINE = {"pipeline-runner"}
+APP_SERVICES = (EDGE | ANALYTICS | PIPELINE) - {"postgres"}
 
 
 @pytest.fixture(scope="module")
@@ -30,11 +31,11 @@ def _mount_sources(svc):
 
 # ---------------------------------------------------------------- topology
 def test_every_service_is_assigned_to_a_zone(compose):
-    assert set(compose["services"]) == EDGE | ANALYTICS
+    assert set(compose["services"]) == EDGE | ANALYTICS | PIPELINE
 
 
-def test_edge_containers_have_no_network(compose):
-    for name in EDGE:
+def test_edge_and_pipeline_containers_have_no_network(compose):
+    for name in EDGE | PIPELINE:
         svc = compose["services"][name]
         assert svc.get("network_mode") == "none", name
         assert "networks" not in svc and "ports" not in svc, name
@@ -72,13 +73,30 @@ def test_landing_volume_is_the_only_edge_to_analytics_path(compose):
     assert users_of_landing == {"edge-sync", "telemetry-sync"}
 
 
-def test_host_bind_mounts_are_readonly_inputs_only(compose):
+def test_host_bind_mounts_are_readonly_except_the_handoff_folder(compose):
+    """Every host mount is read-only, except infrastructure/logs for handoff-watcher, which must
+    write its processing receipts there. Nothing else in the stack can write to the host."""
+    writable = []
     for name, svc in compose["services"].items():
         for v in svc.get("volumes", []):
             src = str(v).split(":")[0]
             assert "docker.sock" not in str(v), name
-            if src.startswith((".", "/", "$")):
-                assert str(v).endswith(":ro"), f"{name}: host mount {v} must be read-only"
+            if src.startswith((".", "/", "$")) and not str(v).endswith(":ro"):
+                writable.append((name, str(v)))
+    assert sorted(writable) == [
+        ("handoff-watcher", "${CYB691_HANDOFF_DIR:-../../infrastructure/logs}:/handoffs"),
+        ("pipeline-runner", "../../data:/repo/data"),
+        ("pipeline-runner", "../../infrastructure/extracted_handoff:/repo/infrastructure/extracted_handoff"),
+    ]
+
+
+def test_repository_mount_is_readonly_and_hides_secrets(compose):
+    """pipeline-runner sees the repository read-only, and never the database passwords."""
+    for name, svc in compose["services"].items():
+        if any(str(v).startswith("../..:") for v in svc.get("volumes", [])):
+            assert "../..:/repo:ro" in svc["volumes"], name
+            assert any(str(t).startswith("/repo/deploy/docker/secrets:") for t in svc.get("tmpfs", [])), name
+            assert not svc.get("secrets"), name
 
 
 # ---------------------------------------------------------------- hardening

@@ -90,8 +90,11 @@ def test_normalize_eve_json_counts_each_transaction_once(tmp_path):
     """The 2026-09-26 handoff logs each of its 10 Modbus transactions twice (byte-identical,
     consecutive lines). The parser must count 10 unique events (4 read, 6 write) and report
     the 10 duplicates it removed, without modifying the raw evidence."""
-    raw_eve_path = "infrastructure/extracted_handoff/var/log/suricata/eve.json"
-    if not os.path.exists(raw_eve_path):
+    import glob
+    found = (glob.glob("infrastructure/extracted_handoff/ot_telemetry_handoff_2026-09-26/var/log/suricata/eve.json")
+             + glob.glob("infrastructure/extracted_handoff/var/log/suricata/eve.json"))
+    raw_eve_path = found[0] if found else ""
+    if not raw_eve_path:
         pytest.skip("Raw eve.json not found in test environment")
 
     stats = {}
@@ -334,14 +337,27 @@ def test_database_backend_selection_and_safety():
 
 
 def test_sqlite_round_trip_keeps_scenario_labels(tmp_path):
+    """Records survive a SQLite round trip, and the stored ground truth comes from the scenario record."""
     import database as d
-    norm = os.path.join(REPO, "data", "normalized_telemetry.json")
-    if not os.path.exists(norm):
-        pytest.skip("normalized telemetry not present")
-    recs = json.load(open(norm, encoding="utf-8"))
+
+    def rec(i, ts, src, fc, cat):
+        return {"event_id": f"MODBUS-EVT-{i:04d}", "timestamp_iso": ts, "inter_arrival_ms": 0.0,
+                "network": {"source_ip": src, "dest_ip": "10.0.3.10", "destination_port": 502, "protocol": "Modbus_TCP"},
+                "modbus": {"unit_id": 1, "function_code": fc, "function_name": f"FC{fc}", "category": cat,
+                           "risk_level": "LOW", "payload_raw": f"FC={fc}", "payload_parsed": {"n": i},
+                           "exception_code": "None"},
+                "security": {"action_taken": "monitored_captured", "is_state_altering": cat == "WRITE",
+                             "has_protocol_exception": False, "threat_score": 10}}
+    recs = [rec(1, "2026-11-05T14:00:00.100000+00:00", "10.0.1.10", 3, "READ"),
+            rec(2, "2026-11-05T14:00:05.100000+00:00", "10.0.1.20", 6, "WRITE"),
+            rec(3, "2026-11-05T14:00:09.000000+00:00", "10.0.1.20", 3, "READ")]          # no scenario action
+    csv_path = tmp_path / "scenario_file.csv"
+    csv_path.write_text("timestamp_utc,run_id,topology,case_id,source_ip,dest_ip,function_code,authorized\n"
+                        "2026-11-05T14:00:00Z,R01,baseline,C2,10.0.1.10,10.0.3.10,3,1\n"
+                        "2026-11-05T14:00:05Z,R01,baseline,C4,10.0.1.20,10.0.3.10,6,0\n")
     db = str(tmp_path / "t.db")
-    assert d.insert_telemetry_records(recs, db_path=db) == len(recs)
+    assert d.insert_telemetry_records(recs, db_path=db, scenario_path=str(csv_path)) == len(recs)
     back = d.load_telemetry_records(db)
     assert [r["modbus"]["payload_parsed"] for r in back] == [r["modbus"]["payload_parsed"] for r in recs]
     X, y, names = d.extract_features_from_db(db)
-    assert int(y.sum()) == 6 and len(y) == 10
+    assert [int(v) for v in y] == [0, 1, -1]            # -1: no matching scenario action

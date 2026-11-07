@@ -1,0 +1,20 @@
+{
+  "generated_at_utc": "2026-11-03T15:00:10.248714+00:00",
+  "handoff_target": "infrastructure/logs/ot_telemetry_handoff_2026-11-02.tar.gz",
+  "handoff_sha256": "a24288324a22fe6ed55c86ee37ddb2a901feb9bf1465867c942492b8bcb9b1c6",
+  "eve_json": {
+    "path": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-02/handoff/eve.json",
+    "sha256": "f702dc00ecf286b14d001e95cf2e30821c1cf3d807896bf88591d3cc7d187b49",
+    "eve_records_total": 1,
+    "modbus_records_seen": 0,
+    "exact_duplicates_removed": 0,
+    "duplicates": [],
+    "unique_modbus_events": 0
+  },
+  "firewall_log": {
+    "path": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-02/handoff/iptables_drops.log",
+    "sha256": "074b16c7b05df0a3377ee2f08cc998a9570331d0221b57caf84ef95f109724a2",
+    "drop_events": 1
+  },
+  "normalized_events_written": 1
+}

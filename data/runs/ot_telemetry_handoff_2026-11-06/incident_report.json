@@ -1,0 +1,36 @@
+{
+  "report_metadata": {
+    "title": "OT Cyber-Physical Incident Triage Report",
+    "author": "Rachid Afaf (Security Architect)",
+    "course": "CYB691 Capstone Team 4",
+    "generated_at": "2026-11-06T13:04:57.038330+00:00"
+  },
+  "metrics": {
+    "total_telemetry_events": 0,
+    "modbus_frames": 0,
+    "firewall_drops": 0,
+    "time_window": {
+      "start": "N/A",
+      "end": "N/A"
+    },
+    "traffic_distribution": {
+      "read_operations": 0,
+      "write_operations": 0,
+      "read_to_write_ratio": 0.0
+    },
+    "security_flags": {
+      "protocol_exceptions": 0,
+      "unauthorized_write_attempts": 0,
+      "firewall_drops": 0,
+      "high_threat_events": 0
+    },
+    "participating_hosts": {
+      "source_ips": [],
+      "destination_ips": [],
+      "write_sources": [],
+      "write_targets": [],
+      "blocked_sources": []
+    }
+  },
+  "correlated_events": []
+}

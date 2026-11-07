@@ -1,0 +1,47 @@
+[*] Loaded 363 records from SQLite /tmp/telemetry.db
+[*] Ground truth from scenario record: 197 events labelled, 166 without a matching action (excluded): MODBUS-EVT-0003, MODBUS-EVT-0009, MODBUS-EVT-0020, MODBUS-EVT-0021, MODBUS-EVT-0026, MODBUS-EVT-0028, MODBUS-EVT-0039, MODBUS-EVT-0048, MODBUS-EVT-0050, MODBUS-EVT-0051, MODBUS-EVT-0053, MODBUS-EVT-0066, MODBUS-EVT-0067, MODBUS-EVT-0068, MODBUS-EVT-0069, MODBUS-EVT-0071, MODBUS-EVT-0078, MODBUS-EVT-0086, MODBUS-EVT-0087, MODBUS-EVT-0088, MODBUS-EVT-0089, MODBUS-EVT-0090, MODBUS-EVT-0092, MODBUS-EVT-0093, MODBUS-EVT-0094, MODBUS-EVT-0097, MODBUS-EVT-0098, MODBUS-EVT-0102, MODBUS-EVT-0109, MODBUS-EVT-0111, MODBUS-EVT-0124, MODBUS-EVT-0132, MODBUS-EVT-0134, MODBUS-EVT-0135, MODBUS-EVT-0138, MODBUS-EVT-0144, MODBUS-EVT-0148, MODBUS-EVT-0150, MODBUS-EVT-0153, MODBUS-EVT-0167, MODBUS-EVT-0170, MODBUS-EVT-0173, MODBUS-EVT-0175, MODBUS-EVT-0176, MODBUS-EVT-0177, MODBUS-EVT-0178, MODBUS-EVT-0179, MODBUS-EVT-0180, MODBUS-EVT-0184, MODBUS-EVT-0186, MODBUS-EVT-0190, MODBUS-EVT-0195, MODBUS-EVT-0201, MODBUS-EVT-0218, MODBUS-EVT-0219, MODBUS-EVT-0221, MODBUS-EVT-0224, MODBUS-EVT-0225, MODBUS-EVT-0234, MODBUS-EVT-0236, MODBUS-EVT-0238, MODBUS-EVT-0253, MODBUS-EVT-0256, MODBUS-EVT-0258, MODBUS-EVT-0259, MODBUS-EVT-0261, MODBUS-EVT-0263, MODBUS-EVT-0265, MODBUS-EVT-0266, MODBUS-EVT-0267, MODBUS-EVT-0268, MODBUS-EVT-0269, MODBUS-EVT-0270, MODBUS-EVT-0271, MODBUS-EVT-0272, MODBUS-EVT-0273, MODBUS-EVT-0274, MODBUS-EVT-0275, MODBUS-EVT-0276, MODBUS-EVT-0277, MODBUS-EVT-0278, MODBUS-EVT-0279, MODBUS-EVT-0280, MODBUS-EVT-0281, MODBUS-EVT-0282, MODBUS-EVT-0283, MODBUS-EVT-0284, MODBUS-EVT-0285, MODBUS-EVT-0286, MODBUS-EVT-0287, MODBUS-EVT-0288, MODBUS-EVT-0289, MODBUS-EVT-0290, MODBUS-EVT-0291, MODBUS-EVT-0292, MODBUS-EVT-0293, MODBUS-EVT-0294, MODBUS-EVT-0295, MODBUS-EVT-0296, MODBUS-EVT-0297, MODBUS-EVT-0298, MODBUS-EVT-0299, MODBUS-EVT-0300, MODBUS-EVT-0301, MODBUS-EVT-0302, MODBUS-EVT-0303, MODBUS-EVT-0304, MODBUS-EVT-0305, MODBUS-EVT-0306, MODBUS-EVT-0307, MODBUS-EVT-0308, MODBUS-EVT-0309, MODBUS-EVT-0310, MODBUS-EVT-0311, MODBUS-EVT-0312, MODBUS-EVT-0313, MODBUS-EVT-0314, MODBUS-EVT-0315, MODBUS-EVT-0316, MODBUS-EVT-0317, MODBUS-EVT-0318, MODBUS-EVT-0319, MODBUS-EVT-0320, MODBUS-EVT-0321, MODBUS-EVT-0322, MODBUS-EVT-0323, MODBUS-EVT-0324, MODBUS-EVT-0325, MODBUS-EVT-0326, MODBUS-EVT-0327, MODBUS-EVT-0328, MODBUS-EVT-0329, MODBUS-EVT-0330, MODBUS-EVT-0331, MODBUS-EVT-0332, MODBUS-EVT-0333, MODBUS-EVT-0334, MODBUS-EVT-0335, MODBUS-EVT-0336, MODBUS-EVT-0337, MODBUS-EVT-0338, MODBUS-EVT-0339, MODBUS-EVT-0340, MODBUS-EVT-0341, MODBUS-EVT-0342, MODBUS-EVT-0343, MODBUS-EVT-0344, MODBUS-EVT-0345, MODBUS-EVT-0346, MODBUS-EVT-0347, MODBUS-EVT-0348, MODBUS-EVT-0349, MODBUS-EVT-0350, MODBUS-EVT-0351, MODBUS-EVT-0352, MODBUS-EVT-0353, MODBUS-EVT-0354, MODBUS-EVT-0355, MODBUS-EVT-0356, MODBUS-EVT-0357, MODBUS-EVT-0358, MODBUS-EVT-0359, MODBUS-EVT-0360, MODBUS-EVT-0361, MODBUS-EVT-0362, MODBUS-EVT-0363
+[!] Scenario record status: generator CSV (as delivered) (not yet confirmed by the team)
+
+[+] Layer 3 ML evaluation saved to: /repo/data/ml_evaluation_results.json
+[+] Saved 4 ML benchmark rows to SQLite /tmp/telemetry.db
+
+=================== MODEL BENCHMARK SUMMARY ===================
+Records: 197 (64 unauthorized writes, 133 authorized reads); labels from infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-07/scenario_file.csv [generator CSV (as delivered)]
+
+> Feature set 'request_time' | stratified_kfold
+  - Random Forest Classifier       recall 28.12%  FPR 48.87%  acc 43.65%  fit 55.878 ms  predict 0.0495 ms/sample
+  - Decision Tree Classifier       recall 54.69%  FPR 60.9%  acc 44.16%  fit 1.008 ms  predict 0.0046 ms/sample
+  - Support Vector Machine (SVM)   recall 42.19%  FPR 54.14%  acc 44.67%  fit 4.696 ms  predict 0.0219 ms/sample
+
+> Feature set 'request_time' | leave_one_run_out
+  - Random Forest Classifier       recall 23.44%  FPR 41.35%  acc 47.21%  fit 54.056 ms  predict 0.0579 ms/sample
+  - Decision Tree Classifier       recall 53.12%  FPR 36.84%  acc 59.9%  fit 0.785 ms  predict 0.0036 ms/sample
+  - Support Vector Machine (SVM)   recall 25.0%  FPR 19.55%  acc 62.44%  fit 2.327 ms  predict 0.0136 ms/sample
+
+> Feature set 'request_time_without_function_code' | stratified_kfold
+  - Random Forest Classifier       recall 45.31%  FPR 48.12%  acc 49.75%  fit 58.876 ms  predict 0.0458 ms/sample
+  - Decision Tree Classifier       recall 60.94%  FPR 60.15%  acc 46.7%  fit 1.668 ms  predict 0.0067 ms/sample
+  - Support Vector Machine (SVM)   recall 43.75%  FPR 54.14%  acc 45.18%  fit 4.043 ms  predict 0.0219 ms/sample
+
+> Feature set 'request_time_without_function_code' | leave_one_run_out
+  - Random Forest Classifier       recall 28.12%  FPR 42.86%  acc 47.72%  fit 56.119 ms  predict 0.0601 ms/sample
+  - Decision Tree Classifier       recall 54.69%  FPR 36.84%  acc 60.41%  fit 0.825 ms  predict 0.0041 ms/sample
+  - Support Vector Machine (SVM)   recall 25.0%  FPR 19.55%  acc 62.44%  fit 6.126 ms  predict 0.0222 ms/sample
+
+> Feature set 'report1_all_six' | stratified_kfold
+  - Random Forest Classifier       recall 26.56%  FPR 49.62%  acc 42.64%  fit 52.621 ms  predict 0.0433 ms/sample
+  - Decision Tree Classifier       recall 54.69%  FPR 60.9%  acc 44.16%  fit 0.959 ms  predict 0.0037 ms/sample
+  - Support Vector Machine (SVM)   recall 42.19%  FPR 54.14%  acc 44.67%  fit 2.936 ms  predict 0.0201 ms/sample
+
+> Feature set 'report1_all_six' | leave_one_run_out
+  - Random Forest Classifier       recall 28.12%  FPR 42.11%  acc 48.22%  fit 55.466 ms  predict 0.0598 ms/sample
+  - Decision Tree Classifier       recall 53.12%  FPR 37.59%  acc 59.39%  fit 0.853 ms  predict 0.0035 ms/sample
+  - Support Vector Machine (SVM)   recall 25.0%  FPR 19.55%  acc 62.44%  fit 3.624 ms  predict 0.0137 ms/sample
+
+> Rule baseline: function code in {5, 6, 15, 16}: recall 64.06%, FPR 69.92%
+
+> Isolation Forest (Batch outlier screening of the current capture (fit and score on the same batch; not evaluated as a detector of new observations)): flagged 81/197, recall 39.06%, FPR 42.11%, fit 125.587 ms
+
+Total execution time: 2981.42 ms
+===============================================================
+
