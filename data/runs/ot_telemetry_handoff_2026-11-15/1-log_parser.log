@@ -1,0 +1,11 @@
+[*] Selected telemetry handoff target: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz
+[*] Extracting compressed handoff archive: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz
+[*] Verifying cryptographic sidecar hash: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz.sha256
+[+] SHA-256 Checksum Verified: b2148618068b3d1d...
+[+] Archive safely extracted to: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15
+[*] Ingesting Suricata EVE JSON: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15/eve.json
+[*] Ingesting Firewall Drop log: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15/iptables_drops.log
+[+] Parser integrity report (hashes + de-duplication audit): /repo/data/parser_integrity_report.json
+[+] Successfully normalized 585 combined OT/Firewall events.
+[+] Output written to: /repo/data/normalized_telemetry.json
+[+] Synced 585 records to SQLite /tmp/telemetry.db

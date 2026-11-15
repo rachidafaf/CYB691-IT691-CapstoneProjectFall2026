@@ -1,252 +1,156 @@
 #!/usr/bin/env python3
 """
 ===============================================================================
-CYB691 Cybersecurity Capstone - Team 4 (Cyber-Physical & Network Defense)
-Module: OT Testbed Traffic Generator & Attack Simulator (traffic_generator.py)
+CYB691 / IT691 Cybersecurity Capstone - Team 4 (Cyber-Physical & Network Defense)
+Module: OT Testbed Traffic Generator (traffic_generator.py)
 Author: Erick Espinosa (Infrastructure, Emulation & Data Generation Lead)
 ===============================================================================
+Purpose
+  Generate labelled Modbus/TCP test traffic for IDS / ML evaluation against the
+  lab pymodbus PLC (vm-plc, 10.0.3.10:502). Produces the scenario ground-truth
+  CSV and the on-the-wire traffic that Suricata and the firewall observe.
 
-Description:
-  Automates the generation of industrial Modbus TCP network traffic against 
-  virtualized PLC emulators (OpenPLC / Conpot). Executes routine HMI polling 
-  (Read Holding Registers) and unauthorized command injections (Write Single 
-  Coil / Register) to generate test artifacts and trigger Suricata/pfSense logs.
+Case families
+  * C1-C6  source-separable baseline (reads + writes). Authorised when issued
+           from the HMI (10.0.1.10), unauthorised from the workstation
+           (10.0.1.20). Payloads are byte-identical across sources, so only the
+           source IP distinguishes them.
+  * A1-A5  content-distinguishable "insider" anomalies, issued FROM the
+           authorised HMI, so the source-based firewall allows them and only a
+           content-aware layer (Suricata DPI / ML) can catch them. See
+           docs/content-anomaly-capture-spec.md.
 
-  Enhancements added for the evaluation pipeline:
-    * CSV scenario logging (log_action helper)
-    * Additional CLI metadata arguments required by Step 7/8
-    * Dispatch of individual Modbus cases (C1‑C6) via ``--case``
-    * Support for Read Coils (FC 1) and Write Multiple Coils (FC 15)
-    * Logging performed *before* each request so blocked attempts are recorded
-    * Short connection timeout to fail fast on dropped connections
+Design rules (from the Step 7 spec)
+  * Labels are DECLARED via --authorized, never derived from source IP. An
+    insider anomaly therefore runs with --source-ip 10.0.1.10 --authorized 0.
+  * The address / value / anomaly_class columns are recorded for LABELLING and
+    VERIFICATION only; the ML must read content features from the observed
+    Suricata eve.json (request.write.*), not from this CSV (avoids label leakage).
+  * Each action is logged BEFORE it is sent, so firewall-blocked attempts are
+    still recorded.
+
+Implementation note
+  Raw-socket Modbus/TCP (standard library only) so the generator runs on hosts
+  without pymodbus installed. This is the version deployed on vm-hmi / vm-ws;
+  keep this repo copy and the deployed copy identical.
 ===============================================================================
 """
 
 import os
 import sys
-import time
-import argparse
 import csv
+import time
+import socket
+import struct
+import argparse
 from datetime import datetime, timezone
 
-try:
-    from pymodbus.client import ModbusTcpClient
-except ImportError:
-    print("[-] Error: 'pymodbus' library is not installed.")
-    print("[-] Please run: pip install pymodbus")
-    sys.exit(1)
 
 # ---------------------------------------------------------------------------
-# Helper: CSV logging (creates header if file does not exist)
+# Scenario CSV logging (extended Step 7 schema). Call BEFORE each request.
 # ---------------------------------------------------------------------------
-def log_action(csv_path, run_id, topology, case_id,
-               source_ip, dest_ip, function_code, authorized):
-    """Append one scenario row. Call immediately BEFORE the request is sent.
-    Matches the exact Step 7 header.
-    """
+def log_action(csv_path, run_id, topology, case_id, source_ip, dest_ip, function_code,
+               authorized, anomaly_class="normal", address="", quantity="", value="",
+               inter_arrival_ms=""):
     new_file = not os.path.exists(csv_path)
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         if new_file:
-            w.writerow(["timestamp_utc", "run_id", "topology", "case_id",
-                       "source_ip", "dest_ip", "function_code", "authorized"])
+            w.writerow(["timestamp_utc", "run_id", "topology", "case_id", "source_ip",
+                        "dest_ip", "unit_id", "function_code", "address", "quantity",
+                        "value", "inter_arrival_ms", "authorized", "anomaly_class"])
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-        w.writerow([ts, run_id, topology, case_id, source_ip, dest_ip,
-                    int(function_code), int(bool(authorized))])
+        w.writerow([ts, run_id, topology, case_id, source_ip, dest_ip, 1, int(function_code),
+                    address, quantity, value, inter_arrival_ms, int(bool(authorized)),
+                    anomaly_class])
         f.flush()
         os.fsync(f.fileno())
 
-# ---------------------------------------------------------------------------
-# Individual Modbus case implementations – each logs **before** sending.
-# ---------------------------------------------------------------------------
-def case_read_coils(client, args):
-    address, count = 0, 10
-    log_action(args.scenario_csv, args.run_id, args.topology, "C1",
-               args.source_ip, args.target, 1, args.authorized)
-    try:
-        client.read_coils(address, count=count)
-    except Exception:
-        pass
-
-def case_read_holding_registers(client, args):
-    address, count = 0, 10
-    log_action(args.scenario_csv, args.run_id, args.topology, "C2",
-               args.source_ip, args.target, 3, args.authorized)
-    try:
-        client.read_holding_registers(address=address, count=count)
-    except Exception:
-        pass
-
-def case_write_single_coil(client, args):
-    address, value = 0, True
-    log_action(args.scenario_csv, args.run_id, args.topology, "C3",
-               args.source_ip, args.target, 5, args.authorized)
-    try:
-        client.write_coil(address=address, value=value)
-    except Exception:
-        pass
-
-def case_write_single_register(client, args):
-    address, value = 1, 999
-    log_action(args.scenario_csv, args.run_id, args.topology, "C4",
-               args.source_ip, args.target, 6, args.authorized)
-    try:
-        client.write_register(address=address, value=value)
-    except Exception:
-        pass
-
-def case_write_multiple_coils(client, args):
-    address, values = 2, [True, False, True]
-    log_action(args.scenario_csv, args.run_id, args.topology, "C5",
-               args.source_ip, args.target, 15, args.authorized)
-    try:
-        client.write_coils(address=address, values=values)
-    except Exception:
-        pass
-
-def case_write_multiple_registers(client, args):
-    address, values = 2, [100, 200, 300]
-    log_action(args.scenario_csv, args.run_id, args.topology, "C6",
-               args.source_ip, args.target, 16, args.authorized)
-    try:
-        client.write_registers(address=address, values=values)
-    except Exception:
-        pass
 
 # ---------------------------------------------------------------------------
-# Argument parsing – includes new metadata flags.
+# Raw Modbus/TCP send (stdlib only). Response is read and discarded; outcome is
+# verified separately by read-back (verify_readback.py), not logged here.
 # ---------------------------------------------------------------------------
+def send_native_modbus(ip, port, unit_id, fc, payload_body):
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(1.0)
+        s.connect((ip, port))
+        pdu = bytes([fc]) + payload_body
+        mbap = struct.pack(">HHHB", 1, 0, len(pdu) + 1, unit_id)   # transaction, protocol, length, unit
+        s.sendall(mbap + pdu)
+        s.recv(1024)
+        s.close()
+    except Exception:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# Case table: case_id -> (function_code, pdu_payload, address, quantity,
+#                         value_str, default_anomaly_class)
+# C3 writes 0xFF00 (coil ON). A1-A5 are "out of range" relative to the
+# legitimate HMI profile (HR[0-4] / CO[0-4], values 0-1000), not the protocol.
+# ---------------------------------------------------------------------------
+CASES = {
+    # --- source-separable baseline ---
+    "C1": (1,  struct.pack(">HH", 0, 10),                       0,  10, "",             "normal"),
+    "C2": (3,  struct.pack(">HH", 0, 10),                       0,  10, "",             "normal"),
+    "C3": (5,  struct.pack(">HH", 0, 65280),                    0,  1,  "1",            "normal"),
+    "C4": (6,  struct.pack(">HH", 1, 999),                      1,  1,  "999",          "normal"),
+    "C5": (15, struct.pack(">HHBB", 2, 3, 1, 5),                2,  3,  "1;0;1",        "normal"),
+    "C6": (16, struct.pack(">HHBHHH", 2, 3, 6, 100, 200, 300),  2,  3,  "100;200;300",  "normal"),
+    # --- Step 7 content-distinguishable insider anomalies (run with --authorized 0) ---
+    "A1": (6,  struct.pack(">HH", 600, 50),                     600, 1, "50",           "oor_address"),
+    "A2": (6,  struct.pack(">HH", 2, 65000),                    2,   1, "65000",        "oor_value"),
+    "A3": (16, struct.pack(">HHBHHH", 0, 3, 6, 50, 65000, 90),  0,   3, "50;65000;90",  "oor_value"),
+    "A5": (6,  struct.pack(">HH", 20, 10),                      20,  1, "10",           "ro_write"),
+    # A4 (write burst) is handled specially in main() because it sends many packets.
+}
+
+
 def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description="OT Testbed Automated Traffic Generator & Attack Simulator (pymodbus)"
-    )
-    # Existing options
-    parser.add_argument("-t", "--target", default="127.0.0.1",
-                        help="Target IP address of the PLC emulator (default: 127.0.0.1)")
-    parser.add_argument("-p", "--port", type=int, default=502,
-                        help="Modbus TCP port (default: 502)")
-    parser.add_argument("-c", "--count", type=int, default=5,
-                        help="Number of baseline polling iterations (default: 5)")
-    parser.add_argument("-d", "--delay", type=float, default=1.0,
-                        help="Delay in seconds between polls (default: 1.0)")
-    parser.add_argument("--attack-only", action="store_true",
-                        help="Execute only unauthorized write command injections")
-    parser.add_argument("--baseline-only", action="store_true",
-                        help="Execute only baseline HMI read polling")
-    # New required metadata options
-    parser.add_argument("--run-id", required=True, help="Unique identifier for this run")
-    parser.add_argument("--topology", required=True, help="Topology name (e.g., vm-hmi, vm-ws)")
-    parser.add_argument("--case", choices=["C1", "C2", "C3", "C4", "C5", "C6"],
-                        help="Execute a single Modbus case and exit")
-    parser.add_argument("--authorized", type=int, choices=[0, 1], required=True,
-                        help="Authorization flag set by host (1=authorized, 0=unauthorized)")
-    parser.add_argument("--source-ip", required=True, help="Source IP address of the request")
-    parser.add_argument("--scenario-csv", required=True,
-                        help="Path to CSV file where each request is logged")
-    return parser.parse_args()
+    p = argparse.ArgumentParser(
+        description="CYB691 Team 4 - OT Modbus test-traffic generator (baseline C1-C6 + Step 7 anomalies A1-A5)")
+    p.add_argument("-t", "--target", default="10.0.3.10", help="PLC IP (default 10.0.3.10)")
+    p.add_argument("-p", "--port", type=int, default=502, help="Modbus TCP port (default 502)")
+    p.add_argument("--run-id", required=True, help="Unique identifier for this run (e.g. R01, S7)")
+    p.add_argument("--topology", required=True, help="Policy phase label (baseline | layered)")
+    p.add_argument("--case", required=True,
+                   choices=["C1", "C2", "C3", "C4", "C5", "C6", "A1", "A2", "A3", "A4", "A5"],
+                   help="Execute a single Modbus case and exit")
+    p.add_argument("--authorized", type=int, choices=[0, 1], required=True,
+                   help="DECLARED label (1=authorised, 0=unauthorised); NOT derived from source IP")
+    p.add_argument("--source-ip", required=True, help="Source IP recorded in the scenario CSV")
+    p.add_argument("--scenario_csv", required=True, help="Scenario CSV path (ground truth)")
+    p.add_argument("--anomaly-class", default="",
+                   help="Overrides the per-case default (e.g. 'unauth_source' for WS baseline runs)")
+    p.add_argument("--burst-count", type=int, default=30, help="A4: number of writes in the burst")
+    p.add_argument("--burst-interval-ms", type=int, default=20, help="A4: ms between burst writes")
+    return p.parse_args()
 
-# ---------------------------------------------------------------------------
-# Main execution flow
-# ---------------------------------------------------------------------------
+
 def main():
     args = parse_arguments()
 
-    print("======================================================================")
-    print(" CYB691 Capstone Team 4 — OT Traffic & Attack Simulation Engine       ")
-    print(f" Target: {args.target}:{args.port}                                    ")
-    print("======================================================================\n")
+    # A4: rapid write burst on CO[0] (timing anomaly). Many packets, one per iteration.
+    if args.case == "A4":
+        acls = args.anomaly_class or "burst"
+        for i in range(args.burst_count):
+            on = (i % 2 == 0)
+            log_action(args.scenario_csv, args.run_id, args.topology, "A4", args.source_ip,
+                       args.target, 5, args.authorized, acls, 0, 1, int(on), args.burst_interval_ms)
+            send_native_modbus(args.target, args.port, 1, 5,
+                               struct.pack(">HH", 0, 0xFF00 if on else 0x0000))
+            time.sleep(args.burst_interval_ms / 1000.0)
+        return
 
-    print(f"[*] Connecting to Modbus TCP target at {args.target}:{args.port}...")
-    client = ModbusTcpClient(args.target, port=args.port, timeout=3)
+    # All other cases: one logged action, one request.
+    fc, payload, address, quantity, value, default_cls = CASES[args.case]
+    acls = args.anomaly_class or default_cls
+    log_action(args.scenario_csv, args.run_id, args.topology, args.case, args.source_ip,
+               args.target, fc, args.authorized, acls, address, quantity, value)
+    send_native_modbus(args.target, args.port, 1, fc, payload)
 
-    if not client.connect():
-        print(f"[-] Connection failed to {args.target}:{args.port}.")
-        if args.case:
-            # Log failed connection attempt
-            log_action(args.scenario_csv, args.run_id, args.topology, args.case,
-                       args.source_ip, args.target, "connect", args.authorized)
-        sys.exit(1)
-
-    print("[+] Connection established successfully.\n")
-
-    try:
-        if args.case:
-            case_map = {
-                "C1": case_read_coils,
-                "C2": case_read_holding_registers,
-                "C3": case_write_single_coil,
-                "C4": case_write_single_register,
-                "C5": case_write_multiple_coils,
-                "C6": case_write_multiple_registers,
-            }
-            func = case_map.get(args.case)
-            if func:
-                func(client, args)
-            else:
-                print(f"[!] Unknown case: {args.case}")
-            return
-
-        # Default behaviour – baseline polling then attack simulation
-        if not args.attack_only:
-            send_baseline_polls(client, count=args.count, delay=args.delay)
-        if not args.baseline_only:
-            inject_unauthorized_commands(client)
-    finally:
-        client.close()
-        print("[*] Modbus TCP connection closed. Execution finished.")
-
-# ---------------------------------------------------------------------------
-# Original baseline and attack helpers (unchanged)
-# ---------------------------------------------------------------------------
-def send_baseline_polls(client, count=5, delay=1.0):
-    """Executes legitimate HMI routine read polling (Function Code 0x03)."""
-    print(f"[*] Starting Baseline HMI Polling (FC 0x03) - {count} iterations...")
-    success_count = 0
-    for i in range(1, count + 1):
-        try:
-            result = client.read_holding_registers(address=0, count=10)
-            timestamp = datetime.now(timezone.utc).isoformat()
-            if result and not result.isError():
-                print(f"  [+] [{timestamp}] Poll {i}/{count} Success: Registers -> {result.registers}")
-                success_count += 1
-            else:
-                print(f"  [!] [{timestamp}] Poll {i}/{count} Error response: {result}")
-        except Exception as e:
-            print(f"  [!] Exception during poll {i}: {e}")
-        time.sleep(delay)
-    print(f"[+] Baseline Polling completed: {success_count}/{count} successful reads.\n")
-
-def inject_unauthorized_commands(client):
-    """Executes unauthorized state‑altering write command injections (FC 0x05, 0x06, 0x10)."""
-    print("[!] INITIATING ATTACK SIMULATION: Unauthorized Modbus Command Injections...")
-    timestamp = datetime.now(timezone.utc).isoformat()
-    try:
-        # 1. Write Single Coil (FC 0x05)
-        print(f"  [>] [{timestamp}] Injecting FC 0x05 (Write Single Coil) at Address 0 (Value: True)...")
-        res_coil = client.write_coil(address=0, value=True)
-        if res_coil and not res_coil.isError():
-            print("      [+] FC 0x05 executed successfully on target emulator.")
-        else:
-            print(f"      [!] FC 0x05 response: {res_coil}")
-        time.sleep(0.5)
-        # 2. Write Single Register (FC 0x06)
-        print(f"  [>] [{timestamp}] Injecting FC 0x06 (Write Single Register) at Address 1 (Value: 999)...")
-        res_reg = client.write_register(address=1, value=999)
-        if res_reg and not res_reg.isError():
-            print("      [+] FC 0x06 executed successfully on target emulator.")
-        else:
-            print(f"      [!] FC 0x06 response: {res_reg}")
-        time.sleep(0.5)
-        # 3. Write Multiple Registers (FC 0x10)
-        print(f"  [>] [{timestamp}] Injecting FC 0x10 (Write Multiple Registers) starting at Address 2...")
-        res_multi = client.write_registers(address=2, values=[100, 200, 300])
-        if res_multi and not res_multi.isError():
-            print("      [+] FC 0x10 executed successfully on target emulator.")
-        else:
-            print(f"      [!] FC 0x10 response: {res_multi}")
-    except Exception as e:
-        print(f"  [!] Exception during attack command injection: {e}")
-    print("[!] Attack simulation sequence completed.\n")
 
 if __name__ == "__main__":
     main()

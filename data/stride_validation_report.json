@@ -1,5 +1,5 @@
 {
-  "audit_timestamp": "2026-11-07T16:19:31.031483+00:00",
+  "audit_timestamp": "2026-11-15T01:11:21.999674+00:00",
   "threat_model_file": "Team 4 Threat Model.json",
   "inventory": {
     "title": "Complete OT Cybersecurity Testbed",
@@ -81,13 +81,13 @@
       "kind": "PROPERTY",
       "check": "P2 Normalized vs raw",
       "status": "PASS",
-      "details": "270 normalized Modbus events == 270 unique raw transactions; function codes {1: 45, 3: 45, 5: 45, 6: 45, 15: 45, 16: 45} match; 93 firewall drops == raw drop lines"
+      "details": "493 normalized Modbus events == 493 unique raw transactions; function codes {1: 43, 3: 43, 5: 190, 6: 113, 15: 40, 16: 64} match; 92 firewall drops == raw drop lines"
     },
     {
       "kind": "PROPERTY",
       "check": "P3 ML evaluation",
       "status": "WARN",
-      "details": "method checks passed; scenario record not yet confirmed by the team (generator CSV (as delivered)); Random Forest recall 28.12% / FPR 48.87% vs targets >=95% / <=2%; without function_code, Random Forest recall falls to 45.31%: detection rests on the function code (rule baseline gives the same result)"
+      "details": "method checks passed; scenario record not yet confirmed by the team (generator CSV (as delivered)); Random Forest recall 70.33% / FPR 26.35% vs targets >=95% / <=2%; without function_code, Random Forest recall falls to 57.86%: detection rests on the function code (rule baseline gives the same result)"
     }
   ],
   "audit_status": "PARTIAL",

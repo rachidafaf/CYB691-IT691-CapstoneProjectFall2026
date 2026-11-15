@@ -34,7 +34,7 @@ import argparse
 import re
 import pandas as pd
 from datetime import datetime, timezone
-
+from content_features import decode_write_values
 
 try:
     from src.database import insert_telemetry_records, describe_target, DEFAULT_DB_PATH
@@ -360,10 +360,16 @@ def normalize_suricata_eve_json(json_path, stats=None):
             payload_raw = f"read:addr={read_info.get('address', 0)} qty={read_info.get('quantity', 1)}"
         elif 'write' in req and isinstance(req['write'], dict):
             write_info = req['write']
-            val = write_info.get('data', write_info.get('value', ''))
+            raw  = write_info.get('data', write_info.get('value', ''))
             addr = write_info.get('address', 0)
-            payload_meta = {"operation": "write", "address": addr, "value": str(val)}
-            payload_raw = f"write:addr={addr} val={val}"
+            try:
+                values, qty = decode_write_values(fcode, raw)        # fcode = numeric FC already in scope
+            except Exception:
+                values, qty = [], 1
+            qty = write_info.get('quantity', qty)
+            payload_meta = {"operation": "write", "address": addr,
+                            "quantity": qty, "values": values, "value": str(raw)}
+            payload_raw = f"write:addr={addr} qty={qty} vals={values}"
         else:
             payload_raw = mb_data.get('payload_raw', f"FC={fcode}")
             payload_meta = parse_payload_string(payload_raw)

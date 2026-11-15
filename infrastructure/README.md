@@ -6,6 +6,8 @@
 
 This directory holds the testbed scripts and the telemetry handoff. Section 1 states what the **captured evidence** shows about the environment that produced the handoff. Section 2 lists each component with its status and the evidence for it. Anything not backed by an artifact in this repository is marked **To confirm** and must be filled in by the module lead (README §8, items 3–4).
 
+> **November 2026 (Report 2):** Sections 1–5 document the **2026-09-26 Conpot** capture. The Report 2 captures — three source-separable (2026-11-04/07/14) plus the Step 7 content-distinguishable capture (2026-11-15) — use a different, fully-recorded testbed on Azure `rg-cyb691-lab-dk` with a real **pymodbus 3.8.6** PLC, **iptables 1.8.10** and **Suricata 7.0.3**. See **§6** below. Deployed versions now ship inside each handoff's `versions.txt`.
+
 ---
 
 ## 1. What the 2026-09-26 handoff shows (evidence-derived)
@@ -102,3 +104,28 @@ The script in this directory polls with FC 0x03 and then sends unauthorized FC 0
   Before any public release, either redact or drop non-Modbus events, or confirm that publishing them is acceptable. Record the decision in `THIRD_PARTY_LICENSES.md` §3.
 * **Safety.** All Modbus traffic targeted a lab container. No production or third-party control system was contacted.
 * **Licensing.** Tool and data terms are in [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md).
+
+---
+
+## 6. November 2026 captures (Report 2) — recorded testbed
+
+The Report 2 captures (`ot_telemetry_handoff_2026-11-04/07/14.tar.gz`, plus the Step 7 content-distinguishable capture `ot_telemetry_handoff_2026-11-15.tar.gz`) were produced on a purpose-built, fully-recorded testbed, not the 2026-09-26 Conpot environment. This closes Report 1 feedback items #3 (environment specification) and #13 (Conpot vs OpenPLC), and the "no write succeeded" finding (#2).
+
+**Resource group:** Azure `rg-cyb691-lab-dk` (Denmark East). All four VMs are set to **UTC**.
+
+| Zone / level | Component | VM | Address / interface | Version | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Enterprise / L3 | HMI (authorized operator) | vm-hmi | `10.0.1.10` (snet, 10.0.1.0/24) | `traffic_generator.py` (raw-socket Modbus) | Evidenced |
+| Enterprise / L3 | Workstation (unauthorized) | vm-ws | `10.0.1.20` (snet, 10.0.1.0/24) | `traffic_generator.py` | Evidenced |
+| Boundary / L2–3 | Firewall + IDS | vm-fwsensor | `10.0.2.4` (routes 10.0.1.0/24 ↔ 10.0.3.0/24) | **iptables 1.8.10 (nf_tables)**, **Suricata 7.0.3 RELEASE** | Evidenced |
+| Field / L1 | PLC (Modbus server) | vm-plc | `10.0.3.10:502` (snet-ot, 10.0.3.0/24) | **pymodbus 3.8.6** (`run_server.py`, di/co/hr/ir = `ModbusSequentialDataBlock(0,[0]*999)`, `single=True`) | Evidenced |
+
+**Firewall policies.** Each capture runs under two policies on vm-fwsensor:
+* **Baseline (flat):** `FORWARD ACCEPT` — no segmentation.
+* **Layered (segmented):** `FORWARD DROP` by default, an explicit allow for `HMI(10.0.1.10) → PLC(10.0.3.10):502`, `ESTABLISHED,RELATED` accepted, and a `CYB691-DROP` LOG rule before the final drop. The deployed rules travel in each handoff (`iptables-baseline.rules`, `iptables-layered.rules`). The rsyslog filter is scoped to kernel (`kern`) `CYB691-DROP` lines so the drop log holds only genuine kernel drops.
+
+**Handoff contents (Report 2 layout).** `eve.json`, `iptables_drops.log`, `scenario_file.csv` (ingested), plus `versions.txt`, `iptables-baseline.rules`, `iptables-layered.rules`, and the read-back evidence `pre.json` / `post.json` / `readback_verification.json` (carried as attachments). The three source-separable captures use `scenario_file.csv` columns `timestamp_utc, run_id, topology, case_id, source_ip, dest_ip, function_code, authorized` — 360 actions per capture (R01–R06, 2 hosts, C1–C6). The **Step 7 capture (2026-11-15)** uses an extended 14-column schema adding `unit_id, address, quantity, value, inter_arrival_ms, anomaly_class` and 664 actions: the HMI legitimate stream, the WS source-separable block, and the insider anomalies A1–A5 (out-of-range address/value, read-only-register write, write burst) declared `authorized=0` from the HMI.
+
+**Case set.** C1 FC1 ReadCoils, C2 FC3 ReadHoldingRegisters, C3 FC5 WriteSingleCoil, C4 FC6 WriteSingleRegister, C5 FC15 WriteMultipleCoils, C6 FC16 WriteMultipleRegisters.
+
+**Per-capture totals (ingested).** Source-separable captures: ~270 MODBUS_DPI, ~60 SURICATA_ALERT, ~91–93 FIREWALL_DROP each. Step 7 capture (2026-11-15): 493 Modbus transactions, 60 Suricata alerts, 92 firewall drops, 485 scenario-labelled events. Across all four handoffs the stack ingests 3224 events / 32 incidents (`up.ps1` → 25/25, 4/4 receipted). Results: `../docs/ablation-results.md` (ablation + four-tier content result), `../docs/readback-verification.md` (read-back), `data/runs/<handoff>/correlated_results.csv` (correlation), `docs/report2-results-draft.md` (full write-up).

@@ -15,10 +15,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -154,10 +165,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -185,10 +207,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -324,10 +351,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -355,10 +393,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -494,10 +537,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -525,10 +579,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -664,10 +723,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -695,10 +765,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -834,10 +909,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -892,10 +978,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1004,10 +1095,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1035,10 +1137,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1174,10 +1281,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1205,10 +1323,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1344,10 +1467,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1375,10 +1509,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1514,10 +1653,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1545,10 +1695,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1684,10 +1839,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1715,10 +1881,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -1854,10 +2025,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -1885,10 +2067,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2024,10 +2211,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2055,10 +2253,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2167,10 +2370,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2252,10 +2466,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2364,10 +2583,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2395,10 +2625,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2534,10 +2769,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2565,10 +2805,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2704,10 +2955,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2735,10 +2997,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -2847,10 +3114,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -2905,10 +3183,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3017,10 +3300,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3102,10 +3396,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3214,10 +3513,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3245,10 +3555,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3384,10 +3699,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3415,10 +3741,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3554,10 +3885,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3585,10 +3927,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3724,10 +4071,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3755,10 +4113,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -3867,10 +4230,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -3925,10 +4299,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4037,10 +4416,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4095,10 +4485,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4234,10 +4629,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4265,10 +4671,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4377,10 +4788,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4462,10 +4884,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4574,10 +5001,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4605,10 +5043,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4744,10 +5187,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4775,10 +5229,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -4887,10 +5346,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -4945,10 +5415,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5084,10 +5559,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5115,10 +5595,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5254,10 +5745,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5285,10 +5787,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5424,10 +5931,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5455,10 +5973,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5567,10 +6090,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5598,10 +6132,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5737,10 +6276,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5795,10 +6345,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -5934,10 +6489,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -5965,10 +6531,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6104,10 +6675,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6135,10 +6717,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6274,10 +6861,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6305,10 +6903,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6417,10 +7020,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6475,10 +7089,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6614,10 +7233,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6672,10 +7302,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6784,10 +7419,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6815,10 +7461,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -6954,10 +7605,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -6985,10 +7647,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -7124,10 +7791,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -7155,10 +7833,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -7294,10 +7977,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -7352,10 +8046,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -7437,10 +8136,21 @@
       "function_name": "Write Multiple Coils",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[1, 0, 0, 0, 0, 0, 0, 0]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
         "value": "\u0001"
       },
       "exception_code": "None"
@@ -7468,10 +8178,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"
@@ -7634,10 +8349,15 @@
       "function_name": "Write Multiple Registers",
       "category": "WRITE",
       "risk_level": "CRITICAL",
-      "payload_raw": "write:addr=2 val=\u0000d\u0000\\xc8\u0001",
+      "payload_raw": "write:addr=2 qty=3 vals=[100, 200]",
       "payload_parsed": {
         "operation": "write",
         "address": 2,
+        "quantity": 3,
+        "values": [
+          100,
+          200
+        ],
         "value": "\u0000d\u0000\\xc8\u0001"
       },
       "exception_code": "None"

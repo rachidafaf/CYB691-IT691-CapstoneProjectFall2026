@@ -35,7 +35,7 @@ This repository incorporates a repository-level STRIDE threat model formatted in
 * **Automated Audit Script:** `validate_stride_threats.py` reports **INVENTORY** results (artifacts exist and are well formed) separately from **PROPERTY** results (a control was actually exercised: parser functions driven with hostile inputs, normalized data reconciled with raw `eve.json`, ML evaluation method checked). Inventory results are not evidence that a threat is mitigated.
 
 ### 2. Trust Boundaries
-* **OT Network Boundary (`curve-ot-boundary`):** Segregates Level 1–3 Purdue Model testbed components (Conpot Modbus target `172.17.0.2:5020` on the capture VM's Docker bridge, Suricata sensor; pfSense firewall planned. See `infrastructure/README.md` for the evidenced vs planned components) from developer workstations and external networks.
+* **OT Network Boundary (`curve-ot-boundary`):** Segregates Level 1–3 Purdue Model testbed components from developer workstations and external networks. *(2026-09-26 capture: Conpot Modbus target `172.17.0.2:5020` on the capture VM's Docker bridge, Suricata sensor, no firewall in path. Report 2 captures: real pymodbus 3.8.6 PLC `10.0.3.10:502` behind iptables 1.8.10 + Suricata 7.0.3 on vm-fwsensor — `infrastructure/README.md` §6.)*
 * **Analysis Evidence Boundary (`curve-analysis-boundary`):** Protects cross-zone telemetry handoff archives (`.tar.gz`), log parsing routines (`src/log_parser.py`), incident triage engines (`src/timeline_generator.py`), machine learning analytics (`src/ml_detector.py`), and post-mortem report deliverables.
 
 ### 3. STRIDE Threat Distribution (37 Open Threats)
@@ -68,6 +68,8 @@ AUDIT PARTIAL: 2 property check(s) passed, 1 warning(s). This audit does not clo
 ```
 
 The negative control described in the Report 1 feedback (an empty parser, normalized data holding an empty object, an empty model-results object) now produces **FAIL** on P1, P2 and P3 (`tests/test_pipeline.py::test_validator_negative_control_reproduces_professor_probe`).
+
+> **November 2026 update.** The run above is the 2026-09-26 Conpot capture. The validator (P1/P2/P3) now runs and passes on each of the **four** Report 2 handoffs — the three source-separable captures (2026-11-04/07/14) and the Step 7 content-distinguishable capture (2026-11-15) — during ingest (`up.ps1` → **25/25** checks, 4/4 handoffs receipted). The 2026-11-15 capture adds content-distinguishable insider anomalies (writes from the authorized HMI with out-of-range address/value and burst timing), exercising the Tampering/Elevation paths that source-based controls alone cannot see; the content layer detects them per-class ~100%, though a static content rule matches the ML (`docs/ablation-results.md`). Two readable STRIDE figures were produced for Report 2 (Graphviz PNG + SVG + `.dot` source): **Figure 1 — OT Network Boundary** and **Figure 2 — Analysis/Evidence Boundary**, each mapping STRIDE threats to the validated controls (firewall containment, Suricata DPI, read-back, hashing, append-only audit, least-privilege roles). Threat-model threat/mitigation rows remain to be confirmed against `Team 4 Threat Model.json`.
 
 ## 🔏 Captured Data Handling
 The handoff archive contains non-testbed traffic captured on the Azure VM, including public IPs of inbound SSH clients. Do not make the repository public until the release decision in `THIRD_PARTY_LICENSES.md` §3 is recorded.

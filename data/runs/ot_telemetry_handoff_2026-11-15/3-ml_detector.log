@@ -1,0 +1,68 @@
+[*] Loaded 585 records from SQLite /tmp/telemetry.db
+[*] Ground truth from scenario record: 485 events labelled, 100 without a matching action (excluded): MODBUS-EVT-0482, MODBUS-EVT-0483, MODBUS-EVT-0484, MODBUS-EVT-0485, MODBUS-EVT-0486, MODBUS-EVT-0487, MODBUS-EVT-0488, MODBUS-EVT-0489, MODBUS-EVT-0490, MODBUS-EVT-0491, MODBUS-EVT-0492, MODBUS-EVT-0493, MODBUS-EVT-0494, MODBUS-EVT-0495, MODBUS-EVT-0496, MODBUS-EVT-0497, MODBUS-EVT-0498, MODBUS-EVT-0499, MODBUS-EVT-0500, MODBUS-EVT-0501, MODBUS-EVT-0502, MODBUS-EVT-0503, MODBUS-EVT-0504, MODBUS-EVT-0505, MODBUS-EVT-0506, MODBUS-EVT-0507, MODBUS-EVT-0508, MODBUS-EVT-0509, MODBUS-EVT-0510, MODBUS-EVT-0511, MODBUS-EVT-0512, MODBUS-EVT-0513, MODBUS-EVT-0514, MODBUS-EVT-0515, MODBUS-EVT-0516, MODBUS-EVT-0517, MODBUS-EVT-0518, MODBUS-EVT-0519, MODBUS-EVT-0520, MODBUS-EVT-0521, MODBUS-EVT-0522, MODBUS-EVT-0523, MODBUS-EVT-0524, MODBUS-EVT-0525, MODBUS-EVT-0526, MODBUS-EVT-0527, MODBUS-EVT-0528, MODBUS-EVT-0529, MODBUS-EVT-0530, MODBUS-EVT-0531, MODBUS-EVT-0532, MODBUS-EVT-0533, MODBUS-EVT-0534, MODBUS-EVT-0535, MODBUS-EVT-0536, MODBUS-EVT-0537, MODBUS-EVT-0538, MODBUS-EVT-0539, MODBUS-EVT-0540, MODBUS-EVT-0541, MODBUS-EVT-0542, MODBUS-EVT-0543, MODBUS-EVT-0544, MODBUS-EVT-0545, MODBUS-EVT-0546, MODBUS-EVT-0547, MODBUS-EVT-0548, MODBUS-EVT-0549, MODBUS-EVT-0550, MODBUS-EVT-0551, MODBUS-EVT-0552, MODBUS-EVT-0553, MODBUS-EVT-0554, MODBUS-EVT-0555, MODBUS-EVT-0556, MODBUS-EVT-0557, MODBUS-EVT-0558, MODBUS-EVT-0559, MODBUS-EVT-0560, MODBUS-EVT-0561, MODBUS-EVT-0562, MODBUS-EVT-0563, MODBUS-EVT-0564, MODBUS-EVT-0565, MODBUS-EVT-0566, MODBUS-EVT-0567, MODBUS-EVT-0568, MODBUS-EVT-0569, MODBUS-EVT-0570, MODBUS-EVT-0571, MODBUS-EVT-0572, MODBUS-EVT-0573, MODBUS-EVT-0574, MODBUS-EVT-0575, MODBUS-EVT-0576, MODBUS-EVT-0577, MODBUS-EVT-0582, MODBUS-EVT-0583, MODBUS-EVT-0584, MODBUS-EVT-0585
+[!] Scenario record status: generator CSV (as delivered) (not yet confirmed by the team)
+
+[+] Layer 3 ML evaluation saved to: /repo/data/ml_evaluation_results.json
+[+] Saved 4 ML benchmark rows to SQLite /tmp/telemetry.db
+
+=================== MODEL BENCHMARK SUMMARY ===================
+Records: 485 (337 unauthorized writes, 148 authorized reads); labels from infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15/scenario_file.csv [generator CSV (as delivered)]
+
+> Feature set 'request_time' | stratified_kfold
+  - Random Forest Classifier       recall 70.33%  FPR 26.35%  acc 71.34%  fit 65.151 ms  predict 0.0212 ms/sample
+  - Decision Tree Classifier       recall 67.36%  FPR 18.24%  acc 71.75%  fit 1.034 ms  predict 0.0015 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 24.734 ms  predict 0.0435 ms/sample
+
+> Feature set 'request_time' | leave_one_run_out
+  - Random Forest Classifier       recall 66.17%  FPR 30.41%  acc 67.22%  fit 67.419 ms  predict 0.0917 ms/sample
+  - Decision Tree Classifier       recall 65.58%  FPR 18.92%  acc 70.31%  fit 1.14 ms  predict 0.0078 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 17.513 ms  predict 0.039 ms/sample
+
+> Feature set 'request_time_without_function_code' | stratified_kfold
+  - Random Forest Classifier       recall 57.86%  FPR 27.7%  acc 62.27%  fit 68.813 ms  predict 0.0213 ms/sample
+  - Decision Tree Classifier       recall 56.68%  FPR 20.95%  acc 63.51%  fit 1.199 ms  predict 0.0018 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 10.428 ms  predict 0.0204 ms/sample
+
+> Feature set 'request_time_without_function_code' | leave_one_run_out
+  - Random Forest Classifier       recall 54.6%  FPR 28.38%  acc 59.79%  fit 75.02 ms  predict 0.0914 ms/sample
+  - Decision Tree Classifier       recall 53.12%  FPR 15.54%  acc 62.68%  fit 1.305 ms  predict 0.0107 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 26.294 ms  predict 0.045 ms/sample
+
+> Feature set 'report1_all_six' | stratified_kfold
+  - Random Forest Classifier       recall 67.66%  FPR 16.22%  acc 72.58%  fit 64.518 ms  predict 0.0203 ms/sample
+  - Decision Tree Classifier       recall 62.02%  FPR 8.78%  acc 70.93%  fit 1.196 ms  predict 0.0019 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 21.355 ms  predict 0.0272 ms/sample
+
+> Feature set 'report1_all_six' | leave_one_run_out
+  - Random Forest Classifier       recall 64.39%  FPR 20.95%  acc 68.87%  fit 68.33 ms  predict 0.0911 ms/sample
+  - Decision Tree Classifier       recall 58.75%  FPR 3.38%  acc 70.31%  fit 1.135 ms  predict 0.0095 ms/sample
+  - Support Vector Machine (SVM)   recall 43.32%  FPR 1.35%  acc 60.21%  fit 27.442 ms  predict 0.0399 ms/sample
+
+> Feature set 'content' | stratified_kfold
+  - Random Forest Classifier       recall 72.11%  FPR 0.68%  acc 80.41%  fit 70.774 ms  predict 0.0214 ms/sample
+  - Decision Tree Classifier       recall 71.81%  FPR 0.68%  acc 80.21%  fit 1.119 ms  predict 0.0016 ms/sample
+  - Support Vector Machine (SVM)   recall 14.24%  FPR 0.68%  acc 40.21%  fit 30.422 ms  predict 0.0518 ms/sample
+
+> Feature set 'content' | leave_one_run_out
+  - Random Forest Classifier       recall 71.81%  FPR 2.03%  acc 79.79%  fit 60.346 ms  predict 0.088 ms/sample
+  - Decision Tree Classifier       recall 71.81%  FPR 0.68%  acc 80.21%  fit 1.021 ms  predict 0.0076 ms/sample
+  - Support Vector Machine (SVM)   recall 14.24%  FPR 0.68%  acc 40.21%  fit 30.985 ms  predict 0.056 ms/sample
+
+> Feature set 'content_only' | stratified_kfold
+  - Random Forest Classifier       recall 77.74%  FPR 16.89%  acc 79.38%  fit 57.932 ms  predict 0.018 ms/sample
+  - Decision Tree Classifier       recall 77.74%  FPR 16.89%  acc 79.38%  fit 1.06 ms  predict 0.002 ms/sample
+  - Support Vector Machine (SVM)   recall 14.24%  FPR 0.0%  acc 40.41%  fit 24.451 ms  predict 0.0542 ms/sample
+
+> Feature set 'content_only' | leave_one_run_out
+  - Random Forest Classifier       recall 77.74%  FPR 16.89%  acc 79.38%  fit 58.535 ms  predict 0.0825 ms/sample
+  - Decision Tree Classifier       recall 77.74%  FPR 16.89%  acc 79.38%  fit 0.86 ms  predict 0.0064 ms/sample
+  - Support Vector Machine (SVM)   recall 14.24%  FPR 0.0%  acc 40.41%  fit 30.109 ms  predict 0.0631 ms/sample
+
+> Rule baseline: function code in {5, 6, 15, 16}: recall 91.1%, FPR 67.57%
+> Content rule: address out-of-map OR value out-of-band OR write burst: recall 71.81%, FPR 0.68%
+
+> Isolation Forest (Batch outlier screening of the current capture (fit and score on the same batch; not evaluated as a detector of new observations)): flagged 146/485, recall 22.55%, FPR 47.3%, fit 154.542 ms
+
+Total execution time: 7751.97 ms
+===============================================================
+

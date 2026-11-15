@@ -8,6 +8,18 @@
 
 ---
 
+> ## 🔔 November 2026 — Report 2 captures & results (supersedes the 2026-09-26 figures below)
+>
+> Sections §4–§8 below describe the **2026-09-26 Conpot capture** used for Report 1. For Report 2 the team ran **three independent, matched source-separable captures** (2026-11-04, 2026-11-07, 2026-11-14, 360 Modbus actions each) plus a **Step 7 content-distinguishable capture** (2026-11-15, 664 actions with insider anomalies from the authorized HMI) on a real **pymodbus 3.8.6** PLC behind **iptables 1.8.10 (nf_tables)** + **Suricata 7.0.3** (authorized HMI `10.0.1.10`, unauthorized WS `10.0.1.20`), under baseline (flat) and layered (segmented) firewall policies. Authoritative results:
+>
+> - **Four-tier ablation** — [`docs/ablation-results.md`](docs/ablation-results.md): firewall containment **100 %** (0/90 unauthorized reach the PLC); Suricata **66.7 %** recall / **0 % FPR** (flags all writes, misses reads); ML **at chance** (recall ≈ FPR) in the three source-separable captures, because authorized/unauthorized payloads are byte-identical apart from source IP. In the **2026-11-15 content capture** the content layer separates the insider anomalies (per-class ~100 %), but the content ML (**72.11 % / 0.68 % FPR**) is statistically identical to a static content rule (**71.81 % / 0.68 %**) — the ML still adds **no value over the rule**, one layer deeper. The firewall and the content layer are exact complements (source-only vs insider).
+> - **Read-back verification** — [`docs/readback-verification.md`](docs/readback-verification.md): all four write cases (C3–C6) confirmed to change PLC state on the pymodbus PLC — resolving the Report 1 "no write succeeded" finding.
+> - **Cross-layer correlation** — `correlate_telemetry.py` → `data/runs/<handoff>/correlated_results.csv`: per-action firewall decision / Suricata observation / outcome, joined by `run_id`/`case_id` and UTC timestamps.
+> - **Deployed versions** recorded in each handoff `versions.txt`; testbed described in [`infrastructure/README.md`](infrastructure/README.md) §6.
+> - **Full Report 2 results draft:** [`docs/report2-results-draft.md`](docs/report2-results-draft.md).
+
+---
+
 ## 📌 1. Executive Summary & Research Question
 
 Modbus/TCP carries no authentication or integrity protection, so any host that can reach a PLC's Modbus port can issue state-altering write requests [1], [3]. Unauthorized command messages and parameter modification are catalogued ICS attack techniques [6], and Stuxnet showed that manipulating controller behaviour can cause physical damage [4].
@@ -137,6 +149,8 @@ The record for the existing capture is `data/scenario_actions.json` (10 actions 
 | Did it **succeed** on the PLC? | Normal (non-exception) Modbus response and changed register value | Neither (outcome) |
 
 ### 5.3 Results matrix
+*The 2026-09-26 row below is the Report 1 capture. For the executed matched runs — three source-separable captures (360 actions each) plus the Step 7 content-distinguishable capture (2026-11-15, 664 actions) — see the November banner at the top and [`docs/ablation-results.md`](docs/ablation-results.md): containment 100 %, Suricata 66.7 % recall / 0 % FPR, ML at chance for the source-separable threat, and content ML ≈ content rule (72.11 % vs 71.81 %) for the insider anomalies.*
+
 | Tier | Containment | Alerting | Detection | Evidence |
 | :--- | :---: | :---: | :---: | :--- |
 | **Baseline (flat), expected** | 0 % blocked | none (no sensor) | none | PLC register dump |
@@ -148,6 +162,8 @@ The record for the existing capture is `data/scenario_actions.json` (10 actions 
 ---
 
 ## 📊 6. Machine Learning Evaluation (Layer 3)
+
+*The tables in §6.2 are the 2026-09-26 capture (10 events). The November captures confirm the §6.3 conclusion directly: for the three source-separable captures (3 × 360 actions) ML operates at chance (recall ≈ FPR) because authorized and unauthorized payloads differ only by source IP; for the 2026-11-15 content-distinguishable capture the content ML (72.11 % / 0.68 %) ties a static content rule (71.81 % / 0.68 %), so the "ML adds no value over the rule" conclusion holds at the content layer too. See [`docs/ablation-results.md`](docs/ablation-results.md).*
 
 ### 6.1 Method
 1. **Ground truth** is the scenario/action record joined to events by timestamp (`src/scenario.py`). Editing a feature, `threat_score` or `is_state_altering` cannot change a label (tested in `tests/test_pipeline.py`).
@@ -207,7 +223,7 @@ The current run gives P1 PASS, P2 PASS and P3 WARN, so the overall result is **P
 
 ## 📅 8. Forward Schedule & Internal Due Points
 
-Status as of **2026-11-01**. Dates for Weeks 9–10 are proposed; confirm them at the next stand-up against the Report 2 deadline.
+Status as of **2026-11-01** (schedule). **Update 2026-11-14:** items 3–8 are complete — the scenario record is confirmed, deployed versions are recorded, the matched baseline/layered runs were executed across three captures, and the pipeline, validator and Docker smoke test pass (25/25) on the new handoffs. **Update 2026-11-15:** the Step 7 content-distinguishable capture was executed and ingested — four handoffs now pass **25/25, 4/4 receipted, 3224 events / 32 incidents** — and the four-tier content result (content ML ≈ content rule) is folded into [`docs/ablation-results.md`](docs/ablation-results.md). See also [`docs/report2-results-draft.md`](docs/report2-results-draft.md) and [`docs/FEEDBACK_RESOLUTION.md`](docs/FEEDBACK_RESOLUTION.md). Items 9–10 (paper reading, final figures/report) remain with the team.
 
 | # | Deliverable (evidence product) | Owner | Internal due | Reviewer | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -274,7 +290,7 @@ pytest -q tests/deployment     # deployment unit, recovery and static security t
 [2] T. J. Williams, "The Purdue enterprise reference architecture," *Computers in Industry*, vol. 24, no. 2–3, pp. 141–158, Sep. 1994, doi: 10.1016/0166-3615(94)90017-5.  
 [3] Modbus Organization, "MODBUS Application Protocol Specification V1.1b3," Apr. 26, 2012. [Online]. Available: https://modbus.org/docs/Modbus_Application_Protocol_V1_1b3.pdf  
 [4] R. Langner, "To Kill a Centrifuge: A Technical Analysis of What Stuxnet's Creators Tried to Achieve," The Langner Group, Arlington, VA, USA, Nov. 2013.  
-[5] Open Information Security Foundation, "Suricata User Guide, release 7.0.12," ch. 8 "Suricata Rules," §8.15 "Modbus Keyword," and the EVE JSON output chapter. [Online]. Available: https://docs.suricata.io/en/suricata-7.0.12/ *(the deployed Suricata version is still to be recorded; cite the matching release)*  
+[5] Open Information Security Foundation, "Suricata User Guide," ch. 8 "Suricata Rules," §8.15 "Modbus Keyword," and the EVE JSON output chapter. The deployed sensor is **Suricata 7.0.3 RELEASE** (vm-fwsensor, recorded 2026-11-14); cite the matching release documentation at https://docs.suricata.io/en/suricata-7.0.3/  
 [6] The MITRE Corporation, "MITRE ATT&CK for ICS," v20.0, Oct. 13, 2026: T1692.001 Unauthorized Message: Command Message (legacy ID T0855, which redirects to it), T0836 Modify Parameter, T0814 Denial of Service. [Online]. Available: https://attack.mitre.org/matrices/ics/  
 [7] W. Gao and T. H. Morris, "On cyber attacks and signature based intrusion detection for Modbus based industrial control systems," *Journal of Digital Forensics, Security and Law*, vol. 9, no. 1, 2014, doi: 10.15394/jdfsl.2014.1162.  
 [8] N. Goldenberg and A. Wool, "Accurate modeling of Modbus/TCP for intrusion detection in SCADA systems," *International Journal of Critical Infrastructure Protection*, vol. 6, no. 2, pp. 63–75, 2013, doi: 10.1016/j.ijcip.2013.05.001.  

@@ -90,7 +90,9 @@ drop zone replaced by a data diode or an outbound-only file transfer.
 
 ## 4. Results on the captured handoff
 
-Full Compose stack on Docker Desktop (Windows), 2026-11-01: `smoke-test.py` **22/22 checks passed**.
+> **November 2026 update.** The stack now ingests **four** Report 2 handoffs — the three source-separable captures (`ot_telemetry_handoff_2026-11-04/07/14.tar.gz`) plus the Step 7 content-distinguishable capture (`ot_telemetry_handoff_2026-11-15.tar.gz`) — alongside (or in place of) the 2026-09-26 capture. Latest full run: `up.ps1` → **25/25 checks passed**, **4/4 handoffs receipted** (all `COMPLETED`, four pipeline steps at exit 0), **3224 events** ingested — by type FIREWALL_DROP 367, LOCAL_ALERT 1314, MODBUS_DPI 1303, SURICATA_ALERT 240, **32 incidents**. Per-handoff artifacts (logs, `run.json`, `ablation_summary.json`, `correlated_results.csv`) are in `data/runs/<handoff>/`. **Note:** keep derived outputs (`correlated_results.csv`, `ablation_summary.json`) in `data/runs/`, not inside the handoff tarball — the tarball holds raw evidence only, so re-ingest stays idempotent.
+
+The table below is the original single-capture (2026-09-26) run. Full Compose stack on Docker Desktop (Windows), 2026-11-01: `smoke-test.py` **22/22 checks passed**.
 The same figures were reproduced against PostgreSQL 16 outside Docker:
 
 | Stage | Result |

@@ -1,6 +1,6 @@
 # STRIDE Inventory & Security Property Audit
 
-**Timestamp:** 2026-11-07T16:19:31.031483+00:00  
+**Timestamp:** 2026-11-15T01:11:21.999674+00:00  
 **Threat model:** `Team 4 Threat Model.json`  
 **Conclusion:** PARTIAL - 2 property check(s) passed, 1 warning(s). Threat status is as recorded in the model ({'Open': 37}); this audit does not close threats.
 
@@ -22,5 +22,5 @@
 | INVENTORY | Trust boundary 'Analysis Evidence Boundary' | INVENTORY | present in model |
 | INVENTORY | Policy & licence files | INVENTORY | present: SECURITY.md, requirements.txt, THIRD_PARTY_LICENSES.md, LICENSE (existence only - not a security test) |
 | PROPERTY | P1 Parser controls | PASS | exercised: Tar-Slip and link members refused, '-- No entries --' -> 0 drops, real drop -> 1, non-Modbus EVE ignored, function_raw 6 preserved |
-| PROPERTY | P2 Normalized vs raw | PASS | 270 normalized Modbus events == 270 unique raw transactions; function codes {1: 45, 3: 45, 5: 45, 6: 45, 15: 45, 16: 45} match; 93 firewall drops == raw drop lines |
-| PROPERTY | P3 ML evaluation | WARN | method checks passed; scenario record not yet confirmed by the team (generator CSV (as delivered)); Random Forest recall 28.12% / FPR 48.87% vs targets >=95% / <=2%; without function_code, Random Forest recall falls to 45.31%: detection rests on the function code (rule baseline gives the same result) |
+| PROPERTY | P2 Normalized vs raw | PASS | 493 normalized Modbus events == 493 unique raw transactions; function codes {1: 43, 3: 43, 5: 190, 6: 113, 15: 40, 16: 64} match; 92 firewall drops == raw drop lines |
+| PROPERTY | P3 ML evaluation | WARN | method checks passed; scenario record not yet confirmed by the team (generator CSV (as delivered)); Random Forest recall 70.33% / FPR 26.35% vs targets >=95% / <=2%; without function_code, Random Forest recall falls to 57.86%: detection rests on the function code (rule baseline gives the same result) |

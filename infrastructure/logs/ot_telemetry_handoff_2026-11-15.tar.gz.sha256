@@ -1,0 +1,5 @@
+b2148618068b3d1db90660c1a2c6519263f64095062c9ac4fb9c71d7a8b6d17c  ot_telemetry_handoff_2026-11-15.tar.gz
+# processed_at_utc=2026-11-15T01:05:45.266443+00:00
+# supplied_hash=verified
+# extracted_to=/replay/ot_telemetry_handoff_2026-11-15
+# members: eve.json=ca09a2dc7010c1c3d469b46ec368ad03ce40b485e3d9877be4d452788994973b, iptables_drops.log=a8b225d5036c544fc37076ef44e5d50278377d07f7a6f921d7ac10a444962d6f, scenario_file.csv=9564ee62a69d31e0ecd8a970c6cd74fa4c8e40bcf47522f6ddd1851ad827cbd9, versions.txt=02a98ac7c4111b146f847ad0f877f5dcec211d8f7f3f1e0c2b05d4b267501690

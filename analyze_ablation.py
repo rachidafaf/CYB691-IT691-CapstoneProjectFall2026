@@ -143,6 +143,7 @@ def parse_ml_log(run_dir: Path) -> dict:
     sec_re = re.compile(r">\s*Feature set '([^']+)'\s*\|\s*(\w+)")
     mdl_re = re.compile(r"-\s+(.+?)\s{2,}recall\s+([\d.]+)%\s+FPR\s+([\d.]+)%\s+acc\s+([\d.]+)%")
     rule_re = re.compile(r"Rule baseline:.*?recall\s+([\d.]+)%,\s*FPR\s+([\d.]+)%")
+    content_rule_re = re.compile(r"Content rule:.*?recall\s+([\d.]+)%,\s*FPR\s+([\d.]+)%")
     iso_re = re.compile(r"Isolation Forest.*?flagged\s+(\d+)/(\d+),\s*recall\s+([\d.]+)%,\s*FPR\s+([\d.]+)%")
     rec_re = re.compile(r"Records:\s*(\d+)\s*\((\d+)\s+unauthorized[^,]*,\s*(\d+)\s+authorized")
 
@@ -175,6 +176,9 @@ def parse_ml_log(run_dir: Path) -> dict:
     r = rule_re.search(text)
     if r:
         out["rule_baseline"] = {"recall_pct": float(r.group(1)), "fpr_pct": float(r.group(2))}
+    cr = content_rule_re.search(text)
+    if cr:
+        out["content_rule"] = {"recall_pct": float(cr.group(1)), "fpr_pct": float(cr.group(2))}
     i = iso_re.search(text)
     if i:
         out["isolation_forest"] = {
@@ -247,6 +251,12 @@ def main() -> None:
     if drops == 0:
         findings.append("No firewall drops found: the layered phase may be missing, so containment "
                         "cannot be measured (all events fell into 'baseline').")
+    if ml.get("available") and "content_rule" in ml:
+        findings.append("Detection ladder uses TWO ground truths: source-IP (firewall/Suricata rows) "
+                        "and scenario authorized-flag (ML/content-rule rows, which include insider "
+                        "anomalies from the authorized host). The content layer's overall recall is "
+                        "diluted by source-only unauthorized writes it cannot see by design - those "
+                        "are the firewall's 100%-contained class. See the per-class breakdown.")
 
     # --- print ---------------------------------------------------------------
     bar = "=" * 72
@@ -265,28 +275,40 @@ def main() -> None:
     print(f" {'2':<5}{'Suricata DPI':<26}{'-':<14}{'-':<12}+0%  (detection layer)")
     print(f" {'3':<5}{'ML anomaly':<26}{'-':<14}{'-':<12}+0%  (detection layer)")
 
-    print("\n DETECTION LADDER (on the "
-          f"{pop} unauthorized commands that flow in the flat case)")
+    fw_recall = min(pct(drops, pop), 100.0)        # cap: raw drop-lines include TCP retransmits
+    fw_note = (f"capped; {drops} raw drop-lines incl. TCP retransmits"
+               if drops > pop else "logs every attempt when enforcing")
+    print("\n DETECTION LADDER")
     print(" " + "-" * 70)
+    print(f" Ground truth A - SOURCE IP ({args.unauth_ip}): on the {pop} unauthorized "
+          "commands that flow in the flat case")
     print(f" {'Layer':<30}{'Recall':<12}{'FPR':<12}{'Note'}")
-    print(f" {'Firewall drop-log (source)':<30}"
-          f"{str(pct(drops, pop))+'%':<12}{'0%':<12}logs every attempt when enforcing")
+    print(f" {'Firewall drop-log (source)':<30}{str(fw_recall)+'%':<12}{'0%':<12}{fw_note}")
     print(f" {'Suricata (signature)':<30}{str(suri_recall)+'%':<12}{str(suri_fpr)+'%':<12}"
           f"{suri_hits}/{pop} flagged")
     if ml.get("available") and "best_supervised" in ml:
         b = ml["best_supervised"]
+        lr = ml.get("labelled_records", {})
+        print(f"\n Ground truth B - SCENARIO authorized flag: on {lr.get('total', '?')} "
+              f"labelled events ({lr.get('unauthorized', '?')} attacks incl. insider "
+              f"anomalies from {args.auth_ip})")
+        print(f" {'Layer':<30}{'Recall':<12}{'FPR':<12}{'Note'}")
+        if "content_rule" in ml:
+            crb = ml["content_rule"]
+            print(f" {'Content rule (addr/val/burst)':<30}{str(crb['recall_pct'])+'%':<12}"
+                  f"{str(crb['fpr_pct'])+'%':<12}static content DPI; per-class ~100% insider")
         print(f" {'ML (content, best model)':<30}{str(b['recall_pct'])+'%':<12}"
               f"{str(b['fpr_pct'])+'%':<12}{b['model']} / {b['feature_set']} / {b['cv']}")
         if "rule_baseline" in ml:
             rb = ml["rule_baseline"]
             print(f" {'  rule baseline (write FCs)':<30}{str(rb['recall_pct'])+'%':<12}"
-                  f"{str(rb['fpr_pct'])+'%':<12}function-code heuristic")
+                  f"{str(rb['fpr_pct'])+'%':<12}function-code heuristic (inappropriate baseline)")
         if "isolation_forest" in ml:
             iso = ml["isolation_forest"]
             print(f" {'  isolation forest (unsup.)':<30}{str(iso['recall_pct'])+'%':<12}"
                   f"{str(iso['fpr_pct'])+'%':<12}{iso['flagged']}/{iso['total']} flagged")
     else:
-        print(f"   ML: {ml.get('reason', 'not parsed')}")
+        print(f"   ML (ground truth B - scenario): {ml.get('reason', 'not parsed')}")
 
     if findings:
         print("\n FINDINGS / CAVEATS")
@@ -308,7 +330,11 @@ def main() -> None:
         },
         "detection_on_flat": {
             "population": pop,
-            "firewall_source": {"recall_pct": pct(drops, pop), "fpr_pct": 0.0},
+            "ground_truth_note": ("firewall_source + suricata use SOURCE-IP truth on 'population'; "
+                                  "ml uses SCENARIO authorized-flag on its own labelled set "
+                                  "(see ml.labelled_records and ml.content_rule)"),
+            "firewall_source": {"recall_pct": min(pct(drops, pop), 100.0),
+                                "raw_drop_lines": drops, "fpr_pct": 0.0},
             "suricata": {"hits": suri_hits, "recall_pct": suri_recall, "fpr_pct": suri_fpr},
             "ml": ml,
         },

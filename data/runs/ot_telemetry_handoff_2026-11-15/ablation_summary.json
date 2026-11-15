@@ -1,0 +1,326 @@
+{
+  "handoff": "ot_telemetry_handoff_2026-11-15",
+  "capture_date": "2026-11-15",
+  "generated_at_utc": "2026-11-15T01:22:23.229197+00:00",
+  "ground_truth": {
+    "authorized_ip": "10.0.1.10",
+    "unauthorized_ip": "10.0.1.20"
+  },
+  "containment": {
+    "unauth_reached_plc_flat": 90,
+    "unauth_reached_plc_enforced": 0,
+    "firewall_drops": 92,
+    "contained_pct": 100.0
+  },
+  "detection_on_flat": {
+    "population": 90,
+    "ground_truth_note": "firewall_source + suricata use SOURCE-IP truth on 'population'; ml uses SCENARIO authorized-flag on its own labelled set (see ml.labelled_records and ml.content_rule)",
+    "firewall_source": {
+      "recall_pct": 100.0,
+      "raw_drop_lines": 92,
+      "fpr_pct": 0.0
+    },
+    "suricata": {
+      "hits": 60,
+      "recall_pct": 66.7,
+      "fpr_pct": 0.0
+    },
+    "ml": {
+      "available": true,
+      "n_models": 30,
+      "models": [
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 70.33,
+          "fpr_pct": 26.35,
+          "accuracy_pct": 71.34
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 67.36,
+          "fpr_pct": 18.24,
+          "accuracy_pct": 71.75
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time",
+          "cv": "stratified_kfold",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 66.17,
+          "fpr_pct": 30.41,
+          "accuracy_pct": 67.22
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 65.58,
+          "fpr_pct": 18.92,
+          "accuracy_pct": 70.31
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time",
+          "cv": "leave_one_run_out",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 57.86,
+          "fpr_pct": 27.7,
+          "accuracy_pct": 62.27
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 56.68,
+          "fpr_pct": 20.95,
+          "accuracy_pct": 63.51
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time_without_function_code",
+          "cv": "stratified_kfold",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 54.6,
+          "fpr_pct": 28.38,
+          "accuracy_pct": 59.79
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 53.12,
+          "fpr_pct": 15.54,
+          "accuracy_pct": 62.68
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "request_time_without_function_code",
+          "cv": "leave_one_run_out",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 67.66,
+          "fpr_pct": 16.22,
+          "accuracy_pct": 72.58
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 62.02,
+          "fpr_pct": 8.78,
+          "accuracy_pct": 70.93
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "report1_all_six",
+          "cv": "stratified_kfold",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 64.39,
+          "fpr_pct": 20.95,
+          "accuracy_pct": 68.87
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 58.75,
+          "fpr_pct": 3.38,
+          "accuracy_pct": 70.31
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "report1_all_six",
+          "cv": "leave_one_run_out",
+          "recall_pct": 43.32,
+          "fpr_pct": 1.35,
+          "accuracy_pct": 60.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "content",
+          "cv": "stratified_kfold",
+          "recall_pct": 72.11,
+          "fpr_pct": 0.68,
+          "accuracy_pct": 80.41
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "content",
+          "cv": "stratified_kfold",
+          "recall_pct": 71.81,
+          "fpr_pct": 0.68,
+          "accuracy_pct": 80.21
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "content",
+          "cv": "stratified_kfold",
+          "recall_pct": 14.24,
+          "fpr_pct": 0.68,
+          "accuracy_pct": 40.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "content",
+          "cv": "leave_one_run_out",
+          "recall_pct": 71.81,
+          "fpr_pct": 2.03,
+          "accuracy_pct": 79.79
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "content",
+          "cv": "leave_one_run_out",
+          "recall_pct": 71.81,
+          "fpr_pct": 0.68,
+          "accuracy_pct": 80.21
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "content",
+          "cv": "leave_one_run_out",
+          "recall_pct": 14.24,
+          "fpr_pct": 0.68,
+          "accuracy_pct": 40.21
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "content_only",
+          "cv": "stratified_kfold",
+          "recall_pct": 77.74,
+          "fpr_pct": 16.89,
+          "accuracy_pct": 79.38
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "content_only",
+          "cv": "stratified_kfold",
+          "recall_pct": 77.74,
+          "fpr_pct": 16.89,
+          "accuracy_pct": 79.38
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "content_only",
+          "cv": "stratified_kfold",
+          "recall_pct": 14.24,
+          "fpr_pct": 0.0,
+          "accuracy_pct": 40.41
+        },
+        {
+          "model": "Random Forest Classifier",
+          "feature_set": "content_only",
+          "cv": "leave_one_run_out",
+          "recall_pct": 77.74,
+          "fpr_pct": 16.89,
+          "accuracy_pct": 79.38
+        },
+        {
+          "model": "Decision Tree Classifier",
+          "feature_set": "content_only",
+          "cv": "leave_one_run_out",
+          "recall_pct": 77.74,
+          "fpr_pct": 16.89,
+          "accuracy_pct": 79.38
+        },
+        {
+          "model": "Support Vector Machine (SVM)",
+          "feature_set": "content_only",
+          "cv": "leave_one_run_out",
+          "recall_pct": 14.24,
+          "fpr_pct": 0.0,
+          "accuracy_pct": 40.41
+        }
+      ],
+      "best_supervised": {
+        "model": "Random Forest Classifier",
+        "feature_set": "content",
+        "cv": "stratified_kfold",
+        "recall_pct": 72.11,
+        "fpr_pct": 0.68,
+        "accuracy_pct": 80.41
+      },
+      "accuracy_range_pct": [
+        40.21,
+        80.41
+      ],
+      "recall_range_pct": [
+        14.24,
+        77.74
+      ],
+      "rule_baseline": {
+        "recall_pct": 91.1,
+        "fpr_pct": 67.57
+      },
+      "content_rule": {
+        "recall_pct": 71.81,
+        "fpr_pct": 0.68
+      },
+      "isolation_forest": {
+        "flagged": 146,
+        "total": 485,
+        "recall_pct": 22.55,
+        "fpr_pct": 47.3
+      },
+      "labelled_records": {
+        "total": 485,
+        "unauthorized": 337,
+        "authorized": 148
+      }
+    }
+  },
+  "raw_matrix": {
+    "baseline|auth|LOCAL_ALERT": 343,
+    "baseline|auth|MODBUS_DPI": 391,
+    "baseline|unauth|LOCAL_ALERT": 60,
+    "baseline|unauth|MODBUS_DPI": 90,
+    "baseline|unauth|SURICATA_ALERT": 60,
+    "layered|auth|LOCAL_ALERT": 4,
+    "layered|auth|MODBUS_DPI": 12,
+    "layered|unauth|FIREWALL_DROP": 92,
+    "layered|unauth|LOCAL_ALERT": 92
+  },
+  "findings": [
+    "No Suricata alerts in the layered phase: the firewall drops WS packets before DPI inspects them, so the IDS has no visibility into contained traffic.",
+    "Edge-collector LOCAL_ALERT fires on 343/391 authorized commands (high false-positive heuristic); not part of the layered controls.",
+    "Detection ladder uses TWO ground truths: source-IP (firewall/Suricata rows) and scenario authorized-flag (ML/content-rule rows, which include insider anomalies from the authorized host). The content layer's overall recall is diluted by source-only unauthorized writes it cannot see by design - those are the firewall's 100%-contained class. See the per-class breakdown."
+  ]
+}

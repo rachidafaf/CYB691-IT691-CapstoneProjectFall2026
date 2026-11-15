@@ -55,6 +55,13 @@ except ImportError:
                           describe_target, DEFAULT_DB_PATH)
     from scenario import load_scenario, join_labels, provenance_summary, explain_unmatched, DEFAULT_SCENARIO_PATH, UNLABELED
 
+try:
+    from src.content_features import (feature_row as content_feature_row,
+                                      rule_address_out_of_map, rule_value_out_of_band, rule_rate)
+except ImportError:
+    from content_features import (feature_row as content_feature_row,
+                                  rule_address_out_of_map, rule_value_out_of_band, rule_rate)
+
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_DATA_DIR = os.path.join(REPO_ROOT, "data")
 
@@ -73,6 +80,14 @@ FEATURE_CATALOG = {
                                                                    "('read:...'/'write:...'); Report 1 only - it "
                                                                    "encodes the operation name, a spurious shortcut"},
     "has_protocol_exception": {"available": "response-time", "source": "exception flag in the PLC's response"},
+    # Step 7 request-time CONTENT (decoded from eve.json request.write.* by content_features).
+    # RAW observables only: boundary booleans address_in_map/value_in_band are the LABEL
+    # definition and are withheld from every ML set (Arp P3/P4); they live in the content rule.
+    "is_write":        {"available": "request-time", "source": "function code is a write (5/6/15/16)"},
+    "write_address":   {"available": "request-time", "source": "start address of a write (0 for reads)"},
+    "write_quantity":  {"available": "request-time", "source": "registers/coils written (0 for reads)"},
+    "write_value_max": {"available": "request-time", "source": "max register value written (FC6/16; else 0)"},
+    "write_value_min": {"available": "request-time", "source": "min register value written (FC6/16; else 0)"},
 }
 FEATURE_SETS = {
     # Primary: what an inline sensor can use to decide before the PLC acts on the request.
@@ -82,6 +97,9 @@ FEATURE_SETS = {
     # Report 1 feature set, kept for comparison only (includes a response-time feature).
     "report1_all_six": ["inter_arrival_ms", "function_code", "has_protocol_exception",
                         "destination_port", "unit_id", "payload_length"],
+    "content": ["inter_arrival_ms", "function_code", "destination_port", "unit_id", "pdu_length_bytes",
+                "is_write", "write_address", "write_quantity", "write_value_max", "write_value_min"],
+    "content_only": ["is_write", "write_address", "write_quantity", "write_value_max", "write_value_min"],
 }
 PRIMARY_FEATURE_SET = "request_time"
 
@@ -125,6 +143,14 @@ def feature_value(record, name):
         return float(len(str(mb.get("payload_raw", ""))))
     if name == "has_protocol_exception":
         return 1.0 if sec.get("has_protocol_exception", False) else 0.0
+    if name in ("is_write", "write_address", "write_quantity", "write_value_max", "write_value_min"):
+        c = record.get("_content")
+        if c is None:
+            c = content_feature_row(mb)
+            record["_content"] = c
+        key = {"write_quantity": "quantity", "write_value_max": "value_max",
+               "write_value_min": "value_min"}.get(name, name)
+        return float(c.get(key) or 0)
     raise KeyError(name)
 
 
@@ -308,6 +334,45 @@ def evaluate_rule_baseline(records_fc, y):
     }
 
 
+def _labelled_subset(records, scenario):
+    """Records that carry a scenario label, aligned with y (same keep-filter as extract_*)."""
+    labels, _groups, _m, _u = join_labels(records, scenario)
+    keep = [i for i, lab in enumerate(labels) if lab != UNLABELED]
+    return [records[i] for i in keep], np.array([labels[i] for i in keep], dtype=np.int32)
+
+
+def evaluate_content_rule_baseline(records_kept, y):
+    """
+    Tier-2 content DPI encoded as a rule: flag a write whose start address is outside the
+    legitimate HMI map, whose register value is outside the legitimate band, or a write burst.
+    Uses the boundary booleans deliberately withheld from the ML sets, so ML-vs-rule is honest
+    (Arp et al. P6). By construction it catches insider content anomalies (A1/A2/A3/A5, A4 burst)
+    and MISSES source-only unauthorised writes with identical payloads - the firewall layer's job.
+    """
+    preds = []
+    for r in records_kept:
+        mb = r.get("modbus", {}) or {}
+        f = content_feature_row(mb)
+        iat = r.get("inter_arrival_ms")
+        hit = (rule_address_out_of_map(f) or rule_value_out_of_band(f)
+               or (f.get("is_write") and rule_rate(iat)))
+        preds.append(1 if hit else 0)
+    preds = np.array(preds)
+    tn, fp, fn, tp = confusion_matrix(y, preds, labels=[0, 1]).ravel()
+    fpr = fp / (fp + tn) if (fp + tn) else None
+    rec = tp / (tp + fn) if (tp + fn) else 0.0
+    return {
+        "model_type": "Content rule: address out-of-map OR value out-of-band OR write burst",
+        "accuracy": round(accuracy_score(y, preds) * 100, 2),
+        "precision": round(precision_score(y, preds, zero_division=0) * 100, 2),
+        "recall": round(rec * 100, 2),
+        "false_positive_rate": None if fpr is None else round(fpr * 100, 2),
+        "confusion_matrix": {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)},
+        "note": "Catches content-distinguishable insider anomalies; misses source-only "
+                "unauthorised writes (identical payload) - covered by the firewall layer.",
+    }
+
+
 def resolve_input_path(custom_path=None):
     if custom_path and os.path.exists(custom_path):
         return custom_path
@@ -426,6 +491,8 @@ def main():
     unsupervised = evaluate_unsupervised_isolation_forest(X_primary, y, contamination)
     fc_col = names_primary.index("function_code")
     rule_baseline = evaluate_rule_baseline(X_primary[:, fc_col], y)
+    records_kept, _yk = _labelled_subset(records, scenario)
+    content_rule_baseline = evaluate_content_rule_baseline(records_kept, y)
     total_ms = round((time.perf_counter() - t_total_start) * 1000.0, 2)
 
     attack_count, benign_count = int(y.sum()), int(len(y) - y.sum())
@@ -465,6 +532,7 @@ def main():
         "evaluations": evaluations,
         "unsupervised_models": unsupervised,
         "rule_baseline": rule_baseline,
+        "content_rule_baseline": content_rule_baseline,
     }
     out = args.output or os.path.join(DEFAULT_DATA_DIR, "ml_evaluation_results.json")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
@@ -492,6 +560,8 @@ def main():
                       f"predict {m['prediction_latency_per_sample_ms']} ms/sample")
     rb = rule_baseline
     print(f"\n> {rb['model_type']}: recall {_fmt(rb['recall'])}, FPR {_fmt(rb['false_positive_rate'])}")
+    cr = content_rule_baseline
+    print(f"> {cr['model_type']}: recall {_fmt(cr['recall'])}, FPR {_fmt(cr['false_positive_rate'])}")
     u = unsupervised
     print(f"\n> Isolation Forest ({u['intended_purpose']}): flagged {u['outliers_flagged']}/{len(y)}, "
           f"recall {_fmt(u['recall'])}, FPR {_fmt(u['false_positive_rate'])}, fit {u['fit_time_total_ms']} ms")

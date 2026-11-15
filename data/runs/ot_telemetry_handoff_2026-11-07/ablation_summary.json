@@ -1,7 +1,7 @@
 {
   "handoff": "ot_telemetry_handoff_2026-11-07",
   "capture_date": "2026-11-07",
-  "generated_at_utc": "2026-11-07T17:51:56.202183+00:00",
+  "generated_at_utc": "2026-11-14T22:44:18.226520+00:00",
   "ground_truth": {
     "authorized_ip": "10.0.1.10",
     "unauthorized_ip": "10.0.1.20"
