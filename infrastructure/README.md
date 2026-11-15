@@ -29,9 +29,7 @@ Every statement below comes from `ot_telemetry_handoff_2026-09-26.tar.gz` (SHA-2
 * **Azure phase.** The project explored Azure first (VNet `vnet-ot-testbed-dk`, subnets `snet-enterprise`, `snet-hmi`, `snet-plc`, budget alerts at $5/$10/$20).
   - E1 shows the handoff itself was captured on an Azure VM named `vm-firewall-gateway`.
   - The earlier statement that "the operational testbed was migrated to a local host" therefore does **not** describe the environment that produced this evidence.
-  - **To confirm (Erick):** whether a local deployment exists. If it does, which captures came from it.
 * **OpenPLC was a placeholder.** The container named `openplc_runtime` is `nginx:alpine` (host `503 → 502`, `8080 → 80`; `img/Docker_Emulators_Status.png`). It does not speak Modbus. No artifact shows a working OpenPLC runtime. Every Modbus exchange in the evidence went to **Conpot** (E4).
-  - **To confirm (Erick):** whether a real OpenPLC runtime was ever deployed. If not, the reports must say "Conpot honeypot" wherever they currently say "OpenPLC".
 * **pfSense.** No artifact in the repository shows pfSense in the traffic path (no pfSense log, configuration export or screenshot of rules). Its status is **planned / not evidenced** until one is added.
 
 ---
