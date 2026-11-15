@@ -47,3 +47,10 @@ data/_pre_dedup_backup/
 
 # Pipeline runner bookkeeping (which handoffs were analysed)
 data/runs/.pipeline_state.json
+
+# Editor/Word temp files & local backups
+*.bak
+~$*
+
+# Pipeline scratch (regenerated from the handoff tarball on every run)
+infrastructure/extracted_handoff/
