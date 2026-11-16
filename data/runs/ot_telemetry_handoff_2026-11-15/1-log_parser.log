@@ -1,7 +1,7 @@
 [*] Selected telemetry handoff target: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz
 [*] Extracting compressed handoff archive: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz
 [*] Verifying cryptographic sidecar hash: infrastructure/logs/ot_telemetry_handoff_2026-11-15.tar.gz.sha256
-[+] SHA-256 Checksum Verified: b2148618068b3d1d...
+[+] SHA-256 Checksum Verified: 91bad03506a8ba44...
 [+] Archive safely extracted to: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15
 [*] Ingesting Suricata EVE JSON: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15/eve.json
 [*] Ingesting Firewall Drop log: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-15/iptables_drops.log

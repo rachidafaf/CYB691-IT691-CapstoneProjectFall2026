@@ -9,60 +9,60 @@
 Records: 270 (90 unauthorized writes, 180 authorized reads); labels from infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-14/scenario_file.csv [generator CSV (as delivered)]
 
 > Feature set 'request_time' | stratified_kfold
-  - Random Forest Classifier       recall 51.11%  FPR 47.22%  acc 52.22%  fit 63.123 ms  predict 0.0353 ms/sample
-  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 0.962 ms  predict 0.0029 ms/sample
-  - Support Vector Machine (SVM)   recall 66.67%  FPR 69.44%  acc 42.59%  fit 5.291 ms  predict 0.0225 ms/sample
+  - Random Forest Classifier       recall 51.11%  FPR 47.22%  acc 52.22%  fit 83.285 ms  predict 0.0415 ms/sample
+  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 1.188 ms  predict 0.003 ms/sample
+  - Support Vector Machine (SVM)   recall 66.67%  FPR 69.44%  acc 42.59%  fit 6.385 ms  predict 0.0212 ms/sample
 
 > Feature set 'request_time' | leave_one_run_out
-  - Random Forest Classifier       recall 52.22%  FPR 54.44%  acc 47.78%  fit 61.359 ms  predict 0.0432 ms/sample
-  - Decision Tree Classifier       recall 64.44%  FPR 67.78%  acc 42.96%  fit 0.984 ms  predict 0.0036 ms/sample
-  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 8.912 ms  predict 0.0211 ms/sample
+  - Random Forest Classifier       recall 52.22%  FPR 54.44%  acc 47.78%  fit 71.148 ms  predict 0.0528 ms/sample
+  - Decision Tree Classifier       recall 64.44%  FPR 67.78%  acc 42.96%  fit 1.342 ms  predict 0.0051 ms/sample
+  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 9.729 ms  predict 0.0325 ms/sample
 
 > Feature set 'request_time_without_function_code' | stratified_kfold
-  - Random Forest Classifier       recall 47.78%  FPR 48.33%  acc 50.37%  fit 60.707 ms  predict 0.0335 ms/sample
-  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 1.027 ms  predict 0.0027 ms/sample
-  - Support Vector Machine (SVM)   recall 68.89%  FPR 66.67%  acc 45.19%  fit 9.311 ms  predict 0.0229 ms/sample
+  - Random Forest Classifier       recall 47.78%  FPR 48.33%  acc 50.37%  fit 69.997 ms  predict 0.0397 ms/sample
+  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 1.042 ms  predict 0.0027 ms/sample
+  - Support Vector Machine (SVM)   recall 68.89%  FPR 66.67%  acc 45.19%  fit 9.815 ms  predict 0.0151 ms/sample
 
 > Feature set 'request_time_without_function_code' | leave_one_run_out
-  - Random Forest Classifier       recall 45.56%  FPR 47.78%  acc 50.0%  fit 61.371 ms  predict 0.0449 ms/sample
-  - Decision Tree Classifier       recall 63.33%  FPR 65.0%  acc 44.44%  fit 0.904 ms  predict 0.0035 ms/sample
-  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 9.603 ms  predict 0.0182 ms/sample
+  - Random Forest Classifier       recall 45.56%  FPR 47.78%  acc 50.0%  fit 72.495 ms  predict 0.0527 ms/sample
+  - Decision Tree Classifier       recall 63.33%  FPR 65.0%  acc 44.44%  fit 1.133 ms  predict 0.0049 ms/sample
+  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 10.815 ms  predict 0.0363 ms/sample
 
 > Feature set 'report1_all_six' | stratified_kfold
-  - Random Forest Classifier       recall 50.0%  FPR 45.56%  acc 52.96%  fit 60.035 ms  predict 0.0342 ms/sample
-  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 1.02 ms  predict 0.0029 ms/sample
-  - Support Vector Machine (SVM)   recall 64.44%  FPR 68.33%  acc 42.59%  fit 9.32 ms  predict 0.0248 ms/sample
+  - Random Forest Classifier       recall 50.0%  FPR 45.56%  acc 52.96%  fit 79.94 ms  predict 0.0472 ms/sample
+  - Decision Tree Classifier       recall 56.67%  FPR 62.78%  acc 43.7%  fit 1.818 ms  predict 0.0047 ms/sample
+  - Support Vector Machine (SVM)   recall 64.44%  FPR 68.33%  acc 42.59%  fit 8.225 ms  predict 0.0363 ms/sample
 
 > Feature set 'report1_all_six' | leave_one_run_out
-  - Random Forest Classifier       recall 51.11%  FPR 52.22%  acc 48.89%  fit 74.841 ms  predict 0.048 ms/sample
-  - Decision Tree Classifier       recall 64.44%  FPR 67.22%  acc 43.33%  fit 1.541 ms  predict 0.0081 ms/sample
-  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 8.156 ms  predict 0.032 ms/sample
+  - Random Forest Classifier       recall 51.11%  FPR 52.22%  acc 48.89%  fit 72.155 ms  predict 0.0526 ms/sample
+  - Decision Tree Classifier       recall 64.44%  FPR 67.22%  acc 43.33%  fit 1.104 ms  predict 0.005 ms/sample
+  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.33%  acc 44.07%  fit 4.829 ms  predict 0.0276 ms/sample
 
 > Feature set 'content' | stratified_kfold
-  - Random Forest Classifier       recall 52.22%  FPR 44.44%  acc 54.44%  fit 83.449 ms  predict 0.043 ms/sample
-  - Decision Tree Classifier       recall 56.67%  FPR 59.44%  acc 45.93%  fit 1.035 ms  predict 0.003 ms/sample
-  - Support Vector Machine (SVM)   recall 50.0%  FPR 59.44%  acc 43.7%  fit 6.161 ms  predict 0.0234 ms/sample
+  - Random Forest Classifier       recall 52.22%  FPR 44.44%  acc 54.44%  fit 73.67 ms  predict 0.0407 ms/sample
+  - Decision Tree Classifier       recall 56.67%  FPR 59.44%  acc 45.93%  fit 1.068 ms  predict 0.0027 ms/sample
+  - Support Vector Machine (SVM)   recall 50.0%  FPR 59.44%  acc 43.7%  fit 12.476 ms  predict 0.0311 ms/sample
 
 > Feature set 'content' | leave_one_run_out
-  - Random Forest Classifier       recall 51.11%  FPR 53.89%  acc 47.78%  fit 63.863 ms  predict 0.0448 ms/sample
-  - Decision Tree Classifier       recall 64.44%  FPR 70.56%  acc 41.11%  fit 1.015 ms  predict 0.004 ms/sample
-  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.89%  acc 43.7%  fit 8.773 ms  predict 0.0361 ms/sample
+  - Random Forest Classifier       recall 51.11%  FPR 53.89%  acc 47.78%  fit 73.566 ms  predict 0.052 ms/sample
+  - Decision Tree Classifier       recall 64.44%  FPR 70.56%  acc 41.11%  fit 1.182 ms  predict 0.0046 ms/sample
+  - Support Vector Machine (SVM)   recall 98.89%  FPR 83.89%  acc 43.7%  fit 10.404 ms  predict 0.0318 ms/sample
 
 > Feature set 'content_only' | stratified_kfold
-  - Random Forest Classifier       recall 50.0%  FPR 63.89%  acc 40.74%  fit 61.951 ms  predict 0.0348 ms/sample
-  - Decision Tree Classifier       recall 36.67%  FPR 53.33%  acc 43.33%  fit 0.89 ms  predict 0.0026 ms/sample
-  - Support Vector Machine (SVM)   recall 48.89%  FPR 58.33%  acc 44.07%  fit 8.61 ms  predict 0.0283 ms/sample
+  - Random Forest Classifier       recall 50.0%  FPR 63.89%  acc 40.74%  fit 76.53 ms  predict 0.0426 ms/sample
+  - Decision Tree Classifier       recall 36.67%  FPR 53.33%  acc 43.33%  fit 0.967 ms  predict 0.0026 ms/sample
+  - Support Vector Machine (SVM)   recall 48.89%  FPR 58.33%  acc 44.07%  fit 9.897 ms  predict 0.032 ms/sample
 
 > Feature set 'content_only' | leave_one_run_out
-  - Random Forest Classifier       recall 50.0%  FPR 50.0%  acc 50.0%  fit 57.809 ms  predict 0.0459 ms/sample
-  - Decision Tree Classifier       recall 33.33%  FPR 33.33%  acc 55.56%  fit 0.867 ms  predict 0.0039 ms/sample
-  - Support Vector Machine (SVM)   recall 33.33%  FPR 33.33%  acc 55.56%  fit 8.447 ms  predict 0.028 ms/sample
+  - Random Forest Classifier       recall 50.0%  FPR 50.0%  acc 50.0%  fit 66.311 ms  predict 0.0507 ms/sample
+  - Decision Tree Classifier       recall 33.33%  FPR 33.33%  acc 55.56%  fit 0.964 ms  predict 0.0035 ms/sample
+  - Support Vector Machine (SVM)   recall 33.33%  FPR 33.33%  acc 55.56%  fit 11.746 ms  predict 0.0219 ms/sample
 
 > Rule baseline: function code in {5, 6, 15, 16}: recall 66.67%, FPR 66.67%
 > Content rule: address out-of-map OR value out-of-band OR write burst: recall 0.0%, FPR 0.0%
 
-> Isolation Forest (Batch outlier screening of the current capture (fit and score on the same batch; not evaluated as a detector of new observations)): flagged 53/270, recall 15.56%, FPR 21.67%, fit 135.327 ms
+> Isolation Forest (Batch outlier screening of the current capture (fit and score on the same batch; not evaluated as a detector of new observations)): flagged 53/270, recall 15.56%, FPR 21.67%, fit 171.555 ms
 
-Total execution time: 5647.49 ms
+Total execution time: 6494.78 ms
 ===============================================================
 

@@ -1,35 +1,35 @@
 {
  "handoff": "ot_telemetry_handoff_2026-11-14.tar.gz",
- "handoff_sha256": "88b8b31aae4853582f6f9d229da2dc614e3da5ae75e82d8fb6c048ecd80c061e",
- "started_at_utc": "2026-11-15T01:06:36.875395+00:00",
+ "handoff_sha256": "d5d813752ef15ed183aebd3cde0c6f1112f095b0819d8922f3d4164530dee870",
+ "started_at_utc": "2026-11-15T22:02:54.243655+00:00",
  "database": "/tmp/telemetry.db",
  "steps": [
   {
    "step": "log_parser",
    "command": "python src/log_parser.py -i infrastructure/logs/ot_telemetry_handoff_2026-11-14.tar.gz",
    "exit_code": 0,
-   "seconds": 2.91
+   "seconds": 3.27
   },
   {
    "step": "timeline_generator",
    "command": "python src/timeline_generator.py",
    "exit_code": 0,
-   "seconds": 2.2
+   "seconds": 3.35
   },
   {
    "step": "ml_detector",
    "command": "python src/ml_detector.py --scenario /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-14/scenario_file.csv",
    "exit_code": 0,
-   "seconds": 11.15
+   "seconds": 12.46
   },
   {
    "step": "validate_stride_threats",
    "command": "python validate_stride_threats.py",
    "exit_code": 0,
-   "seconds": 2.7
+   "seconds": 2.77
   }
  ],
  "scenario": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-14/scenario_file.csv",
- "finished_at_utc": "2026-11-15T01:06:56.068516+00:00",
+ "finished_at_utc": "2026-11-15T22:03:16.473071+00:00",
  "status": "COMPLETED"
 }

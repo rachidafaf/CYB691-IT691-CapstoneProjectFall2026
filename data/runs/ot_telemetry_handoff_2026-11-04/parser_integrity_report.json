@@ -1,11 +1,11 @@
 {
-  "generated_at_utc": "2026-11-15T01:05:48.442562+00:00",
+  "generated_at_utc": "2026-11-15T22:02:13.796567+00:00",
   "handoff_target": "infrastructure/logs/ot_telemetry_handoff_2026-11-04.tar.gz",
-  "handoff_sha256": "573af0de66b25dd996072c8fa77238e21a587ca4e238771080a3cc9fc8cba6c3",
+  "handoff_sha256": "7d65dc35c505012fb0d5d003c273efb322b6265c246f8433a3d45682679390fa",
   "eve_json": {
     "path": "infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-04/eve.json",
-    "sha256": "d371e9987dfcaa8656d0f90f50bde00decbbe20c9162549b1cd78a1967aabb31",
-    "eve_records_total": 2039,
+    "sha256": "808952d1f09cf1cd8e29659b8fc00a27066d05b9b22af2adf02e1d21f591e563",
+    "eve_records_total": 720,
     "modbus_records_seen": 270,
     "exact_duplicates_removed": 0,
     "duplicates": [],
