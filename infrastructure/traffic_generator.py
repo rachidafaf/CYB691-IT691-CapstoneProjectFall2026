@@ -21,7 +21,7 @@ Case families
            docs/content-anomaly-capture-spec.md.
 
 Design rules (from the Step 7 spec)
-  * Labels are DECLARED via --authorized, never derived from source IP. An
+  * Labels are DECLARED via authorized, never derived from source IP. An
     insider anomaly therefore runs with --source-ip 10.0.1.10 --authorized 0.
   * The address / value / anomaly_class columns are recorded for LABELLING and
     VERIFICATION only; the ML must read content features from the observed

@@ -1,6 +1,6 @@
 # Research Synthesis — Working Notes (Team 4)
 
-**Purpose:** support README §2 and the Report 2 literature section with a method-level comparison of prior work, and record what each source changes in our experiment.  
+**Purpose:** support README 2 and the Report 2 literature section with a method-level comparison of prior work, and record what each source changes in our experiment.  
 **Status (2026-11-01):** draft. Bibliographic metadata was checked against publisher, DOI or Crossref records. **Findings were checked only against abstracts and publisher summaries.** Before Report 2, each source's owner must read the full paper, confirm or correct the "Finding" and "Limitation" cells, and add page-level citations.
 
 | # | Source (IEEE number in README) | Type | Metadata check | Full text read by | Due |

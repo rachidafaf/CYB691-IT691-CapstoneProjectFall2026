@@ -1,4 +1,4 @@
-# Cyber-Physical & Network Defense Monitoring Testbed — OT/Modbus
+  # Cyber-Physical & Network Defense Monitoring Testbed — OT/Modbus
 
 **CYB 691 / IT 691 Cybersecurity Capstone — Team 4**  
 **Repository:** [CYB691-IT691-CapstoneProjectFall2026](https://github.com/rachidafaf/CYB691-IT691-CapstoneProjectFall2026.git)  
@@ -10,13 +10,13 @@
 
 > ## 🔔 November 2026 — Report 2 captures & results (supersedes the 2026-09-26 figures below)
 >
-> Sections §4–§8 below describe the **2026-09-26 Conpot capture** used for Report 1. For Report 2 the team ran **three independent, matched source-separable captures** (2026-11-04, 2026-11-07, 2026-11-14, 360 Modbus actions each) plus a **Step 7 content-distinguishable capture** (2026-11-15, 664 actions with insider anomalies from the authorized HMI) on a real **pymodbus 3.8.6** PLC behind **iptables 1.8.10 (nf_tables)** + **Suricata 7.0.3** (authorized HMI `10.0.1.10`, unauthorized WS `10.0.1.20`), under baseline (flat) and layered (segmented) firewall policies. Authoritative results:
+> Sections 4–8 below describe the **2026-09-26 Conpot capture** used for Report 1. For Report 2 the team ran **three independent, matched source-separable captures** (2026-11-04, 2026-11-07, 2026-11-14, 360 Modbus actions each) plus a **Step 7 content-distinguishable capture** (2026-11-15, 664 actions with insider anomalies from the authorized HMI) on a real **pymodbus 3.8.6** PLC behind **iptables 1.8.10 (nf_tables)** + **Suricata 7.0.3** (authorized HMI `10.0.1.10`, unauthorized WS `10.0.1.20`), under baseline (flat) and layered (segmented) firewall policies. Authoritative results:
 >
 > - **Four-tier ablation** — [`docs/ablation-results.md`](docs/ablation-results.md): firewall containment **100 %** (0/90 unauthorized reach the PLC); Suricata **66.7 %** recall / **0 % FPR** (flags all writes, misses reads); ML **at chance** (recall ≈ FPR) in the three source-separable captures, because authorized/unauthorized payloads are byte-identical apart from source IP. In the **2026-11-15 content capture** the content layer separates the insider anomalies (per-class ~100 %), but the content ML (**72.11 % / 0.68 % FPR**) is statistically identical to a static content rule (**71.81 % / 0.68 %**) — the ML still adds **no value over the rule**, one layer deeper. The firewall and the content layer are exact complements (source-only vs insider).
 > - **Read-back verification** — [`docs/readback-verification.md`](docs/readback-verification.md): all four write cases (C3–C6) confirmed to change PLC state on the pymodbus PLC — resolving the Report 1 "no write succeeded" finding.
 > - **Cross-layer correlation** — `correlate_telemetry.py` → `data/runs/<handoff>/correlated_results.csv`: per-action firewall decision / Suricata observation / outcome, joined by `run_id`/`case_id` and UTC timestamps.
-> - **Deployed versions** recorded in each handoff `versions.txt`; testbed described in [`infrastructure/README.md`](infrastructure/README.md) §6.
-> - **Full Report 2 results draft:** [`docs/report2-results-draft.md`](docs/report2-results-draft.md).
+> - **Deployed versions** recorded in each handoff `versions.txt`; testbed described in [`infrastructure/README.md`](infrastructure/README.md) §1.
+> - **Full Report 2 (graded deliverable):** [`docs/Team4_Progress_Report_2.docx`](docs/Team4_Progress_Report_2.docx).
 
 ---
 
@@ -29,27 +29,33 @@ Modbus/TCP carries no authentication or integrity protection, so any host that c
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │ Layer 1  Testbed & telemetry (Erick Espinosa)                                │
-│   Conpot Modbus target (Docker) + Suricata sensor; traffic_generator.py      │
-│   Implemented vs planned components: infrastructure/README.md §2             │
+│   pymodbus 3.8.6 PLC 10.0.3.10:502 behind iptables + Suricata 7.0.3;         │
+│   real testbed detailed in infrastructure/README.md §1                       │
 └────────────────────────────────────┬─────────────────────────────────────────┘
                                      │ handoff .tar.gz (SHA-256 pinned)
 ┌────────────────────────────────────▼─────────────────────────────────────────┐
 │ Layer 2  Ingestion & triage (Rachid Afaf)                                    │
-│   log_parser.py → 10 unique Modbus events (4 reads, 6 writes, 0 drops)       │
-│   timeline_generator.py → incident report                                    │
+│   log_parser.py → normalized Modbus events + firewall drops per handoff      │
+│   timeline generator → incident report                                       │
 └────────────────────────────────────┬─────────────────────────────────────────┘
                                      │ request-time features + scenario-record labels
 ┌────────────────────────────────────▼─────────────────────────────────────────┐
 │ Layer 3  Detection (Rachid Afaf)                                             │
-│   ml_detector.py: RF / DT / SVM vs rule baseline; Isolation Forest screening │
+│   ml detector: RF / DT / SVM vs rule baseline; Isolation Forest screening    │
 └────────────────────────────────────┬─────────────────────────────────────────┘
 ┌────────────────────────────────────▼─────────────────────────────────────────┐
 │ Layer 4  Threat model audit & integration (Rachid Afaf, Anil Kumar)          │
-│   validate_stride_threats.py: inventory vs exercised security properties     │
+│   validate stride threats: inventory vs exercised security properties        │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
+
+### 1.1 Current network boundary architecture (Step 7)
+
+![OT/Modbus layered-defense architecture: IT, enforcement/inspection and OT zones; the insider path from the authorized HMI passes the firewall and is caught only by the content layer](docs/architecture.png)
+
+*Figure 1. Current testbed boundary and data flow. Diagram source: [`docs/architecture.mmd`](docs/architecture.mmd) — regenerate with `mmdc -i docs/architecture.mmd -o docs/architecture.png`.*
 
 ## 🔬 2. Research Synthesis & Method Justification
 
@@ -57,15 +63,15 @@ Prior work is compared below at the level of **method, finding and limitation**,
 
 | Study | Method | Finding | Limitation | What it changes in our experiment |
 | :--- | :--- | :--- | :--- | :--- |
-| Goldenberg & Wool [8] | Builds a per-channel deterministic finite automaton for HMI–PLC Modbus traffic from about 100 messages. No ML. | Modelled 5 of 7 production PLC channels perfectly, with no false alarms over 111 h. | Assumes periodic polling; 2 of 7 channels were not modelled perfectly. | A simple, non-learning model is a strong baseline. We report a **rule baseline** next to every classifier (§5) and do not credit ML with what a rule already does. |
-| Gao & Morris [7] | Lab Modbus testbed; 28 attacks in four classes; standalone and state-based signature rules. | Standalone and state-based signature rules detect the attacks; detection rates are reported per attack class (command injection is our scenario). | Laboratory traffic only; per-class rates are not transferable to production. | Our **alerting** layer is Suricata write-function-code signatures [5]. Signature coverage is judged per write function code (Requirement 2, §3). |
-| Morris & Gao [9]; Lemay & Fernandez [10] | Public Modbus datasets from lab/sandbox testbeds, labelled from the **attack actions that were executed** (Lemay & Fernandez ship label CSVs as ground truth). | Labelled captures enable reproducible IDS comparison. | Sandbox traffic is cleaner than production traffic, so models can learn testbed artifacts. | Ground truth comes from a **scenario/action record** (`data/scenario_actions.json`), not from features or parser scores (§5.1). |
+| Goldenberg & Wool [8] | Builds a per-channel deterministic finite automaton for HMI–PLC Modbus traffic from about 100 messages. No ML. | Modelled 5 of 7 production PLC channels perfectly, with no false alarms over 111 h. | Assumes periodic polling; 2 of 7 channels were not modelled perfectly. | A simple, non-learning model is a strong baseline. We report a **rule baseline** next to every classifier (5) and do not credit ML with what a rule already does. |
+| Gao & Morris [7] | Lab Modbus testbed; 28 attacks in four classes; standalone and state-based signature rules. | Standalone and state-based signature rules detect the attacks; detection rates are reported per attack class (command injection is our scenario). | Laboratory traffic only; per-class rates are not transferable to production. | Our **alerting** layer is Suricata write-function-code signatures [5]. Signature coverage is judged per write function code (Requirement 2, 3). |
+| Morris & Gao [9]; Lemay & Fernandez [10] | Public Modbus datasets from lab/sandbox testbeds, labelled from the **attack actions that were executed** (Lemay & Fernandez ship label CSVs as ground truth). | Labelled captures enable reproducible IDS comparison. | Sandbox traffic is cleaner than production traffic, so models can learn testbed artifacts. | Ground truth comes from a **scenario/action record** (`data/scenario_actions.json`), not from features or parser scores (5.1). |
 | Beaver et al. [11] | Compares several ML classifiers on labelled RTU traffic with command- and data-injection scenarios. | Frames injection detection as supervised classification over labelled benign and malicious command traffic, and reports results per classifier. | One testbed; results depend on how attacks are injected and labelled. | We compare **several model families** under one protocol, with the same splits and timing definitions. |
 | Arp et al. [12] | Systematic review of ML-in-security papers; defines ten pitfalls. | Data snooping, spurious correlations, label inaccuracy and missing baselines are widespread. | General guidance, not Modbus-specific. | Features restricted to **request-time** observables (no response-only fields); a parser-text feature that encoded the operation name was **removed**; a no-function-code **ablation** and a rule baseline are reported. |
 | Santos et al. [13] | Compares oversampling before vs. inside cross-validation on imbalanced data. | Oversampling before splitting puts copies of test patterns in training and gives over-optimistic results. | Generic tabular data. | Split first, then oversample **training folds only**. Exact-duplicate EVE records were removed before splitting. A **leave-one-generator-run-out** scheme is also reported. |
-| Sommer & Paxson [14] | Position paper on anomaly-based network IDS. | Anomaly detectors find "unusual", not "malicious", and struggle with diverse benign traffic and the cost of errors. | Conceptual, not an empirical benchmark. | Isolation Forest [15] is used only for **batch screening** of the current capture; it is not claimed to detect new attacks (§5.4). |
+| Sommer & Paxson [14] | Position paper on anomaly-based network IDS. | Anomaly detectors find "unusual", not "malicious", and struggle with diverse benign traffic and the cost of errors. | Conceptual, not an empirical benchmark. | Isolation Forest [15] is used only for **batch screening** of the current capture; it is not claimed to detect new attacks (5.4). |
 
-**Gap this project addresses:** the studies above evaluate detection *or* prevention on their own datasets. We measure containment, alerting and detection on one shared, matched case set (§4), with evidence attributed to each layer.
+**Gap this project addresses:** the studies above evaluate detection *or* prevention on their own datasets. We measure containment, alerting and detection on one shared, matched case set (4), with evidence attributed to each layer.
 
 ---
 
@@ -74,8 +80,8 @@ Prior work is compared below at the level of **method, finding and limitation**,
 ### Roles
 | Member | Primary role | Scope | Hand-off owned |
 | :--- | :--- | :--- | :--- |
-| **Erick Espinosa** | Infrastructure & Emulation Lead | Testbed, firewall, Modbus target containers, `traffic_generator.py`, Suricata rules | Produces testbed traffic captures and the hashed `.tar.gz` handoff; confirms `data/scenario_actions.json` against the run log |
-| **Rachid Afaf** | Security Architect & Detection Analytics Lead | `log_parser.py`, `timeline_generator.py`, `ml_detector.py`, `validate_stride_threats.py`, deployment | Ingests the handoff, runs the evaluation, maintains the threat model |
+| **Erick Espinosa** | Infrastructure & Emulation Lead | Testbed, firewall, Modbus target containers, Suricata rules | Produces testbed traffic captures and the hashed `.tar.gz` handoff; confirms  data scenario actions against the run log |
+| **Rachid Afaf** | Security Architect & Detection Analytics Lead | Deployment | Ingests the handoff, runs the evaluation, maintains the threat model |
 | **Anil Kumar** | Documentation, Review & Integration Lead | Report editing, IEEE citations, artifact provenance, integration | Owns `main`; final reviewer of every merge and report section |
 
 ### Review & integration matrix
@@ -90,17 +96,16 @@ Prior work is compared below at the level of **method, finding and limitation**,
 1. **Default:** decisions are made at the weekly stand-up and recorded in the meeting notes with the evidence used.
 2. **Merges:** pull request → CI and tests green → reviewer approval → Anil merges. Nobody merges their own pull request.
 3. **Disagreement:** the owner of the affected artifact writes a one-paragraph trade-off (options, evidence, effect on requirements) within 48 h. The team decides at the next stand-up by consensus; if there is no consensus, by 2-of-3 vote.
-4. **Escalation:** if still unresolved after one further meeting, or if it affects scope or grading, Anil raises it with the course instructor within 24 h.
 
 ---
 
 ## 🛡️ 4. Bounded & Testable Security Requirements
 
-Each requirement names its **case set**, **observation conditions**, **expected observation** and **evidence**. The case set is the matched set in §5.1.
+Each requirement names its **case set**, **observation conditions**, **expected observation** and **evidence**. The case set is the matched set in 5.1.
 
 * **R1 — Write containment (firewall layer).**  
   *Cases:* C3–C6 (FC 0x05, 0x06, 0x0F, 0x10 writes) sent from the enterprise workstation to the PLC zone, plus C1–C2 (reads) as controls.  
-  *Conditions:* layered topology with pfSense ACLs active between the enterprise and PLC zones; each case executed 30 times.  
+  *Conditions:* layered topology with iptables (nf_tables) boundary ACLs active on `vm-fwsensor` between the enterprise and PLC zones; each case executed 30 times.  
   *Expected:* 30/30 attempts per write case blocked; read cases from the authorized HMI source still succeed.  
   *Evidence:* a firewall log line for each blocked attempt (matching source, destination and port), no Modbus response captured beyond the firewall, and an unchanged PLC register dump.
 
@@ -109,10 +114,10 @@ Each requirement names its **case set**, **observation conditions**, **expected 
   *Conditions:* Suricata with Modbus app-layer parsing enabled [5]; sensor packet drop counter (`capture.kernel_drops` in `stats`) = 0 for the run.  
   *Expected:* each write case raises a write-specific signature (not only the generic Modbus traffic rule) on 30/30 attempts.  
   *Evidence:* the `eve.json` alert with the same `flow_id` as the case's `modbus` record, and the run's `stats` record.  
-  *Current status:* in the 2026-09-26 handoff, FC 0x06 (3/3) and FC 0x10 (2/2) raised write-specific alerts; FC 0x05 (0/1) did not; FC 0x0F was not exercised.
+  *Current status:* met in the Report 2 captures — Suricata raises write-specific alerts on the write function codes (FC5/6/15/16) at **66.7 %** recall / **0 % FPR** overall (all writes alerted, reads correctly not); see [`docs/ablation-results.md`](docs/ablation-results.md). *(The earlier 2026-09-26 handoff raised FC6 3/3, FC16 2/2, FC5 0/1; FC15 not exercised.)*
 
 * **R3 — Learned detection (classifier layer).**  
-  *Cases:* all labelled events from §5.1.  
+  *Cases:* all labelled events from 5.1.  
   *Conditions:* labels from the scenario record; request-time features only; splits made before oversampling; ≥ 30 events per class before any target is claimed.  
   *Expected:* recall ≥ 95 % and FPR ≤ 2 % in **leave-one-run-out** evaluation, **and** better than the rule baseline on at least one case type. Prediction latency ≤ 10 ms/sample, measured as `model.predict` time only, on the hardware recorded in the results file.  
   *Evidence:* `data/ml_evaluation_results.json`.
@@ -135,10 +140,10 @@ Both topologies receive **the same scripted cases** from the same workstation, w
 | C2 | FC 0x03 Read Holding Registers | authorized baseline poll | 0 |
 | C3 | FC 0x05 Write Single Coil | unauthorized write | 1 |
 | C4 | FC 0x06 Write Single Register | unauthorized write | 1 |
-| C5 | FC 0x0F Write Multiple Coils | unauthorized write *(planned; not in current capture)* | 1 |
+| C5 | FC 0x0F Write Multiple Coils | unauthorized write | 1 |
 | C6 | FC 0x10 Write Multiple Registers | unauthorized write | 1 |
 
-The record for the existing capture is `data/scenario_actions.json` (10 actions over 3 generator runs). It was **reconstructed from the capture** because the 2026-09-23 run log is not in the handoff, and it is pending Erick's confirmation. Future runs must log each action (timestamp, actor, command, authorized yes/no) **at execution time**.
+For the Report 2 captures the ground truth is the generator's own per-action record, written **at execution time** to `scenario_file.csv` inside each handoff (timestamp, actor, command, authorized yes/no) — confirmed, not reconstructed. *(For Report 1 the only record was `data/scenario_actions.json` — 10 actions over 3 runs, reconstructed from the capture because the 2026-09-23 run log was absent.)*
 
 ### 5.2 What each layer's evidence can establish
 | Question | Evidence that answers it | Attributed to |
@@ -155,15 +160,15 @@ The record for the existing capture is `data/scenario_actions.json` (10 actions 
 | :--- | :---: | :---: | :---: | :--- |
 | **Baseline (flat), expected** | 0 % blocked | none (no sensor) | none | PLC register dump |
 | **Layered, target** | R1: 100 % of write cases | R2: 100 % per write case | R3 targets | firewall log, `eve.json`, results JSON |
-| **Observed, 2026-09-26 handoff** | Not tested. Traffic ran over the Docker bridge (`10.0.1.4 → Conpot 172.17.0.2:5020`) with no firewall in the path; `iptables_drops.log` holds only `-- No entries --`. | 5/6 writes raised a write-specific alert (FC6 3/3, FC16 2/2, FC5 0/1); all 10 matched the generic Modbus rule | Same as the rule baseline (§6) | handoff, `parser_integrity_report.json`, `ml_evaluation_results.json` |
+| **Observed, 2026-09-26 handoff** | Not tested. Traffic ran over the Docker bridge (`10.0.1.4 → Conpot 172.17.0.2:5020`) with no firewall in the path; `iptables_drops.log` holds only `-- No entries --`. | 5/6 writes raised a write-specific alert (FC6 3/3, FC16 2/2, FC5 0/1); all 10 matched the generic Modbus rule | Same as the rule baseline (6) | handoff, `parser_integrity_report.json`, `ml_evaluation_results.json` |
 
-**Outcome caveat:** the target was the Conpot honeypot (`honeynet/conpot:latest`), not OpenPLC. The `openplc_runtime` container was an `nginx:alpine` placeholder (infrastructure README §1). All 10 requests received a Modbus **exception** response (Illegal Data Address), so none of the 6 writes changed a register. The capture shows attempted writes, not successful ones. R1 needs a target whose register map accepts the writes in the baseline topology.
+**Outcome caveat:** the target was the Conpot honeypot (`honeynet/conpot:latest`), not OpenPLC. The `openplc_runtime` container was an `nginx:alpine` placeholder (infrastructure README 1). All 10 requests received a Modbus **exception** response (Illegal Data Address), so none of the 6 writes changed a register. The capture shows attempted writes, not successful ones. R1 needs a target whose register map accepts the writes in the baseline topology.
 
 ---
 
 ## 📊 6. Machine Learning Evaluation (Layer 3)
 
-*The tables in §6.2 are the 2026-09-26 capture (10 events). The November captures confirm the §6.3 conclusion directly: for the three source-separable captures (3 × 360 actions) ML operates at chance (recall ≈ FPR) because authorized and unauthorized payloads differ only by source IP; for the 2026-11-15 content-distinguishable capture the content ML (72.11 % / 0.68 %) ties a static content rule (71.81 % / 0.68 %), so the "ML adds no value over the rule" conclusion holds at the content layer too. See [`docs/ablation-results.md`](docs/ablation-results.md).*
+*The tables in 6.2 are the 2026-09-26 capture (10 events). The November captures confirm the 6.3 conclusion directly: for the three source-separable captures (3 × 360 actions) ML operates at chance (recall ≈ FPR) because authorized and unauthorized payloads differ only by source IP; for the 2026-11-15 content-distinguishable capture the content ML (72.11 % / 0.68 %) ties a static content rule (71.81 % / 0.68 %), so the "ML adds no value over the rule" conclusion holds at the content layer too. See [`docs/ablation-results.md`](docs/ablation-results.md).*
 
 ### 6.1 Method
 1. **Ground truth** is the scenario/action record joined to events by timestamp (`src/scenario.py`). Editing a feature, `threat_score` or `is_state_altering` cannot change a label (tested in `tests/test_pipeline.py`).
@@ -214,7 +219,7 @@ The record for the existing capture is `data/scenario_actions.json` (10 actions 
 * **INVENTORY:** the model and policy files exist and are well formed. This is *not* evidence that a control works.
 * **PROPERTY:** a control was exercised.
   - **P1:** parser functions driven with a Tar-Slip archive, a link member, the `-- No entries --` marker and a non-Modbus EVE event.
-  - **P2:** normalized data reconciled with the raw `eve.json` (10 = 10 unique transactions, identical function codes, 0 drops = 0 real drop lines).
+  - **P2:** normalized data reconciled with the raw `eve.json` (on the 2026-11-15 handoff: 493 = 493 unique transactions, identical function codes, 92 drops = 92 real drop lines).
   - **P3:** ML results checked for scenario labels, request-time features, separate timing and label-free Isolation Forest, then compared with the targets.
 
 The current run gives P1 PASS, P2 PASS and P3 WARN, so the overall result is **PARTIAL** (details in `data/stride_validation_report.md`). The professor's negative control (an empty parser, an empty data object, an empty model-results object) now produces FAIL on all three checks; see `tests/test_pipeline.py::test_validator_negative_control_reproduces_professor_probe`. The audit does not close threats.
@@ -223,20 +228,20 @@ The current run gives P1 PASS, P2 PASS and P3 WARN, so the overall result is **P
 
 ## 📅 8. Forward Schedule & Internal Due Points
 
-Status as of **2026-11-01** (schedule). **Update 2026-11-14:** items 3–8 are complete — the scenario record is confirmed, deployed versions are recorded, the matched baseline/layered runs were executed across three captures, and the pipeline, validator and Docker smoke test pass (25/25) on the new handoffs. **Update 2026-11-15:** the Step 7 content-distinguishable capture was executed and ingested — four handoffs now pass **25/25, 4/4 receipted, 3224 events / 32 incidents** — and the four-tier content result (content ML ≈ content rule) is folded into [`docs/ablation-results.md`](docs/ablation-results.md). See also [`docs/report2-results-draft.md`](docs/report2-results-draft.md) and [`docs/FEEDBACK_RESOLUTION.md`](docs/FEEDBACK_RESOLUTION.md). Items 9–10 (paper reading, final figures/report) remain with the team.
+Status as of **2026-11-01** (schedule). **Update 2026-11-14:** items 3–8 are complete — the scenario record is confirmed, deployed versions are recorded, the matched baseline/layered runs were executed across three captures, and the pipeline, validator and Docker smoke test pass (25/25) on the new handoffs. **Update 2026-11-15:** the Step 7 content-distinguishable capture was executed and ingested — four handoffs now pass **25/25, 4/4 receipted, 3224 events / 32 incidents** — and the four-tier content result (content ML ≈ content rule) is folded into [`docs/ablation-results.md`](docs/ablation-results.md). See also [`docs/Team4_Progress_Report_2.docx`](docs/Team4_Progress_Report_2.docx) and [`docs/FEEDBACK_RESOLUTION.md`](docs/FEEDBACK_RESOLUTION.md). Items 9–10 (paper reading, final figures/report) remain with the team.
 
 | # | Deliverable (evidence product) | Owner | Internal due | Reviewer | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | Parser fix (function codes, Modbus-only events, empty marker), de-duplication audit, unit tests | Rachid | Oct 25 | Anil | ✅ Done |
 | 2 | Scenario-record labels, request-time features, ablation, leave-one-run-out, timing separation, behavioural validator | Rachid | Nov 1 | Anil | ✅ Done; awaiting review |
-| 3 | Confirm or replace `data/scenario_actions.json` against the 2026-09-23 run log and generator version | Erick | **TBD** | Rachid | ⏳ Open |
-| 4 | Record deployed versions, interfaces and the real topology (infrastructure README §2 table "to confirm" fields) | Erick | **TBD** | Anil | ⏳ Open |
-| 5 | Generator logs each action at execution time (scenario record written automatically) | Erick + Rachid | **TBD** | Anil | ⏳ Open |
-| 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | **TBD** | Rachid | ⏳ Open, slipped |
-| 7 | Matched runs: 30 × C1–C6 in baseline and layered topologies, with authorized-writer and unauthorized-reader variants | Erick + Rachid | **TBD** | Anil | ⏳ Open |
-| 8 | Re-run pipeline, validator and Docker smoke test on the new captures; update §5–§6 tables | Rachid | **TBD** | Erick | ⏳ Open |
-| 9 | Report 2 draft: synthesis (§2) reviewed against the full papers, citations checked | Anil | **TBD** | Rachid + Erick | ⏳ Open |
-| 10 | Report 2 final: threat-model status updates, AI-use log, final figures (readable threat-model figure) | Anil | **TBD** | Team | ⏳ Open |
+| 3 | Confirm or replace `data/scenario_actions.json` against the run log and generator version | Erick | Nov 14 | Rachid | ✅ Done — scenario record confirmed; captures carry per-action `scenario_file.csv` |
+| 4 | Record deployed versions, interfaces and the real topology | Erick | Nov 14 | Anil | ✅ Done — `versions.txt` in every handoff; `infrastructure/README.md` §1 |
+| 5 | Generator logs each action at execution time (scenario record written automatically) | Erick + Rachid | Nov 14 | Anil | ✅ Done — `traffic_generator.py` logs each action before send |
+| 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | Nov 14 | Rachid | ✅ Done — layered policy; `iptables_drops.log` (CYB691-DROP) |
+| 7 | Matched runs in baseline and layered topologies, plus the Step 7 content capture | Erick + Rachid | Nov 15 | Anil | ✅ Done — four captures (11-04/07/14 + content 11-15) |
+| 8 | Re-run pipeline, validator and Docker smoke test; update results | Rachid | Nov 15 | Erick | ✅ Done — 25/25, 4/4 receipted, 3224 events / 32 incidents |
+| 9 | Report 2 draft: synthesis (2) reviewed against the full papers, citations checked | Anil | Week 12 | Rachid + Erick | 🟡 In progress — citations verified; full-paper read pending |
+| 10 | Report 2 final: threat-model status updates, AI-use log, final figures | Anil | Week 14 | Team | 🟡 In progress — report + architecture figure done; threat-model rows pending |
 
 ---
 
@@ -256,7 +261,7 @@ Status as of **2026-11-01** (schedule). **Update 2026-11-14:** items 3–8 are c
 
 ```bash
 pip install -r requirements.txt
-python src/log_parser.py            # 10 unique Modbus events; de-duplication audit in data/parser_integrity_report.json
+python src/log_parser.py            # normalized Modbus events; de-duplication audit in data/parser_integrity_report.json
 python src/timeline_generator.py    # incident report + timeline
 python src/ml_detector.py           # labels from data/scenario_actions.json; results in data/ml_evaluation_results.json
 python validate_stride_threats.py   # inventory + exercised property checks → data/stride_validation_report.md
@@ -290,7 +295,7 @@ pytest -q tests/deployment     # deployment unit, recovery and static security t
 [2] T. J. Williams, "The Purdue enterprise reference architecture," *Computers in Industry*, vol. 24, no. 2–3, pp. 141–158, Sep. 1994, doi: 10.1016/0166-3615(94)90017-5.  
 [3] Modbus Organization, "MODBUS Application Protocol Specification V1.1b3," Apr. 26, 2012. [Online]. Available: https://modbus.org/docs/Modbus_Application_Protocol_V1_1b3.pdf  
 [4] R. Langner, "To Kill a Centrifuge: A Technical Analysis of What Stuxnet's Creators Tried to Achieve," The Langner Group, Arlington, VA, USA, Nov. 2013.  
-[5] Open Information Security Foundation, "Suricata User Guide," ch. 8 "Suricata Rules," §8.15 "Modbus Keyword," and the EVE JSON output chapter. The deployed sensor is **Suricata 7.0.3 RELEASE** (vm-fwsensor, recorded 2026-11-14); cite the matching release documentation at https://docs.suricata.io/en/suricata-7.0.3/  
+[5] Open Information Security Foundation, "Suricata User Guide," ch. 8 "Suricata Rules," 8.15 "Modbus Keyword," and the EVE JSON output chapter. The deployed sensor is **Suricata 7.0.3 RELEASE** (vm-fwsensor, recorded 2026-11-14); cite the matching release documentation at https://docs.suricata.io/en/suricata-7.0.3/  
 [6] The MITRE Corporation, "MITRE ATT&CK for ICS," v20.0, Oct. 13, 2026: T1692.001 Unauthorized Message: Command Message (legacy ID T0855, which redirects to it), T0836 Modify Parameter, T0814 Denial of Service. [Online]. Available: https://attack.mitre.org/matrices/ics/  
 [7] W. Gao and T. H. Morris, "On cyber attacks and signature based intrusion detection for Modbus based industrial control systems," *Journal of Digital Forensics, Security and Law*, vol. 9, no. 1, 2014, doi: 10.15394/jdfsl.2014.1162.  
 [8] N. Goldenberg and A. Wool, "Accurate modeling of Modbus/TCP for intrusion detection in SCADA systems," *International Journal of Critical Infrastructure Protection*, vol. 6, no. 2, pp. 63–75, 2013, doi: 10.1016/j.ijcip.2013.05.001.  

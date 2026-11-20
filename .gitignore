@@ -54,3 +54,6 @@ data/runs/.pipeline_state.json
 
 # Pipeline scratch (regenerated from the handoff tarball on every run)
 infrastructure/extracted_handoff/
+
+# Private AI prompt appendix — submitted in Brightspace, never published
+docs/Team4_AI_Development_Log.md

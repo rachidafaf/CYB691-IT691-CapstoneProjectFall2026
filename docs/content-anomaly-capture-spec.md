@@ -49,7 +49,7 @@ All anomaly cases (A1–A5) are issued **from the HMI `10.0.1.10`** so they pass
 | **A5** read-only-point write | HMI | FC6 | **HR[20]** (measurement reg) | 10 | ~2 s | 0 | `ro_write` | **address (role)** |
 | **C1–C6** (retain) | WS 10.0.1.20 | FC1/3/5/6/15/16 | in-map | as today | ~2 s | 0 | `unauth_source` | **source** |
 
-All values are within Modbus 16-bit limits and the simulated datastore, so nothing stresses the lab beyond ordinary writes. "Out-of-range" is relative to the **legitimate profile** in §3, not the protocol.
+All values are within Modbus 16-bit limits and the simulated datastore, so nothing stresses the lab beyond ordinary writes. "Out-of-range" is relative to the **legitimate profile** in 3, not the protocol.
 
 This dataset has the property you need:
 

@@ -1,6 +1,6 @@
 # STRIDE Inventory & Security Property Audit
 
-**Timestamp:** 2026-11-15T22:03:15.974048+00:00  
+**Timestamp:** 2026-11-20T18:34:18.244619+00:00  
 **Threat model:** `Team 4 Threat Model.json`  
 **Conclusion:** PARTIAL - 2 property check(s) passed, 1 warning(s). Threat status is as recorded in the model ({'Open': 37}); this audit does not close threats.
 

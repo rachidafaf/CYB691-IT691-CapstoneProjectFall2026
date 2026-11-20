@@ -22,7 +22,7 @@ handoff: if an older handoff is processed later, the newest one is re-run afterw
 
   python deploy/pipeline/run_pipeline.py            watch and run (the pipeline-runner service)
   python deploy/pipeline/run_pipeline.py --once     process what is pending, then exit (host use)
-  python deploy/pipeline/run_pipeline.py --rerun ot_telemetry_handoff_2026-11-01.tar.gz
+  python deploy/pipeline/run_pipeline.py --rerun ot_telemetry_handoff_2026-11-15.tar.gz
 """
 
 import argparse

@@ -1,0 +1,39 @@
+// Figure 1 — OT Network Boundary: STRIDE threats -> validated controls
+// CYB691/IT691 Team 4. Render: dot -Tpng -Gdpi=150 fig1_ot_boundary.dot -o fig1_ot_boundary.png
+digraph OT_Boundary {
+  rankdir=LR; bgcolor="white"; fontname="Helvetica"; nodesep=0.35; ranksep=1.1;
+  labelloc="t"; fontsize=15;
+  label=<<b>Figure 1 &#8212; OT Network Boundary: STRIDE threats mapped to validated controls</b>>;
+  node [fontname="Helvetica", fontsize=10];
+  edge [fontname="Helvetica", fontsize=9, color="#5f6368"];
+
+  // --- threats (left) ---
+  node [shape=box, style="filled,rounded", fillcolor="#fce8e6", color="#d93025"];
+  S [label=<<b>S &#183; Spoofing</b><br/>Unauthorized source issues<br/>Modbus commands (WS 10.0.1.20)<br/><font point-size="8"><i>ATT&amp;CK T1692.001</i></font>>];
+  T [label=<<b>T &#183; Tampering</b><br/>Unauthorized / insider write<br/>modifies PLC state<br/><font point-size="8"><i>ATT&amp;CK T0836</i></font>>];
+  R [label=<<b>R &#183; Repudiation</b><br/>Actor denies issuing<br/>a command>];
+  I [label=<<b>I &#183; Info Disclosure</b><br/>Reconnaissance reads<br/>(FC1 / FC3)>];
+  D [label=<<b>D &#183; Denial of Service</b><br/>Write burst / flooding<br/><font point-size="8"><i>ATT&amp;CK T0814</i></font>>];
+  E [label=<<b>E &#183; Elevation</b><br/>Insider on authorized HMI<br/>issues out-of-range writes>];
+
+  // --- validated controls (right) ---
+  node [shape=box, style="filled,rounded", fillcolor="#e6f4ea", color="#1e8e3e"];
+  c_fw [label=<<b>Least-privilege firewall ACL</b><br/>source-based, default DROP + LOG<br/><b>containment 100%</b> (0/90 reach PLC)>];
+  c_dpi [label=<<b>Suricata DPI write signatures</b><br/><b>66.7%</b> recall / 0% FPR>];
+  c_ml [label=<<b>Content rule / ML layer</b><br/>insider per-class ~100%<br/>(ML &#8776; static rule)>];
+  c_rb [label=<<b>Read-back verification</b><br/>post == commanded, post &#8800; pre (4/4)>];
+  c_gt [label=<<b>Scenario record + hashed handoff</b><br/>timestamped ground truth>];
+
+  // --- residual risk (amber) ---
+  node [shape=note, style="filled", fillcolor="#fef7e0", color="#f9ab00", fontsize=9];
+  n_reads [label=<Residual: signature DPI<br/>does not flag reads>];
+  n_rate  [label=<Residual: add source<br/>rate-limit (DPI missed ~30 burst)>];
+  n_ins   [label=<Residual: semantically-plausible<br/>insider evades both layers>];
+
+  S -> c_fw [label="100% contained"];
+  T -> c_dpi; T -> c_ml; T -> c_rb;
+  R -> c_gt;
+  I -> c_fw; I -> n_reads [style=dashed, color="#f9ab00"];
+  D -> c_fw; D -> n_rate  [style=dashed, color="#f9ab00"];
+  E -> c_ml; E -> n_ins   [style=dashed, color="#f9ab00"];
+}

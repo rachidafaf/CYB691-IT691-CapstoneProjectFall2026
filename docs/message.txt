@@ -3,21 +3,21 @@
 	Our capstone project investigates cyber-physical threat monitoring and command containment in Operational Technology (OT) networks running the legacy Modbus TCP protocol. The practical component is structured across a 4-layer technical pipeline where each member leads a dedicated functional stage:
 		○ Test Environment & Platforms (Layer 1): Hosted locally in a team-controlled, host-virtualized environment utilizing Docker and Docker Compose alongside a pfSense virtual firewall. The environment emulates industrial field devices using containerized OpenPLC v3 and Conpot emulators listening on standard Modbus ports (TCP 502 / 5020). Microsegmentation is enforced across three virtual subnets (snet-enterprise, snet-hmi, and snet-plc) aligned with Purdue Model Levels 1–3.
 		○ Code & Scripts Developed: 
-			§ traffic_generator script (Infrastructure / Layer 1): Generates baseline read polling and state-altering Modbus write command bursts.
-			§ log_parser script (Source / Layer 2): Ingests multi-log telemetry handoffs (compressed TAR archives containing Suricata EVE JSON logs, iptables drop logs, and raw Modbus CSVs), normalizes records into standardized ISO 8601 JSON schemas (normalized_telemetry), and computes inter-arrival delta times.
-			§ timeline_generator script (Source / Layer 2): Generates structured incident triage metrics (incident_report) and Markdown forensic timelines (incident_timeline).
-			§ ml_detector script (Source / Layer 3): Extracts an 8-dimensional feature vector (including state-altering flags, inter-arrival time in milliseconds, and threat scores), handles class imbalance, and trains supervised classifiers (Random Forest, Decision Tree, Support Vector Machines) against an unsupervised Isolation Forest baseline.
-			§ validate_stride_threats script (Layer 4): Automates OWASP Threat Dragon v2.3.0 STRIDE verification across 37 open threats and 2 trust boundaries (curve-ot-boundary and curve-analysis-boundary).
+			- traffic_generator script (Infrastructure / Layer 1): Generates baseline read polling and state-altering Modbus write command bursts.
+			- log_parser script (Source / Layer 2): Ingests multi-log telemetry handoffs (compressed TAR archives containing Suricata EVE JSON logs, iptables drop logs, and raw Modbus CSVs), normalizes records into standardized ISO 8601 JSON schemas (normalized_telemetry), and computes inter-arrival delta times.
+			- timeline_generator script (Source / Layer 2): Generates structured incident triage metrics (incident_report) and Markdown forensic timelines (incident_timeline).
+			- ml_detector script (Source / Layer 3): Extracts an 8-dimensional feature vector (including state-altering flags, inter-arrival time in milliseconds, and threat scores), handles class imbalance, and trains supervised classifiers (Random Forest, Decision Tree, Support Vector Machines) against an unsupervised Isolation Forest baseline.
+			- validate_stride_threats script (Layer 4): Automates OWASP Threat Dragon v2.3.0 STRIDE verification across 37 open threats and 2 trust boundaries (curve-ot-boundary and curve-analysis-boundary).
 		○ Data & Traffic Analyzed: Synthetic Modbus TCP traffic comparing routine read commands (Function Codes 0x01, 0x03) with unauthorized, state-altering write injections (Function Codes 0x05, 0x06, 0x10).
 		○ Preserved Evidence Products: Raw PCAP captures, Suricata EVE JSON alert logs, firewall drop logs, normalized ISO 8601 JSON datasets (20,075 records), trained ML model evaluation summaries (ml_evaluation_results), and STRIDE audit reports (stride_validation_report).
 
 	• 2. Support for Research Question & Cybersecurity Objectives
 		○ Primary Research Question: In a virtualized Industrial Control System (ICS) environment running Modbus TCP, how effectively does a multi-layered defense architecture (Purdue Model microsegmentation, Suricata DPI, and supervised machine learning classifiers) detect, alert, and contain unauthorized state-altering write commands compared to an unsegmented flat network baseline?
 		○ How Design Supports Objectives: 
-			§ Preventive Containment: Layer 1 pfSense Layer 3/4 ACLs block unauthorized cross-subnet write polling from non-whitelisted hosts.
-			§ Signature Inspection: Layer 1 Suricata Deep Packet Inspection (DPI) inspects Modbus Application Protocol (MBAP) headers to alert on unauthorized function codes.
-			§ Behavioral Detection: Layer 3 supervised ML anomaly detectors identify automated script bursts versus human operator HMI polling, targeting high recall and low false-positive rates.
-			§ Empirical Validation: Comparing the 4-layer architecture against an unsegmented flat baseline isolates the specific detection gain and latency cost of each defensive layer.
+			- Preventive Containment: Layer 1 pfSense Layer 3/4 ACLs block unauthorized cross-subnet write polling from non-whitelisted hosts.
+			- Signature Inspection: Layer 1 Suricata Deep Packet Inspection (DPI) inspects Modbus Application Protocol (MBAP) headers to alert on unauthorized function codes.
+			- Behavioral Detection: Layer 3 supervised ML anomaly detectors identify automated script bursts versus human operator HMI polling, targeting high recall and low false-positive rates.
+			- Empirical Validation: Comparing the 4-layer architecture against an unsegmented flat baseline isolates the specific detection gain and latency cost of each defensive layer.
 
 	• 3. Reproducibility Plan
 	• To enable another qualified researcher or evaluator to reproduce the environment, run the code, and verify all results:
@@ -43,4 +43,4 @@
 		○ Reproducibility Assessment: High. Ensured by version-controlled GitHub releases, explicit package pinning (requirements.txt), automated multi-stage Python scripts, and standardized ISO 8601 JSON schemas.
 		○ Safety Assessment: Robust. Strict network isolation via pfSense microsegmentation and private RFC 1918 subnets prevents unintended packet leakage outside the local VirtualBox/Docker bridge.
 		○ Concrete Recommended Improvement: 
-			§ Proposed Architecture & Evidence Enhancement: Implement automated SHA-256 sidecar hash verification and a Tar-Slip path traversal guard prior to unpacking telemetry handoff archives. Generating cryptographic sidecar checksums at Layer 1 and enforcing strict directory path boundary checks during Layer 2 extraction will cryptographically guarantee evidence lineage and mitigate potential archive extraction privilege escalation threats (threat-parser) identified in our OWASP STRIDE model.
+			- Proposed Architecture & Evidence Enhancement: Implement automated SHA-256 sidecar hash verification and a Tar-Slip path traversal guard prior to unpacking telemetry handoff archives. Generating cryptographic sidecar checksums at Layer 1 and enforcing strict directory path boundary checks during Layer 2 extraction will cryptographically guarantee evidence lineage and mitigate potential archive extraction privilege escalation threats (threat-parser) identified in our OWASP STRIDE model.

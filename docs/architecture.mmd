@@ -1,0 +1,33 @@
+%% CYB691/IT691 Team 4 — OT/Modbus layered-defense architecture (current, Step 7)
+%% Render: mmdc -i docs/architecture.mmd -o docs/architecture.png
+flowchart LR
+    subgraph Z1["IT Zone — snet-it (10.0.1.0/24)"]
+        HMI["<b>vm-hmi (10.0.1.10)</b><br/>Authorized operator HMI<br/><i>legit C1–C6 (authorized=1)</i><br/><i>+ insider A1–A5 (authorized=0)</i>"]
+        WS["<b>vm-ws (10.0.1.20)</b><br/>Unauthorized workstation<br/><i>C1–C6 (authorized=0)</i>"]
+    end
+
+    subgraph Z2["Enforcement & Inspection (10.0.2.0/24)"]
+        FW["<b>vm-fwsensor (10.0.2.4)</b><br/>iptables 1.8.10 (nf_tables), routes IT↔OT<br/>Layered: allow HMI→PLC:502; default DROP+LOG (CYB691-DROP)<br/>Suricata 7.0.3 DPI → eve.json<br/>Packages hashed handoff (.tar.gz + .sha256)"]
+    end
+
+    subgraph Z3["OT Zone — snet-ot (10.0.3.0/24)"]
+        PLC["<b>vm-plc (10.0.3.10:502)</b><br/>pymodbus 3.8.6 Modbus/TCP<br/>coils + holding registers<br/><i>authorized writes verified by Step 9 read-back</i>"]
+    end
+
+    subgraph AN["Analysis pipeline — Docker, off-box (from the handoff)"]
+        P["log_parser → timeline_generator → ml_detector → validate_stride<br/><i>Four-tier ablation: firewall · Suricata · ML vs content rule</i>"]
+    end
+
+    HMI -->|"legit writes TCP/502 — ALLOW"| FW
+    HMI -.->|"insider A1–A5 (authorized=0) — ALLOW (authorized source)"| FW
+    WS -.->|"unauthorized TCP/502"| FW
+    FW -->|"ALLOW → DPI-inspected"| PLC
+    FW -.->|"DROP + CYB691-DROP log"| DROP(["WS contained at boundary (100%)"])
+    FW ==>|"eve.json · drops · rules · scenario · read-back"| AN
+
+    style HMI fill:#e6f4ea,stroke:#1e8e3e,stroke-width:2px
+    style WS fill:#fce8e6,stroke:#d93025,stroke-width:2px
+    style FW fill:#e8f0fe,stroke:#1a73e8,stroke-width:2px
+    style PLC fill:#fef7e0,stroke:#f9ab00,stroke-width:2px
+    style DROP fill:#f1f3f4,stroke:#5f6368,stroke-dasharray: 5 5
+    style P fill:#f3e8fd,stroke:#8430ce,stroke-width:1px

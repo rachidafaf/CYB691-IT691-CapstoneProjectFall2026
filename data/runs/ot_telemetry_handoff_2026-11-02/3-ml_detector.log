@@ -1,3 +1,0 @@
-[*] Loaded 1 records from SQLite /tmp/telemetry.db
-[-] Scenario record rejected: /repo/infrastructure/extracted_handoff/ot_telemetry_handoff_2026-11-02/handoff/scenario_file.csv: missing column(s) for ['authorized']; header is ['timestamp', 'source_ip', 'dest_ip', 'function_code', 'action']
-[+] Wrote /repo/data/ml_evaluation_results.json (status INSUFFICIENT_LABELS)

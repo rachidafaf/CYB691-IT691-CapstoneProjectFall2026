@@ -1,5 +1,0 @@
-[*] Ingesting normalized telemetry from: /repo/data/normalized_telemetry.json
-[*] Processing 1 normalized records for incident correlation...
-[+] Written structured incident report JSON: /repo/data/incident_report.json
-[+] Saved incident triage metrics to SQLite /tmp/telemetry.db (Report: REPORT-20261103-150013)
-[+] Successfully generated Incident Timeline Markdown report: /repo/data/incident_timeline.md
