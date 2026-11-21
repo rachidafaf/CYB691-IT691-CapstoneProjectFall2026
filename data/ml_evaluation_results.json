@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-21T01:15:42.683209+00:00",
+  "timestamp": "2026-11-21T03:02:42.939834+00:00",
   "input_source": "../tmp/telemetry.db",
   "workload_and_hardware": {
     "operating_system": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.36",
@@ -8,7 +8,7 @@
     "logical_cpus": 16,
     "python_version": "3.12.8",
     "total_records_evaluated": 216,
-    "total_execution_time_ms": 5418.69
+    "total_execution_time_ms": 8887.8
   },
   "timing_definitions": {
     "training_time_avg_ms": "mean wall time of model.fit on one oversampled training fold",
@@ -209,9 +209,9 @@
         "fn": 49,
         "tp": 19
       },
-      "training_time_avg_ms": 65.587,
-      "prediction_latency_per_sample_ms": 0.0454,
-      "inference_latency_per_sample_ms": 0.0454,
+      "training_time_avg_ms": 192.176,
+      "prediction_latency_per_sample_ms": 0.1023,
+      "inference_latency_per_sample_ms": 0.1023,
       "meets_recall_target": false,
       "meets_fpr_target": false,
       "folds": [
@@ -308,9 +308,9 @@
         "fn": 45,
         "tp": 23
       },
-      "training_time_avg_ms": 1.052,
-      "prediction_latency_per_sample_ms": 0.0047,
-      "inference_latency_per_sample_ms": 0.0047,
+      "training_time_avg_ms": 1.556,
+      "prediction_latency_per_sample_ms": 0.008,
+      "inference_latency_per_sample_ms": 0.008,
       "meets_recall_target": false,
       "meets_fpr_target": false,
       "folds": [
@@ -407,9 +407,9 @@
         "fn": 43,
         "tp": 25
       },
-      "training_time_avg_ms": 4.261,
-      "prediction_latency_per_sample_ms": 0.0305,
-      "inference_latency_per_sample_ms": 0.0305,
+      "training_time_avg_ms": 5.683,
+      "prediction_latency_per_sample_ms": 0.0206,
+      "inference_latency_per_sample_ms": 0.0206,
       "meets_recall_target": false,
       "meets_fpr_target": false,
       "folds": [
@@ -517,9 +517,9 @@
             "fn": 49,
             "tp": 19
           },
-          "training_time_avg_ms": 65.587,
-          "prediction_latency_per_sample_ms": 0.0454,
-          "inference_latency_per_sample_ms": 0.0454,
+          "training_time_avg_ms": 192.176,
+          "prediction_latency_per_sample_ms": 0.1023,
+          "inference_latency_per_sample_ms": 0.1023,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -616,9 +616,9 @@
             "fn": 45,
             "tp": 23
           },
-          "training_time_avg_ms": 1.052,
-          "prediction_latency_per_sample_ms": 0.0047,
-          "inference_latency_per_sample_ms": 0.0047,
+          "training_time_avg_ms": 1.556,
+          "prediction_latency_per_sample_ms": 0.008,
+          "inference_latency_per_sample_ms": 0.008,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -715,9 +715,9 @@
             "fn": 43,
             "tp": 25
           },
-          "training_time_avg_ms": 4.261,
-          "prediction_latency_per_sample_ms": 0.0305,
-          "inference_latency_per_sample_ms": 0.0305,
+          "training_time_avg_ms": 5.683,
+          "prediction_latency_per_sample_ms": 0.0206,
+          "inference_latency_per_sample_ms": 0.0206,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -809,9 +809,9 @@
             "fn": 42,
             "tp": 26
           },
-          "training_time_avg_ms": 70.846,
-          "prediction_latency_per_sample_ms": 0.0594,
-          "inference_latency_per_sample_ms": 0.0594,
+          "training_time_avg_ms": 82.396,
+          "prediction_latency_per_sample_ms": 0.0638,
+          "inference_latency_per_sample_ms": 0.0638,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -892,9 +892,9 @@
             "fn": 41,
             "tp": 27
           },
-          "training_time_avg_ms": 0.888,
-          "prediction_latency_per_sample_ms": 0.0058,
-          "inference_latency_per_sample_ms": 0.0058,
+          "training_time_avg_ms": 2.785,
+          "prediction_latency_per_sample_ms": 0.0147,
+          "inference_latency_per_sample_ms": 0.0147,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -975,9 +975,9 @@
             "fn": 47,
             "tp": 21
           },
-          "training_time_avg_ms": 7.326,
-          "prediction_latency_per_sample_ms": 0.0239,
-          "inference_latency_per_sample_ms": 0.0239,
+          "training_time_avg_ms": 4.893,
+          "prediction_latency_per_sample_ms": 0.0291,
+          "inference_latency_per_sample_ms": 0.0291,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1067,9 +1067,9 @@
             "fn": 43,
             "tp": 25
           },
-          "training_time_avg_ms": 64.407,
-          "prediction_latency_per_sample_ms": 0.0472,
-          "inference_latency_per_sample_ms": 0.0472,
+          "training_time_avg_ms": 88.505,
+          "prediction_latency_per_sample_ms": 0.0709,
+          "inference_latency_per_sample_ms": 0.0709,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1165,9 +1165,9 @@
             "fn": 35,
             "tp": 33
           },
-          "training_time_avg_ms": 0.789,
-          "prediction_latency_per_sample_ms": 0.0024,
-          "inference_latency_per_sample_ms": 0.0024,
+          "training_time_avg_ms": 2.209,
+          "prediction_latency_per_sample_ms": 0.009,
+          "inference_latency_per_sample_ms": 0.009,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1263,9 +1263,9 @@
             "fn": 43,
             "tp": 25
           },
-          "training_time_avg_ms": 4.123,
-          "prediction_latency_per_sample_ms": 0.0235,
-          "inference_latency_per_sample_ms": 0.0235,
+          "training_time_avg_ms": 5.673,
+          "prediction_latency_per_sample_ms": 0.0342,
+          "inference_latency_per_sample_ms": 0.0342,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1357,9 +1357,9 @@
             "fn": 42,
             "tp": 26
           },
-          "training_time_avg_ms": 57.76,
-          "prediction_latency_per_sample_ms": 0.0534,
-          "inference_latency_per_sample_ms": 0.0534,
+          "training_time_avg_ms": 129.392,
+          "prediction_latency_per_sample_ms": 0.0919,
+          "inference_latency_per_sample_ms": 0.0919,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1439,9 +1439,9 @@
             "fn": 38,
             "tp": 30
           },
-          "training_time_avg_ms": 1.047,
-          "prediction_latency_per_sample_ms": 0.004,
-          "inference_latency_per_sample_ms": 0.004,
+          "training_time_avg_ms": 2.207,
+          "prediction_latency_per_sample_ms": 0.0105,
+          "inference_latency_per_sample_ms": 0.0105,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1521,9 +1521,9 @@
             "fn": 47,
             "tp": 21
           },
-          "training_time_avg_ms": 5.195,
-          "prediction_latency_per_sample_ms": 0.0165,
-          "inference_latency_per_sample_ms": 0.0165,
+          "training_time_avg_ms": 5.933,
+          "prediction_latency_per_sample_ms": 0.0368,
+          "inference_latency_per_sample_ms": 0.0368,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1617,9 +1617,9 @@
             "fn": 48,
             "tp": 20
           },
-          "training_time_avg_ms": 56.734,
-          "prediction_latency_per_sample_ms": 0.0408,
-          "inference_latency_per_sample_ms": 0.0408,
+          "training_time_avg_ms": 111.393,
+          "prediction_latency_per_sample_ms": 0.0568,
+          "inference_latency_per_sample_ms": 0.0568,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1717,9 +1717,9 @@
             "fn": 47,
             "tp": 21
           },
-          "training_time_avg_ms": 1.206,
-          "prediction_latency_per_sample_ms": 0.0051,
-          "inference_latency_per_sample_ms": 0.0051,
+          "training_time_avg_ms": 1.983,
+          "prediction_latency_per_sample_ms": 0.0064,
+          "inference_latency_per_sample_ms": 0.0064,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1817,9 +1817,9 @@
             "fn": 43,
             "tp": 25
           },
-          "training_time_avg_ms": 3.491,
-          "prediction_latency_per_sample_ms": 0.0224,
-          "inference_latency_per_sample_ms": 0.0224,
+          "training_time_avg_ms": 6.98,
+          "prediction_latency_per_sample_ms": 0.0191,
+          "inference_latency_per_sample_ms": 0.0191,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1911,9 +1911,9 @@
             "fn": 43,
             "tp": 25
           },
-          "training_time_avg_ms": 67.54,
-          "prediction_latency_per_sample_ms": 0.0576,
-          "inference_latency_per_sample_ms": 0.0576,
+          "training_time_avg_ms": 86.782,
+          "prediction_latency_per_sample_ms": 0.0631,
+          "inference_latency_per_sample_ms": 0.0631,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -1995,9 +1995,9 @@
             "fn": 44,
             "tp": 24
           },
-          "training_time_avg_ms": 1.213,
-          "prediction_latency_per_sample_ms": 0.0057,
-          "inference_latency_per_sample_ms": 0.0057,
+          "training_time_avg_ms": 1.311,
+          "prediction_latency_per_sample_ms": 0.0063,
+          "inference_latency_per_sample_ms": 0.0063,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2079,9 +2079,9 @@
             "fn": 47,
             "tp": 21
           },
-          "training_time_avg_ms": 5.729,
-          "prediction_latency_per_sample_ms": 0.0216,
-          "inference_latency_per_sample_ms": 0.0216,
+          "training_time_avg_ms": 5.135,
+          "prediction_latency_per_sample_ms": 0.0289,
+          "inference_latency_per_sample_ms": 0.0289,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2183,9 +2183,9 @@
             "fn": 48,
             "tp": 20
           },
-          "training_time_avg_ms": 59.841,
-          "prediction_latency_per_sample_ms": 0.0421,
-          "inference_latency_per_sample_ms": 0.0421,
+          "training_time_avg_ms": 85.936,
+          "prediction_latency_per_sample_ms": 0.0547,
+          "inference_latency_per_sample_ms": 0.0547,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2287,9 +2287,9 @@
             "fn": 45,
             "tp": 23
           },
-          "training_time_avg_ms": 1.013,
-          "prediction_latency_per_sample_ms": 0.003,
-          "inference_latency_per_sample_ms": 0.003,
+          "training_time_avg_ms": 2.858,
+          "prediction_latency_per_sample_ms": 0.0147,
+          "inference_latency_per_sample_ms": 0.0147,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2391,9 +2391,9 @@
             "fn": 44,
             "tp": 24
           },
-          "training_time_avg_ms": 6.712,
-          "prediction_latency_per_sample_ms": 0.0222,
-          "inference_latency_per_sample_ms": 0.0222,
+          "training_time_avg_ms": 7.306,
+          "prediction_latency_per_sample_ms": 0.0355,
+          "inference_latency_per_sample_ms": 0.0355,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2485,9 +2485,9 @@
             "fn": 42,
             "tp": 26
           },
-          "training_time_avg_ms": 63.18,
-          "prediction_latency_per_sample_ms": 0.0564,
-          "inference_latency_per_sample_ms": 0.0564,
+          "training_time_avg_ms": 105.287,
+          "prediction_latency_per_sample_ms": 0.0996,
+          "inference_latency_per_sample_ms": 0.0996,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2573,9 +2573,9 @@
             "fn": 41,
             "tp": 27
           },
-          "training_time_avg_ms": 0.94,
-          "prediction_latency_per_sample_ms": 0.0039,
-          "inference_latency_per_sample_ms": 0.0039,
+          "training_time_avg_ms": 1.738,
+          "prediction_latency_per_sample_ms": 0.0109,
+          "inference_latency_per_sample_ms": 0.0109,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2661,9 +2661,9 @@
             "fn": 47,
             "tp": 21
           },
-          "training_time_avg_ms": 4.828,
-          "prediction_latency_per_sample_ms": 0.0308,
-          "inference_latency_per_sample_ms": 0.0308,
+          "training_time_avg_ms": 7.219,
+          "prediction_latency_per_sample_ms": 0.0281,
+          "inference_latency_per_sample_ms": 0.0281,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2755,9 +2755,9 @@
             "fn": 35,
             "tp": 33
           },
-          "training_time_avg_ms": 67.821,
-          "prediction_latency_per_sample_ms": 0.0434,
-          "inference_latency_per_sample_ms": 0.0434,
+          "training_time_avg_ms": 71.152,
+          "prediction_latency_per_sample_ms": 0.0471,
+          "inference_latency_per_sample_ms": 0.0471,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2854,9 +2854,9 @@
             "fn": 38,
             "tp": 30
           },
-          "training_time_avg_ms": 0.707,
-          "prediction_latency_per_sample_ms": 0.0022,
-          "inference_latency_per_sample_ms": 0.0022,
+          "training_time_avg_ms": 0.927,
+          "prediction_latency_per_sample_ms": 0.0037,
+          "inference_latency_per_sample_ms": 0.0037,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -2953,9 +2953,9 @@
             "fn": 31,
             "tp": 37
           },
-          "training_time_avg_ms": 4.84,
-          "prediction_latency_per_sample_ms": 0.0137,
-          "inference_latency_per_sample_ms": 0.0137,
+          "training_time_avg_ms": 3.906,
+          "prediction_latency_per_sample_ms": 0.0255,
+          "inference_latency_per_sample_ms": 0.0255,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -3047,9 +3047,9 @@
             "fn": 25,
             "tp": 43
           },
-          "training_time_avg_ms": 54.341,
-          "prediction_latency_per_sample_ms": 0.0528,
-          "inference_latency_per_sample_ms": 0.0528,
+          "training_time_avg_ms": 106.562,
+          "prediction_latency_per_sample_ms": 0.0927,
+          "inference_latency_per_sample_ms": 0.0927,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -3130,9 +3130,9 @@
             "fn": 37,
             "tp": 31
           },
-          "training_time_avg_ms": 0.846,
-          "prediction_latency_per_sample_ms": 0.0036,
-          "inference_latency_per_sample_ms": 0.0036,
+          "training_time_avg_ms": 1.518,
+          "prediction_latency_per_sample_ms": 0.0087,
+          "inference_latency_per_sample_ms": 0.0087,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -3213,9 +3213,9 @@
             "fn": 10,
             "tp": 58
           },
-          "training_time_avg_ms": 6.28,
-          "prediction_latency_per_sample_ms": 0.0196,
-          "inference_latency_per_sample_ms": 0.0196,
+          "training_time_avg_ms": 5.252,
+          "prediction_latency_per_sample_ms": 0.026,
+          "inference_latency_per_sample_ms": 0.026,
           "meets_recall_target": false,
           "meets_fpr_target": false,
           "folds": [
@@ -3295,9 +3295,9 @@
       "fn": 38,
       "tp": 30
     },
-    "fit_time_total_ms": 156.585,
-    "prediction_latency_per_sample_ms": 0.0277,
-    "inference_latency_per_sample_ms": 0.0277
+    "fit_time_total_ms": 183.539,
+    "prediction_latency_per_sample_ms": 0.0154,
+    "inference_latency_per_sample_ms": 0.0154
   },
   "rule_baseline": {
     "model_type": "Rule baseline: function code in {5, 6, 15, 16}",
