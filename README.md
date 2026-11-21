@@ -4,7 +4,9 @@
 **Repository:** [CYB691-IT691-CapstoneProjectFall2026](https://github.com/rachidafaf/CYB691-IT691-CapstoneProjectFall2026.git)  
 **Analysis environment:** Python 3.10–3.14 (pipeline), Docker Compose (deployment, see `docs/DEPLOYMENT_DOCKER.md`)  
 **Licence:** [MIT](LICENSE) for Team 4 code only. Third-party tools, libraries and captured data keep their own terms: see [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).  
-**Report 1 feedback:** every deduction and how it was addressed is tracked in [docs/FEEDBACK_RESOLUTION.md](docs/FEEDBACK_RESOLUTION.md).
+**Report 1 feedback:** every deduction and how it was addressed is tracked in [docs/FEEDBACK_RESOLUTION.md](docs/FEEDBACK_RESOLUTION.md).  
+**Evaluated Week 12 release:** tag [`v1.0-week12`](https://github.com/rachidafaf/CYB691-IT691-CapstoneProjectFall2026/releases/tag/v1.0-week12) — commit `2a74c4f` (`2a74c4f5b0e24837a494dd471b26fbed5e4f00b3`). This is the version graded for the Week 12 practical component and demonstrated in the recorded video.  
+**Reporting security issues:** see [SECURITY.md](SECURITY.md).
 
 ---
 
@@ -85,12 +87,12 @@ Prior work is compared below at the level of **method, finding and limitation**,
 | **Anil Kumar** | Documentation, Review & Integration Lead | Report editing, IEEE citations, artifact provenance, integration | Owns `main`; final reviewer of every merge and report section |
 
 ### Review & integration matrix
-| Artifact | Author | Required reviewer | Integration owner | Review turnaround |
-| :--- | :--- | :--- | :--- | :--- |
-| `infrastructure/` (scripts, configs, captures) | Erick | Rachid | Anil | 48 h |
-| `src/`, `validate_stride_threats.py`, `deploy/`, tests | Rachid | Erick (functional) + Anil (merge) | Anil | 48 h |
-| Report sections & README | Section owner | Anil, plus the owner of the evidence cited | Anil | 72 h |
-| Threat model (`Team 4 Threat Model.json`) | Rachid | Erick | Anil | 72 h |
+| Artifact | Author | Required reviewer | Integration owner |
+| :--- | :--- | :--- | :--- |
+| `infrastructure/` (scripts, configs, captures) | Erick | Rachid | Anil 
+| `src/`, `validate_stride_threats.py`, `deploy/`, tests | Rachid | Erick (functional) + Anil (merge) | Anil
+| Report sections & README | Section owner | Anil, plus the owner of the evidence cited | Anil | 
+| Threat model (`Team 4 Threat Model.json`) | Rachid | Erick | Anil | 
 
 ### Decision & conflict procedure
 1. **Default:** decisions are made at the weekly stand-up and recorded in the meeting notes with the evidence used.
@@ -240,9 +242,8 @@ Status as of **2026-11-01** (schedule). **Update 2026-11-14:** items 3–8 are c
 | 6 | Firewall ACLs active in the layered topology; firewall log captured (R1 evidence) | Erick | Nov 14 | Rachid | ✅ Done — layered policy; `iptables_drops.log` (CYB691-DROP) |
 | 7 | Matched runs in baseline and layered topologies, plus the Step 7 content capture | Erick + Rachid | Nov 15 | Anil | ✅ Done — four captures (11-04/07/14 + content 11-15) |
 | 8 | Re-run pipeline, validator and Docker smoke test; update results | Rachid | Nov 15 | Erick | ✅ Done — 25/25, 4/4 receipted, 3224 events / 32 incidents |
-| 9 | Report 2 draft: synthesis (2) reviewed against the full papers, citations checked | Anil | Week 12 | Rachid + Erick | 🟡 In progress — citations verified; full-paper read pending |
-| 10 | Report 2 final: threat-model status updates, AI-use log, final figures | Anil | Week 14 | Team | 🟡 In progress — report + architecture figure done; threat-model rows pending |
-
+| 9 | Report 2 draft: synthesis (2) reviewed against the full papers, citations checked | Anil | Week 12 | Rachid + Erick | ✅ Dome— citations verified |
+ 
 ---
 
 ## 🤖 9. Generative AI Use Disclosure
